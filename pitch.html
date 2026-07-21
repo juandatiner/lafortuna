@@ -57,16 +57,67 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 .slide-photo-wrap img{width:100%;height:100%;object-fit:contain;border-radius:16px;margin:auto;display:block;transform:scale(1.08);transition:filter .35s ease}
 .photo-frame{position:relative;margin:auto;overflow:hidden}
 .photo-frame img{width:100%;height:100%;object-fit:fill;border-radius:0;margin:0;transform:none}
-.photo-frame.marker-open img{filter:blur(9px) brightness(.32)}
+.slide-photo-border{border:1px solid rgba(251,246,236,.22);box-shadow:0 20px 50px rgba(0,0,0,.35);border-radius:16px}
+.photo-frame.marker-open img{filter:brightness(.32)}
+.photo-frame.marker-open .marker-layer{opacity:0;pointer-events:none}
+.marker-layer{transition:opacity .25s ease}
 .marker-layer{position:absolute;inset:0;pointer-events:none}
 .img-marker{pointer-events:auto;position:absolute;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;background:rgba(5,15,13,.62);border:2px solid var(--gold);color:var(--gold-light);font-size:20px;line-height:1;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .25s ease,background .25s ease,color .25s ease;box-shadow:0 4px 14px rgba(0,0,0,.35)}
 .img-marker:hover{background:var(--gold);color:var(--forest);transform:translate(-50%,-50%) scale(1.15)}
+.img-marker-sm{width:28px;height:28px;font-size:17px;border-width:2px}
+.mm-obj-marker{background:#E23B3B;border-color:#fff;color:#fff}
+.mm-obj-marker:hover{background:#FF5252;color:#fff}
 .img-marker-panel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:6%;opacity:0;pointer-events:none;transition:opacity .3s ease}
 .photo-frame.marker-open .img-marker-panel{opacity:1;pointer-events:auto}
 .img-marker-panel-card{position:relative;background:rgba(8,20,17,.94);backdrop-filter:blur(10px);border:1px solid rgba(227,168,59,.45);border-radius:20px;padding:40px 46px;max-width:92%;width:640px;color:var(--cream);box-shadow:0 24px 60px rgba(0,0,0,.5)}
 .slide .img-marker-panel-card h3{font-family:'Playfair Display',serif;color:var(--gold-light);font-size:1.55rem;margin-bottom:16px}
 .slide .img-marker-panel-card p{font-size:1.15rem;line-height:1.65;color:rgba(251,246,236,.94)}
 .img-marker-close{position:absolute;top:-14px;right:-14px;width:28px;height:28px;border-radius:50%;background:var(--gold);border:none;color:var(--forest);font-size:16px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+
+/* ===== Pregunta: botón + overlay de preguntas específicas ===== */
+#pregFrame,#objGeneralFrame,#planOperativoFrame,#resultadosFrame{transform:scale(1.08);transform-origin:center}
+.preg-cta-btn{pointer-events:auto;position:absolute;transform:translate(-50%,0);display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:999px;border:1.5px solid rgba(255,211,122,.85);background:linear-gradient(160deg,rgba(8,26,22,.92),rgba(10,40,34,.92));color:var(--gold-light);font-family:inherit;font-weight:800;font-size:12.5px;letter-spacing:.2px;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.4),0 0 0 4px rgba(121,230,221,.08);transition:transform .2s ease,box-shadow .2s ease,background .2s ease;white-space:nowrap;line-height:1.1}
+.preg-cta-btn svg.ic{font-size:14px}
+.preg-cta-btn:hover{transform:translate(-50%,-2px);box-shadow:0 14px 32px rgba(0,0,0,.45),0 0 0 6px rgba(121,230,221,.14);background:linear-gradient(160deg,rgba(10,34,29,.95),rgba(14,51,44,.95))}
+.preg-overlay{position:fixed;inset:0;z-index:500;display:flex;align-items:flex-start;justify-content:center;padding:13vh 4vw 3vh;background:rgba(4,10,9,.78);backdrop-filter:blur(7px);opacity:0;pointer-events:none;transition:opacity .3s ease}
+.preg-overlay.mm-nested{z-index:600}
+.preg-overlay.open{opacity:1;pointer-events:auto}
+.preg-card{position:relative;max-width:94vw;max-height:82vh;transform:scale(.96);transition:transform .3s ease;line-height:0}
+.preg-overlay.open .preg-card{transform:scale(1)}
+.preg-card-img{position:relative;display:inline-block;border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.preg-card-img img{display:block;width:auto;height:auto;max-width:94vw;max-height:82vh;border-radius:20px}
+
+.mt-table-overlay{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:88px 1.5vw 2.2vh;background:rgba(4,10,9,.72);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s ease}
+.mt-table-overlay.open{opacity:1;pointer-events:auto}
+.mt-table-card{position:relative;width:100%;max-width:1500px;height:100%;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(165deg,#0A2521 0%,#0E332C 60%,#123c33 100%);border:1px solid rgba(227,168,59,.4);border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.55);padding:22px 22px 16px;transform:scale(.96);transition:transform .3s ease;box-sizing:border-box}
+.mt-table-overlay.open .mt-table-card{transform:scale(1)}
+.mt-table-close{position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:50%;background:var(--gold);border:none;color:var(--forest);font-size:18px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;z-index:2;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.mt-table-title{font-family:'Playfair Display',serif;color:var(--gold-light);font-size:1.35rem;text-align:center;margin-bottom:1px;flex-shrink:0}
+.mt-table-subtitle{color:var(--cream);text-align:center;font-weight:700;font-size:.86rem;margin-bottom:3px;line-height:1.25;flex-shrink:0}
+.mt-table-note{color:rgba(251,246,236,.65);text-align:center;font-style:italic;font-size:.72rem;margin-bottom:8px;flex-shrink:0}
+.mt-acc-list{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:6px;padding:2px 10px}
+.mt-acc-item{border-radius:20px;background:rgba(0,0,0,.16);border-left:4px solid transparent;transition:opacity .35s ease,transform .35s ease,background .3s ease,border-color .3s ease;flex-shrink:0;overflow:hidden;box-sizing:border-box;width:100%;max-width:100%}
+.mt-acc-row{box-sizing:border-box}
+.mt-acc-item:not(:last-child){margin-bottom:1px}
+.mt-acc-row{display:flex;align-items:center;gap:12px;padding:6.5px 16px;cursor:pointer;transition:all .3s ease;border-bottom:1px solid rgba(255,255,255,.07)}
+.mt-acc-row:hover{background:rgba(255,255,255,.1)}
+.mt-acc-num{font-family:'Playfair Display',serif;font-weight:900;color:rgba(251,246,236,.55);font-size:15px;width:22px;flex-shrink:0}
+.mt-acc-title{font-weight:800;color:var(--white);font-size:.92rem;flex:1;transition:font-size .3s ease,color .3s ease}
+.mt-acc-rol{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.22);color:rgba(255,255,255,.92);flex-shrink:0}
+.mt-acc-rol.explicativa{background:var(--gold);color:var(--forest)}
+.mt-acc-detail{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.mt-acc-detail-in{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;padding:8px 16px 12px 16px;box-sizing:border-box;width:100%}
+.mt-acc-field label{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.4px;color:rgba(251,246,236,.6);font-weight:800;margin-bottom:4px}
+.mt-acc-detail-in .mt-acc-field p{font-size:.95rem;color:#FFFFFF !important;font-weight:500;line-height:1.4}
+.mt-acc-item.active{background:rgba(255,255,255,.12);border-left-color:var(--gold-light);box-shadow:0 14px 30px rgba(0,0,0,.4);transform:scale(1.01)}
+.mt-acc-item.active .mt-acc-row{border-bottom-color:rgba(255,255,255,.12)}
+.mt-acc-item.active .mt-acc-num{color:var(--gold-light)}
+.mt-acc-item.active .mt-acc-title{color:var(--white);font-size:1.25rem}
+.mt-acc-item.active .mt-acc-detail{max-height:340px}
+.mt-acc-list.has-active .mt-acc-item:not(.active){opacity:1;background:rgba(0,0,0,.42);transform:scale(.98)}
+.mt-acc-list.has-active .mt-acc-item:not(.active) .mt-acc-title{color:rgba(255,255,255,.45)}
+.mt-acc-list.has-active .mt-acc-item:not(.active) .mt-acc-num{color:rgba(255,209,122,.4)}
+.mt-acc-list.has-active .mt-acc-item:not(.active) .mt-acc-rol{opacity:.5}
 .slide.active{opacity:1;pointer-events:auto;transform:translateX(0)}
 .slide.prev{transform:translateX(-40px)}
 .slide::-webkit-scrollbar{width:6px}
@@ -81,7 +132,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 
 /* ===== Top progress ===== */
 .progress-bar{position:fixed;top:0;left:0;right:0;display:flex;background:var(--cream);z-index:50;border-bottom:1px solid rgba(5,15,13,.12);box-shadow:0 8px 20px rgba(5,15,13,.08);overflow-x:auto}
-.progress-step{flex:1 1 0;min-width:64px;padding:9px 5px;text-align:center;font-size:9px;font-weight:700;color:var(--text-muted);cursor:pointer;transition:all .25s;border-right:1px solid rgba(5,15,13,.06);position:relative;text-transform:uppercase;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;gap:5px;min-height:42px;line-height:1.15;overflow:hidden}
+.progress-step{flex:1 1 0;min-width:64px;padding:9px 5px;text-align:center;font-size:10px;font-weight:900;color:var(--text-muted);cursor:pointer;transition:all .25s;border-right:1px solid rgba(5,15,13,.06);position:relative;text-transform:uppercase;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;gap:5px;min-height:42px;line-height:1.15;overflow:hidden}
 .progress-step .ps-num{font-weight:900;color:var(--volcano);font-size:10.5px;flex-shrink:0}
 .progress-step .ps-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
 .progress-step:last-child{border-right:none}
@@ -103,14 +154,14 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 
 .cover-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:40px;align-items:center;width:100%;margin:auto 0;padding:0 48px;flex-shrink:0}
 .cover-left{max-width:700px}
-.cover-kicker{display:flex;flex-direction:column;gap:3px;margin-bottom:18px;animation:landingIn .7s ease both 0s}
-.cover-kicker .k1{font-size:1.42rem;letter-spacing:2px;text-transform:uppercase;color:rgba(251,246,236,.72);font-weight:600}
+.cover-kicker{display:flex;flex-direction:column;gap:14px;margin-bottom:18px;animation:landingIn .7s ease both 0s}
+.cover-kicker .k1{font-size:1.75rem;letter-spacing:2px;text-transform:uppercase;color:rgba(251,246,236,.95);font-weight:800;text-align:left}
 .cover-kicker .k2{font-size:1.02rem;color:rgba(251,246,236,.92);font-weight:600}
 .cover-rule{width:52px;height:2px;background:var(--gold);margin:0 0 20px;animation:landingIn .7s ease both .08s}
 .cover-rule.thin{width:100%;height:1px;background:rgba(251,246,236,.15);margin:14px 0}
-.cover h1{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,2.4vw,2.25rem);font-weight:800;line-height:1.2;letter-spacing:-.3px;margin-bottom:16px;color:var(--cream);animation:landingIn .7s ease both .12s}
+.cover h1{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,2.4vw,2.25rem);font-weight:800;line-height:1.2;letter-spacing:-.3px;margin-bottom:28px;color:var(--cream);animation:landingIn .7s ease both .12s}
 .cover h1 .accent{color:var(--gold-light);font-style:normal;font-weight:800}
-.cover .tagline{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1rem,1.2vw,1.12rem);font-weight:400;color:rgba(251,246,236,.78);max-width:520px;line-height:1.7;animation:landingIn .7s ease both .2s}
+.cover .tagline{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1rem,1.2vw,1.14rem);font-weight:500;letter-spacing:.2px;color:rgba(251,246,236,.85);max-width:700px;line-height:1.75;animation:landingIn .7s ease both .2s}
 .cover-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px;margin-bottom:10px;animation:landingIn .7s ease both .28s}
 .cf-col{display:flex;flex-direction:column;gap:8px}
 .cf{display:flex;flex-direction:column;gap:3px}
@@ -120,14 +171,25 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 
 /* photo frame */
 .cover-photo{position:relative;animation:landingIn .9s ease both .3s}
-.photo-frame{position:relative;aspect-ratio:1/1;width:min(100%,780px,80vh);height:auto;margin-left:auto;border:1px solid rgba(251,246,236,.22);overflow:hidden;background:linear-gradient(160deg,rgba(251,246,236,.045),rgba(251,246,236,.015))}
+.photo-frame{position:relative;aspect-ratio:1/1;width:min(100%,780px,80vh);height:auto;margin-left:auto;border:1px solid rgba(251,246,236,.22);border-radius:22px;overflow:hidden;background:linear-gradient(160deg,rgba(251,246,236,.045),rgba(251,246,236,.015))}
 #objEspFrame{transform:scale(1.08);transform-origin:center}
+#marcoTeoFrame{transform:scale(1.08);transform-origin:center}
+#marcoMetoFrame{transform:scale(1.08);transform-origin:center}
+.pulse-badge{pointer-events:auto;position:absolute;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;background:#E23B3B;border:2px solid #FFFFFF;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.4);animation:pulseBadge 1.8s ease-in-out infinite}
+.pulse-badge svg{width:19px;height:19px;stroke-width:2.4}
+.pulse-badge:hover{animation-play-state:paused;background:#FF5252}
+.pulse-badge-plus{font-size:20px;font-weight:700;line-height:1}
+@keyframes pulseBadge{
+  0%{box-shadow:0 6px 16px rgba(0,0,0,.4),0 0 0 0 rgba(226,59,59,.65)}
+  70%{box-shadow:0 6px 16px rgba(0,0,0,.4),0 0 0 13px rgba(226,59,59,0)}
+  100%{box-shadow:0 6px 16px rgba(0,0,0,.4),0 0 0 0 rgba(226,59,59,0)}
+}
 .photo-real{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block}
 .corner{position:absolute;width:16px;height:16px;border:1.5px solid var(--gold-light);z-index:2}
-.corner.tl{top:-1px;left:-1px;border-right:none;border-bottom:none}
-.corner.tr{top:-1px;right:-1px;border-left:none;border-bottom:none}
-.corner.bl{bottom:-1px;left:-1px;border-right:none;border-top:none}
-.corner.br{bottom:-1px;right:-1px;border-left:none;border-top:none}
+.corner.tl{top:-1px;left:-1px;border-right:none;border-bottom:none;border-top-left-radius:10px}
+.corner.tr{top:-1px;right:-1px;border-left:none;border-bottom:none;border-top-right-radius:10px}
+.corner.bl{bottom:-1px;left:-1px;border-right:none;border-top:none;border-bottom-left-radius:10px}
+.corner.br{bottom:-1px;right:-1px;border-left:none;border-top:none;border-bottom-right-radius:10px}
 .photo-ph{position:absolute;inset:14px;border:1px dashed rgba(251,246,236,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:26px}
 .photo-ph svg.ic{width:30px;height:30px;color:rgba(251,246,236,.38);stroke-width:1.2}
 .photo-ph b{font-size:.76rem;color:rgba(251,246,236,.7);font-weight:700;letter-spacing:.3px}
@@ -379,7 +441,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 
 /* ===== Agenda: lista de íconos ===== */
 .agenda-split{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;align-items:stretch;flex:1;min-height:0}
-.snake-wrap{position:relative;padding:0 0 0 64px;width:100%;height:100%;flex:1;display:flex;align-items:center}
+.snake-wrap{position:relative;padding:0 0 0 120px;width:100%;height:100%;flex:1;display:flex;align-items:center}
 .snake-nodes{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;width:100%;gap:10px}
 .snake-svg{display:none}
 .snake-node{position:relative;z-index:1;display:flex;flex-direction:row;align-items:center;gap:20px;transform:none !important}
@@ -387,8 +449,8 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 .snake-node .circ svg.ic{font-size:23px;color:var(--cream);flex-shrink:0;overflow:visible}
 .snake-node.picked .circ{background:rgba(227,168,59,.14);border-color:var(--gold-light)}
 .snake-num{display:none}
-.snake-node .lbl{font-size:22px;font-weight:800;color:rgba(251,246,236,.85);text-align:left;max-width:none;line-height:1.3}
-.agenda-photo{border-radius:50%;aspect-ratio:1/1;width:min(100%,560px);margin:auto;overflow:hidden;background:transparent}
+.snake-node .lbl{font-size:36px;font-weight:800;color:rgba(251,246,236,.85);text-align:left;max-width:none;line-height:1.3}
+.agenda-photo{border-radius:50%;aspect-ratio:1/1;width:min(100%,700px);margin:auto;overflow:hidden;background:transparent}
 .agenda-photo img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;transform:scale(1.16)}
 
 /* ===== Placeholder slides ===== */
@@ -515,7 +577,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 <body>
 
 <div class="topbar">
-  <div class="brand"><span class="brand-dot"></span> <span class="brand-full">ICAP · Doctorado en Gestión Pública</span></div>
+  <div class="brand"><span class="brand-dot"></span> <span class="brand-full">ICAP · Doctorado en Gestión Pública y Ciencias Empresariales</span></div>
   <div class="slide-counter" id="counter">01 / 12</div>
 </div>
 
@@ -590,20 +652,36 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
   <!-- 5. PREGUNTA DE INVESTIGACIÓN -->
   <section class="slide" data-section="Pregunta">
     <div class="slide-eyebrow">${icon-target}05 · Pregunta de investigación</div>
-    <div class="slide-photo-wrap"><img src="assets/pregunta.png" alt="Pregunta de investigación"></div>
+    <div class="slide-photo-wrap">
+      <div class="photo-frame slide-photo-border" id="pregFrame">
+        <img src="assets/pregunta.png" alt="Pregunta de investigación" id="pregImg">
+        <div class="marker-layer" id="pregMarkerLayer">
+          <button class="preg-cta-btn" style="left:50%;top:63%" id="pregCtaBtn">${icon-target}Preguntas específicas</button>
+        </div>
+      </div>
+    </div>
+    <div class="preg-overlay" id="pregOverlay" onclick="if(event.target===this) closePregOverlay()">
+      <div class="preg-card preg-card-img">
+        <img src="assets/preguntasespecificas.png" alt="Preguntas específicas">
+      </div>
+    </div>
   </section>
 
   <!-- 6. OBJETIVO GENERAL -->
   <section class="slide" data-section="Obj. General">
     <div class="slide-eyebrow">${icon-target}06 · Objetivo general</div>
-    <div class="slide-photo-wrap"><img src="assets/objgeneral.png" alt="Objetivo general"></div>
+    <div class="slide-photo-wrap">
+      <div class="photo-frame slide-photo-border" id="objGeneralFrame">
+        <img src="assets/objgeneral.png" alt="Objetivo general" id="objGeneralImg">
+      </div>
+    </div>
   </section>
 
   <!-- 7. OBJETIVOS ESPECÍFICOS -->
   <section class="slide" data-section="Obj. Específicos">
     <div class="slide-eyebrow">${icon-target}07 · Objetivos específicos</div>
     <div class="slide-photo-wrap">
-      <div class="photo-frame" id="objEspFrame">
+      <div class="photo-frame slide-photo-border" id="objEspFrame">
         <img src="assets/objespecificos.png" alt="Objetivos específicos" id="objEspImg">
         <div class="marker-layer" id="objEspMarkers">
           <button class="img-marker" style="left:13.9%;top:12%" data-i="0">+</button>
@@ -625,60 +703,91 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
   <!-- 8-14 PLACEHOLDERS -->
   <section class="slide" data-section="Marco teórico">
     <div class="slide-eyebrow">${icon-book}08 · Marco teórico</div>
-    <div class="slide-photo-wrap"><img src="assets/marcoteorico.png" alt="Marco teórico"></div>
-  </section>
-  <section class="slide" data-section="Modelo conceptual">
-    <div class="slide-eyebrow">${icon-network}09 · Modelo conceptual</div>
-    <div class="placeholder-wrap">
-      <div class="placeholder-badge">${icon-clock}Contenido por incorporar</div>
-      <div class="slide-time">09 · 3 min</div>
-      <h2>Modelo conceptual preliminar</h2>
-      <p class="lead">Lógica de construcción del modelo de gobernanza inteligente.</p>
+    <div class="slide-photo-wrap">
+      <div class="photo-frame slide-photo-border" id="marcoTeoFrame">
+        <img src="assets/marcoteorico.png" alt="Marco teórico" id="marcoTeoImg">
+        <div class="marker-layer" id="marcoTeoMarkers">
+          <button class="img-marker img-marker-sm" style="left:53.0%;top:9.2%" data-i="0">+</button>
+          <button class="img-marker img-marker-sm" style="left:27.8%;top:20.8%" data-i="1">+</button>
+          <button class="img-marker img-marker-sm" style="left:22.7%;top:41.4%" data-i="2">+</button>
+          <button class="img-marker img-marker-sm" style="left:20.3%;top:57.3%" data-i="3">+</button>
+          <button class="img-marker img-marker-sm" style="left:20.9%;top:74.6%" data-i="4">+</button>
+          <button class="img-marker img-marker-sm" style="left:37.6%;top:79.6%" data-i="5">+</button>
+          <button class="img-marker img-marker-sm" style="left:54.8%;top:78.4%" data-i="6">+</button>
+          <button class="img-marker img-marker-sm" style="left:81.2%;top:81.0%" data-i="7">+</button>
+          <button class="img-marker img-marker-sm" style="left:83.0%;top:64.7%" data-i="8">+</button>
+          <button class="img-marker img-marker-sm" style="left:79.6%;top:44.4%" data-i="9">+</button>
+          <button class="img-marker img-marker-sm" style="left:77.6%;top:27.3%" data-i="10">+</button>
+          <button class="img-marker img-marker-sm" style="left:86.0%;top:5.6%" data-i="11">+</button>
+          <button class="img-marker img-marker-sm" style="left:27.0%;top:9.3%" data-i="12">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-table-overlay" id="mtTableOverlay" onclick="if(event.target===this) closeMarcoTeoMarker(event)">
+      <div class="mt-table-card">
+        <button class="mt-table-close" onclick="closeMarcoTeoMarker(event)">&times;</button>
+        <div class="mt-table-title">Tabla del marco teórico</div>
+        <div class="mt-table-subtitle">Modelo de Gobernanza Inteligente en Turismo de Bienestar para el Destino Turístico de La Fortuna, Costa Rica 2030</div>
+        <div class="mt-table-note">Elaborada únicamente a partir de los temas del documento anexo del marco teórico.</div>
+        <div class="mt-acc-list" id="mtAccList"></div>
+        <div class="mt-table-note" style="margin:10px 0 0">Nota: la teoría explicativa definida para el anteproyecto es la gobernanza inteligente; las demás se emplean como teorías auxiliares.</div>
+      </div>
     </div>
   </section>
-  <section class="slide" data-section="Metodología">
-    <div class="slide-eyebrow">${icon-cog}10 · Metodología</div>
-    <div class="placeholder-wrap">
-      <div class="placeholder-badge">${icon-clock}Contenido por incorporar</div>
-      <div class="slide-time">10 · 4 min</div>
-      <h2>Diseño metodológico</h2>
-      <p class="lead">Enfoque mixto, investigación-acción, fases por objetivo específico y actores del ecosistema.</p>
+  <section class="slide" data-section="Marco Metodológico">
+    <div class="slide-eyebrow">${icon-network}09 · Marco Metodológico</div>
+    <div class="slide-photo-wrap">
+      <div class="photo-frame slide-photo-border" id="marcoMetoFrame">
+        <img src="assets/marcometodologico.png" alt="Marco Metodológico" id="marcoMetoImg">
+        <div class="marker-layer" id="marcoMetoMarkers">
+          <button class="pulse-badge pulse-badge-plus" style="left:26.9%;top:29.9%" data-i="0" aria-label="Ver más: Filosofía de la investigación">+</button>
+          <button class="pulse-badge pulse-badge-plus" style="left:59.0%;top:16.7%" data-i="1" aria-label="Ver más: Estrategia de investigación">+</button>
+          <button class="pulse-badge pulse-badge-plus" style="left:91.2%;top:29.3%" data-i="2" aria-label="Ver más: Métodos y proceso de investigación">+</button>
+        </div>
+      </div>
+    </div>
+    <!-- overlay: imagen simple (filosofía / estrategia) -->
+    <div class="preg-overlay mm-nested" id="mmImgOverlay" onclick="if(event.target===this) closeMmImgOverlay()">
+      <div class="preg-card">
+        <div class="preg-card-img"><img id="mmImgOverlayImg" src="" alt=""></div>
+      </div>
+    </div>
+    <!-- overlay: métodos y proceso, con 4 puntos de información -->
+    <div class="preg-overlay" id="mmProcesoOverlay" onclick="if(event.target===this) closeMmProcesoOverlay()">
+      <div class="preg-card">
+        <div class="preg-card-img" id="mmProcesoImgWrap">
+          <img src="assets/mm-metodos-proceso.png" alt="Métodos y proceso de investigación">
+          <div class="marker-layer" id="mmProcesoMarkers" style="position:absolute;inset:0">
+            <button class="img-marker img-marker-sm mm-obj-marker" style="left:16.6%;top:33%" data-oi="0">+</button>
+            <button class="img-marker img-marker-sm mm-obj-marker" style="left:38.5%;top:33%" data-oi="1">+</button>
+            <button class="img-marker img-marker-sm mm-obj-marker" style="left:56%;top:33%" data-oi="2">+</button>
+            <button class="img-marker img-marker-sm mm-obj-marker" style="left:75.5%;top:33%" data-oi="3">+</button>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
-  <section class="slide" data-section="Instrumentos">
-    <div class="slide-eyebrow">${icon-list}11 · Instrumentos</div>
-    <div class="placeholder-wrap">
-      <div class="placeholder-badge">${icon-clock}Contenido por incorporar</div>
-      <div class="slide-time">11 · 4 min</div>
-      <h2>Instrumentos, técnicas y validación</h2>
-      <p class="lead">Encuestas, entrevistas, matrices, Delphi, PESTEL, DFD, benchmarking.</p>
+  <section class="slide" data-section="Plan Operativo">
+    <div class="slide-eyebrow">${icon-cog}10 · Plan Operativo</div>
+    <div class="slide-photo-wrap">
+      <div class="photo-frame slide-photo-border" id="planOperativoFrame">
+        <img src="assets/planoperativo.png" alt="Plan Operativo" id="planOperativoImg">
+      </div>
     </div>
   </section>
-  <section class="slide" data-section="Resultados">
-    <div class="slide-eyebrow">${icon-chart}12 · Resultados</div>
-    <div class="placeholder-wrap">
-      <div class="placeholder-badge">${icon-clock}Contenido por incorporar</div>
-      <div class="slide-time">12 · 2 min</div>
-      <h2>Resultados esperados y productos</h2>
-      <p class="lead">Modelo con componentes, funciones, flujos de información y mecanismos de coordinación.</p>
+  <section class="slide" data-section="Resultados esperados">
+    <div class="slide-eyebrow">${icon-chart}11 · Resultados esperados</div>
+    <div class="slide-photo-wrap">
+      <div class="photo-frame slide-photo-border" id="resultadosFrame">
+        <img src="assets/resultados.png" alt="Resultados esperados, productos y aporte doctoral" id="resultadosImg">
+      </div>
     </div>
   </section>
-  <section class="slide" data-section="Contribución">
-    <div class="slide-eyebrow">${icon-award}13 · Contribución</div>
-    <div class="placeholder-wrap">
-      <div class="placeholder-badge">${icon-clock}Contenido por incorporar</div>
-      <div class="slide-time">13 · 2 min</div>
-      <h2>Contribución, impacto y viabilidad</h2>
-      <p class="lead">Aportes teóricos, metodológicos, prácticos y transferibilidad a otros destinos.</p>
-    </div>
+  <section class="slide" data-section="Viabilidad">
+    <div class="slide-eyebrow">${icon-award}12 · Viabilidad</div>
   </section>
   <section class="slide" data-section="Cierre">
-    <div class="placeholder-wrap">
-      <div class="placeholder-badge">${icon-clock}Contenido por incorporar</div>
-      <div class="slide-time">14 · 1 min</div>
-      <h2>Cierre y disposición para preguntas</h2>
-      <p class="lead">El anteproyecto propone un modelo de gobernanza inteligente viable, pertinente y con aporte doctoral original, aplicable y transferible a contextos comparables.</p>
-    </div>
+    <div class="slide-eyebrow">${icon-clock}13 · Cierre</div>
   </section>
 
 </div>
@@ -725,7 +834,9 @@ const ICONS = {
   award:'<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="5.3"/><path d="M8.5 13 7 21l5-2.6L17 21l-1.5-8"/></svg>',
   user:'<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>',
   play:'<svg class="ic" viewBox="0 0 24 24"><path d="M6 4.5v15l13-7.5-13-7.5Z"/></svg>',
-  list:'<svg class="ic" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>'
+  list:'<svg class="ic" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>',
+  image:'<svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2"/><circle cx="8.5" cy="9.5" r="1.7"/><path d="M3 16.5 9 11l4 4 3-3 5 5.5"/></svg>',
+  info:'<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6"/><path d="M12 7.2h.01"/></svg>'
 };
 function ic(name){ return ICONS[name] || ''; }
 document.body.innerHTML = document.body.innerHTML.replace(/\$\{icon-([a-z]+)\}/g, (m,k)=> ic(k));
@@ -739,7 +850,7 @@ let current = 0;
 
 slides.forEach((s,i)=>{
   const el = document.createElement('div');
-  el.className = 'progress-step' + (i>7?' pending':'');
+  el.className = 'progress-step' + (i>10?' pending':'');
   el.innerHTML = `<span class="ps-num">${String(i+1).padStart(2,'0')}</span><span class="ps-name">${s.dataset.section}</span>`;
   el.onclick = ()=>go(i);
   $progress.appendChild(el);
@@ -748,6 +859,8 @@ const $steps = document.querySelectorAll('.progress-step');
 
 function go(i){
   i = Math.max(0, Math.min(slides.length-1, i));
+  document.querySelectorAll('.preg-overlay.open, .mt-table-overlay.open').forEach(o=>o.classList.remove('open'));
+  document.querySelectorAll('.photo-frame.marker-open').forEach(f=>f.classList.remove('marker-open'));
   slides[current].classList.remove('active');
   slides[current].classList.toggle('prev', i>current);
   slides[i].classList.add('active');
@@ -785,9 +898,10 @@ const trail = [
   {icon:'compass', lbl:'Motivación y problemática de investigación', t:'Motivación y problemática de investigación', d:'Pertinencia, novedad y necesidad del estudio', time:'5 min', slide:2},
   {icon:'target', lbl:'Pregunta y objetivos', t:'Pregunta de investigación y objetivos', d:'Dirección, alcance y coherencia metodológica', time:'4 min', slide:4},
   {icon:'book', lbl:'Marco Teórico', t:'Marco Teórico', d:'Fundamentos teóricos y categorías rectoras', time:'5 min', slide:7},
-  {icon:'list', lbl:'Marco Metodológico', t:'Marco Metodológico', d:'Diseño metodológico y ruta de construcción del modelo', time:'8 min', slide:9},
-  {icon:'chart', lbl:'Resultados esperados', t:'Resultados esperados', d:'Productos y aporte doctoral de la investigación', time:'4 min', slide:11},
-  {icon:'shield', lbl:'Viabilidad y limitaciones', t:'Viabilidad y limitaciones', d:'Seguridad de cierre y terreno para preguntas', time:'3 min', slide:13}
+  {icon:'list', lbl:'Marco Metodológico', t:'Marco Metodológico', d:'Diseño metodológico y ruta de construcción del modelo', time:'8 min', slide:8},
+  {icon:'calendar', lbl:'Plan Operativo', t:'Plan Operativo', d:'Cronograma y actividades de ejecución de la investigación', time:'3 min', slide:9},
+  {icon:'chart', lbl:'Resultados esperados', t:'Resultados esperados', d:'Productos y aporte doctoral de la investigación', time:'4 min', slide:10},
+  {icon:'shield', lbl:'Viabilidad y limitaciones', t:'Viabilidad y limitaciones', d:'Seguridad de cierre y terreno para preguntas', time:'3 min', slide:11}
 ];
 const $snakeWrap = document.getElementById('snakeWrap');
 const $snakeNodes = document.getElementById('snakeNodes');
@@ -949,6 +1063,211 @@ function fitObjEspFrame(){
 }
 fitObjEspFrame();
 window.addEventListener('resize', fitObjEspFrame);
+
+/* ===== Pregunta: preguntas específicas ===== */
+function openPregOverlay(){
+  const overlay = document.getElementById('pregOverlay');
+  if(overlay) overlay.classList.add('open');
+}
+function closePregOverlay(){
+  const overlay = document.getElementById('pregOverlay');
+  if(overlay) overlay.classList.remove('open');
+}
+const $pregCtaBtn = document.getElementById('pregCtaBtn');
+if($pregCtaBtn) $pregCtaBtn.addEventListener('click', openPregOverlay);
+function makeFrameFitter(frameId, imgId){
+  return function fit(){
+    const frame = document.getElementById(frameId);
+    if(!frame) return;
+    const img = document.getElementById(imgId);
+    const wrap = frame.parentElement;
+    const apply = ()=>{
+      if(!(img.complete && img.naturalWidth)) return;
+      frame.style.width = '';
+      frame.style.height = '';
+      const box = wrap.getBoundingClientRect();
+      if(!box.width || !box.height){ requestAnimationFrame(apply); return; }
+      const ratio = img.naturalWidth / img.naturalHeight;
+      let w, h;
+      if(box.width / box.height > ratio){ h = box.height; w = h * ratio; }
+      else { w = box.width; h = w / ratio; }
+      frame.style.width = Math.floor(w) + 'px';
+      frame.style.height = Math.floor(h) + 'px';
+    };
+    if(!(img.complete && img.naturalWidth)) img.addEventListener('load', apply, {once:true});
+    apply();
+  };
+}
+const fitPregFrame = makeFrameFitter('pregFrame', 'pregImg');
+fitPregFrame();
+window.addEventListener('resize', fitPregFrame);
+const fitObjGeneralFrame = makeFrameFitter('objGeneralFrame', 'objGeneralImg');
+fitObjGeneralFrame();
+window.addEventListener('resize', fitObjGeneralFrame);
+const fitPlanOperativoFrame = makeFrameFitter('planOperativoFrame', 'planOperativoImg');
+fitPlanOperativoFrame();
+window.addEventListener('resize', fitPlanOperativoFrame);
+const fitResultadosFrame = makeFrameFitter('resultadosFrame', 'resultadosImg');
+fitResultadosFrame();
+window.addEventListener('resize', fitResultadosFrame);
+
+/* ===== Marco teórico: marcadores sobre la imagen ===== */
+const MARCOTEO_INFO = [
+  {t:'1. Transformación digital', d:'Digitalización de procesos · Datos y analítica · Innovación y conectividad.'},
+  {t:'2. Economía del bienestar', d:'Bienestar como motor económico · Empleo y desarrollo local · Valor compartido y sostenibilidad.'},
+  {t:'3. Ecosistemas', d:'Interacción entre actores · Recursos naturales y culturales · Servicios y experiencias integradas.'},
+  {t:'4. Modelos', d:'Tipologías y taxonomía de modelos · Estructuras y componentes · Evaluación de modelos.'},
+  {t:'5. Gobernanza', d:'Enfoque público y colaborativo · Principios de gobernanza · Problema de agencia · Marco basado en reglas · Buen gobierno y rendición de cuentas.'},
+  {t:'6. Gobernanza y turismo', d:'Gobernanza aplicada al turismo · Tipos de gobernanza en turismo · Redes y colaboración turística.'},
+  {t:'7. Gobernanza y modalidades de turismo', d:'Turismo rural · Turismo de salud · Turismo de bienestar.'},
+  {t:'8. Turismo inteligente', d:'Destinos turísticos inteligentes · Experiencias inteligentes · Sostenibilidad e innovación.'},
+  {t:'9. Gobernanza inteligente', d:'Proceso de gobernanza inteligente · Componentes en destinos turísticos inteligentes.'},
+  {t:'10. Tecnologías de la información y la comunicación', d:'Infraestructura y conectividad · Gestión de la información · Comunicación y participación.'},
+  {t:'11. Plataformas digitales', d:'Plataformas y ecosistemas digitales · Gestión de datos y servicios · Integración y cooperación.'},
+  {t:'12. Política pública de Costa Rica sobre turismo', d:'Marco normativo y estrategias · Planes y políticas nacionales · Instituciones y coordinación.'},
+  {t:'13. Cifras y tendencias globales', d:'Gobernanza en tecnologías de la información y comunicación · Gobernanza y nuevas tecnologías digitales · El rol de la tecnología en la gobernanza inteligente.'}
+];
+const MARCOTEO_TABLE = [
+  {queEs:'Proceso de cambio organizacional y sectorial impulsado por tecnologías digitales.', porQue:'Contextualiza la evolución del turismo y la necesidad de cambio del DTLF.', como:'Se usa como lente para analizar cambios en actores, procesos y servicios.', que:'Criterios para reconocer madurez y brechas de transformación.', rol:'Auxiliar'},
+  {queEs:'Enfoque que vincula bienestar, salud, calidad de vida y valor económico.', porQue:'Fundamenta la relevancia del turismo de bienestar como objeto de estudio.', como:'Se utiliza para delimitar el sentido económico y social del sector.', que:'Criterios para justificar la pertinencia del destino de bienestar.', rol:'Auxiliar'},
+  {queEs:'Conjunto de actores interdependientes que co-crean valor en un entorno común.', porQue:'Permite entender al DTLF como red de relaciones y dependencias.', como:'Se emplea para identificar actores, vínculos y dinámicas del destino.', que:'Mapa del ecosistema turístico y de sus interdependencias.', rol:'Auxiliar'},
+  {queEs:'Representaciones conceptuales que simplifican y explican una realidad.', porQue:'Justifica la construcción de un modelo para orientar la propuesta.', como:'Se utiliza para estructurar componentes, relaciones y funciones del anteproyecto.', que:'Base de diseño del modelo de gobernanza propuesto.', rol:'Auxiliar'},
+  {queEs:'Proceso de coordinación entre actores, reglas e intereses para decidir y actuar colectivamente.', porQue:'Aporta el sustento general del problema de articulación del destino.', como:'Se usa para analizar coordinación, participación, reglas y toma de decisiones.', que:'Criterios de articulación institucional y coordinación multiactor.', rol:'Auxiliar'},
+  {queEs:'Aplicación de la gobernanza al funcionamiento y gestión de destinos turísticos.', porQue:'Aterriza la gobernanza al contexto específico del sector turístico.', como:'Se utiliza para examinar cómo se coordinan los actores del destino.', que:'Referentes para gestionar el destino turístico como sistema coordinado.', rol:'Auxiliar'},
+  {queEs:'Manifestaciones de la gobernanza en turismo rural, de salud y de bienestar.', porQue:'Permite comparar experiencias y transferir aprendizajes al caso estudiado.', como:'Se emplea para contrastar modalidades turísticas relevantes para el anteproyecto.', que:'Referentes específicos para la gobernanza del turismo de bienestar.', rol:'Auxiliar'},
+  {queEs:'Paradigma que integra datos, TIC y sostenibilidad para mejorar destinos, experiencias y negocios.', porQue:'Define el horizonte evolutivo hacia el que debe avanzar el DTLF.', como:'Se utiliza para orientar atributos y capacidades del destino inteligente.', que:'Criterios para caracterizar el ecosistema turístico inteligente.', rol:'Auxiliar'},
+  {queEs:'Gobernanza apoyada en datos, TIC y colaboración para decidir, coordinar y crear valor.', porQue:'Es la teoría central del anteproyecto y explica la propuesta de investigación.', como:'Se usa para articular actores, procesos, información y tecnología en el destino.', que:'Modelo de gobernanza inteligente para el turismo de bienestar del DTLF.', rol:'Explicativa'},
+  {queEs:'Recursos digitales para comunicar, procesar, compartir y gestionar información.', porQue:'Constituyen la base habilitadora de la gobernanza inteligente.', como:'Se analizan como soportes para coordinación, innovación y digitalización.', que:'Requerimientos tecnológicos del modelo propuesto.', rol:'Auxiliar'},
+  {queEs:'Infraestructuras digitales que conectan actores, datos y servicios.', porQue:'Facilitan integración, interoperabilidad y coordinación del ecosistema.', como:'Se consideran como mecanismos de articulación e interacción entre actores.', que:'Lineamientos para flujos de información y conexión digital.', rol:'Auxiliar'},
+  {queEs:'Marco institucional y normativo que orienta el desarrollo turístico del país.', porQue:'Alinea el anteproyecto con prioridades nacionales y reglas del sector.', como:'Se revisa para identificar lineamientos, oportunidades y restricciones.', que:'Referentes normativos y de política para el modelo.', rol:'Auxiliar'},
+  {queEs:'Evidencia sobre dinámica, comportamiento y proyección del turismo y el bienestar.', porQue:'Contextualiza la oportunidad y relevancia estratégica del estudio.', como:'Se utiliza para sustentar el diagnóstico externo y la prospectiva del sector.', que:'Argumentos de contexto y demanda para la investigación.', rol:'Auxiliar'}
+];
+const $mtAccList = document.getElementById('mtAccList');
+if($mtAccList){
+  $mtAccList.innerHTML = MARCOTEO_TABLE.map((r,i)=>`
+    <div class="mt-acc-item" data-i="${i}">
+      <div class="mt-acc-row" onclick="setMarcoTeoAcc(${i})">
+        <span class="mt-acc-num">${String(i+1).padStart(2,'0')}</span>
+        <span class="mt-acc-title">${MARCOTEO_INFO[i].t.replace(/^\d+\.\s*/,'')}</span>
+        <span class="mt-acc-rol ${r.rol==='Explicativa' ? 'explicativa' : ''}">${r.rol}</span>
+      </div>
+      <div class="mt-acc-detail"><div class="mt-acc-detail-in">
+        <div class="mt-acc-field"><label>¿Qué es?</label><p>${r.queEs}</p></div>
+        <div class="mt-acc-field"><label>¿Por qué?</label><p>${r.porQue}</p></div>
+        <div class="mt-acc-field"><label>¿Cómo?</label><p>${r.como}</p></div>
+        <div class="mt-acc-field"><label>Qué</label><p>${r.que}</p></div>
+      </div></div>
+    </div>`).join('');
+}
+function setMarcoTeoAcc(i){
+  const list = document.getElementById('mtAccList');
+  if(!list) return;
+  list.classList.add('has-active');
+  list.querySelectorAll('.mt-acc-item.active').forEach(el=>el.classList.remove('active'));
+  const item = list.querySelector(`.mt-acc-item[data-i="${i}"]`);
+  if(item){
+    item.classList.add('active');
+    requestAnimationFrame(()=> item.scrollIntoView({behavior:'smooth', block:'center'}));
+  }
+}
+function openMarcoTeoMarker(i){
+  const overlay = document.getElementById('mtTableOverlay');
+  if(!overlay) return;
+  overlay.classList.add('open');
+  setMarcoTeoAcc(i);
+}
+function closeMarcoTeoMarker(e){
+  if(e) e.stopPropagation();
+  const overlay = document.getElementById('mtTableOverlay');
+  if(overlay) overlay.classList.remove('open');
+  const list = document.getElementById('mtAccList');
+  if(list){
+    list.classList.remove('has-active');
+    list.querySelectorAll('.mt-acc-item.active').forEach(el=>el.classList.remove('active'));
+  }
+}
+document.querySelectorAll('#marcoTeoMarkers .img-marker').forEach(b=>{
+  b.addEventListener('click', ()=> openMarcoTeoMarker(+b.dataset.i));
+});
+function fitMarcoTeoFrame(){
+  const frame = document.getElementById('marcoTeoFrame');
+  if(!frame) return;
+  const img = document.getElementById('marcoTeoImg');
+  const wrap = frame.parentElement;
+  const apply = ()=>{
+    if(!(img.complete && img.naturalWidth)) return;
+    frame.style.width = '';
+    frame.style.height = '';
+    const box = wrap.getBoundingClientRect();
+    if(!box.width || !box.height){ requestAnimationFrame(apply); return; }
+    const ratio = img.naturalWidth / img.naturalHeight;
+    let w, h;
+    if(box.width / box.height > ratio){ h = box.height; w = h * ratio; }
+    else { w = box.width; h = w / ratio; }
+    frame.style.width = Math.floor(w) + 'px';
+    frame.style.height = Math.floor(h) + 'px';
+  };
+  if(!(img.complete && img.naturalWidth)) img.addEventListener('load', apply, {once:true});
+  apply();
+}
+fitMarcoTeoFrame();
+window.addEventListener('resize', fitMarcoTeoFrame);
+
+/* ===== Marco Metodológico: badges pulsantes ===== */
+const MARCOMETO_IMAGES = ['assets/mm-filosofia.png', 'assets/mm-estrategia.png'];
+const MARCOMETO_OBJ_IMAGES = ['assets/mm-obj1.png', 'assets/mm-obj2.png', 'assets/mm-obj3.png', 'assets/mm-obj4.png'];
+function openMmImgOverlay(src){
+  const overlay = document.getElementById('mmImgOverlay');
+  const img = document.getElementById('mmImgOverlayImg');
+  if(!overlay || !img) return;
+  img.src = src;
+  overlay.classList.add('open');
+}
+function closeMmImgOverlay(){
+  const overlay = document.getElementById('mmImgOverlay');
+  if(overlay) overlay.classList.remove('open');
+}
+function openMarcoMetoMarker(i){
+  if(i===2){
+    const overlay = document.getElementById('mmProcesoOverlay');
+    if(overlay) overlay.classList.add('open');
+    return;
+  }
+  openMmImgOverlay(MARCOMETO_IMAGES[i]);
+}
+function closeMmProcesoOverlay(){
+  const overlay = document.getElementById('mmProcesoOverlay');
+  if(overlay) overlay.classList.remove('open');
+}
+document.querySelectorAll('#marcoMetoMarkers .pulse-badge').forEach(b=>{
+  b.addEventListener('click', ()=> openMarcoMetoMarker(+b.dataset.i));
+});
+document.querySelectorAll('#mmProcesoMarkers .img-marker').forEach(b=>{
+  b.addEventListener('click', ()=> openMmImgOverlay(MARCOMETO_OBJ_IMAGES[+b.dataset.oi]));
+});
+function fitMarcoMetoFrame(){
+  const frame = document.getElementById('marcoMetoFrame');
+  if(!frame) return;
+  const img = document.getElementById('marcoMetoImg');
+  const wrap = frame.parentElement;
+  const apply = ()=>{
+    if(!(img.complete && img.naturalWidth)) return;
+    frame.style.width = '';
+    frame.style.height = '';
+    const box = wrap.getBoundingClientRect();
+    if(!box.width || !box.height){ requestAnimationFrame(apply); return; }
+    const ratio = img.naturalWidth / img.naturalHeight;
+    let w, h;
+    if(box.width / box.height > ratio){ h = box.height; w = h * ratio; }
+    else { w = box.width; h = w / ratio; }
+    frame.style.width = Math.floor(w) + 'px';
+    frame.style.height = Math.floor(h) + 'px';
+  };
+  if(!(img.complete && img.naturalWidth)) img.addEventListener('load', apply, {once:true});
+  apply();
+}
+fitMarcoMetoFrame();
+window.addEventListener('resize', fitMarcoMetoFrame);
 
 const __qs = new URLSearchParams(location.search);
 const __s = parseInt(__qs.get('slide'));

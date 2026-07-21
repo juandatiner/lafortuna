@@ -574,20 +574,31 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 }
 
 /* ===== Print / PDF export ===== */
-.print-pdf-btn{position:absolute;right:0;bottom:14px;display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:999px;border:1.5px solid rgba(255,211,122,.85);background:linear-gradient(160deg,rgba(8,26,22,.92),rgba(10,40,34,.92));color:var(--gold-light);font-family:inherit;font-weight:800;font-size:12px;letter-spacing:.3px;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.4);transition:transform .2s ease,box-shadow .2s ease}
+.print-pdf-btn{position:absolute;right:0;bottom:14px;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border-radius:50%;border:1.5px solid rgba(255,211,122,.85);background:linear-gradient(160deg,rgba(8,26,22,.92),rgba(10,40,34,.92));color:var(--gold-light);cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.4);transition:transform .2s ease,box-shadow .2s ease}
 .print-pdf-btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,0,0,.45)}
-.print-pdf-btn svg.ic{font-size:14px}
+.print-pdf-btn svg.ic{font-size:15px}
 #printRoot{display:none}
 @media print{
   body > *:not(#printRoot){display:none !important}
   #printRoot{display:block !important}
   html,body{height:auto !important;overflow:visible !important;background:#050F0D !important}
-  @page{ size:1440px 900px; margin:0 }
-  .print-page{ width:1440px; height:900px; position:relative; overflow:hidden; page-break-after:always; break-after:page; box-sizing:border-box }
+  @page{ size:15in 9.375in; margin:0 }
+  .print-page{ width:15in; height:9.375in; position:relative; overflow:hidden; page-break-after:always; break-after:page; box-sizing:border-box }
   .print-page:last-child{ page-break-after:auto }
-  .print-page.slide{ position:relative !important; inset:auto !important; opacity:1 !important; pointer-events:none !important; transform:none !important; display:flex !important }
-  .print-page .photo-frame{ width:100% !important; height:100% !important }
+  .print-page.slide{ position:relative !important; inset:auto !important; opacity:1 !important; pointer-events:none !important; transform:none !important; display:flex !important; padding:90px 56px 48px 20px !important }
+  .print-page.slide.cover{ padding:78px 0 0 !important }
+  /* neutraliza los breakpoints responsivos (móvil) durante impresión: el motor de impresión
+     puede medir la página con un ancho distinto al de pantalla y disparar esas reglas */
+  .print-page .photo-frame{ width:100% !important; height:100% !important; max-width:none !important; max-height:none !important; margin:auto !important }
   .print-page .photo-frame img{ object-fit:contain !important }
+  .print-page .cover-grid{ grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr) !important; padding:0 48px !important; gap:40px !important }
+  .print-page .cover-foot{ position:absolute !important; bottom:22px !important; left:48px !important; margin-top:0 !important; padding:0 !important }
+  .print-page .mot-split{ grid-template-columns:.62fr 1.85fr !important }
+  .print-page .snake-wrap{ padding:0 0 0 120px !important }
+  .print-page .snake-nodes{ flex-wrap:nowrap !important; justify-content:center !important; gap:10px !important }
+  .print-page .snake-node{ flex-direction:row !important }
+  .print-page .snake-node .circ{ width:46px !important; height:46px !important }
+  .print-page .snake-node .circ svg.ic{ font-size:23px !important }
   .print-detail{ display:flex; align-items:center; justify-content:center; padding:60px; background:linear-gradient(160deg,#050F0D 0%, #0E332C 55%, #1B5A4C 100%) }
   .print-detail .preg-card{ transform:none !important }
   .print-detail .preg-card-img img{ max-width:1320px; max-height:780px }
@@ -815,7 +826,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
   </section>
   <section class="slide" data-section="Cierre">
     <div class="slide-eyebrow">${icon-clock}13 · Cierre</div>
-    <button class="print-pdf-btn" id="printPdfBtn" title="Generar PDF de toda la presentación">${icon-image}Generar PDF</button>
+    <button class="print-pdf-btn" id="printPdfBtn" title="Generar PDF de toda la presentación">${icon-printer}</button>
   </section>
 
 </div>
@@ -864,7 +875,8 @@ const ICONS = {
   play:'<svg class="ic" viewBox="0 0 24 24"><path d="M6 4.5v15l13-7.5-13-7.5Z"/></svg>',
   list:'<svg class="ic" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>',
   image:'<svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2"/><circle cx="8.5" cy="9.5" r="1.7"/><path d="M3 16.5 9 11l4 4 3-3 5 5.5"/></svg>',
-  info:'<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6"/><path d="M12 7.2h.01"/></svg>'
+  info:'<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6"/><path d="M12 7.2h.01"/></svg>',
+  printer:'<svg class="ic" viewBox="0 0 24 24"><path d="M6.5 8V3.5h11V8"/><rect x="3" y="8" width="18" height="8.5" rx="1.8"/><path d="M6.5 14.5h11V20.5h-11Z"/><path d="M6.5 11.2h.01"/></svg>'
 };
 function ic(name){ return ICONS[name] || ''; }
 document.body.innerHTML = document.body.innerHTML.replace(/\$\{icon-([a-z]+)\}/g, (m,k)=> ic(k));

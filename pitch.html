@@ -572,6 +572,33 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
   .tabbar{grid-template-columns:minmax(0,1fr)}
   .problem-cards{gap:12px}
 }
+
+/* ===== Print / PDF export ===== */
+.print-pdf-btn{position:absolute;right:0;bottom:14px;display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:999px;border:1.5px solid rgba(255,211,122,.85);background:linear-gradient(160deg,rgba(8,26,22,.92),rgba(10,40,34,.92));color:var(--gold-light);font-family:inherit;font-weight:800;font-size:12px;letter-spacing:.3px;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.4);transition:transform .2s ease,box-shadow .2s ease}
+.print-pdf-btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,0,0,.45)}
+.print-pdf-btn svg.ic{font-size:14px}
+#printRoot{display:none}
+@media print{
+  body > *:not(#printRoot){display:none !important}
+  #printRoot{display:block !important}
+  html,body{height:auto !important;overflow:visible !important;background:#050F0D !important}
+  @page{ size:1440px 900px; margin:0 }
+  .print-page{ width:1440px; height:900px; position:relative; overflow:hidden; page-break-after:always; break-after:page; box-sizing:border-box }
+  .print-page:last-child{ page-break-after:auto }
+  .print-page.slide{ position:relative !important; inset:auto !important; opacity:1 !important; pointer-events:none !important; transform:none !important; display:flex !important }
+  .print-page .photo-frame{ width:100% !important; height:100% !important }
+  .print-page .photo-frame img{ object-fit:contain !important }
+  .print-detail{ display:flex; align-items:center; justify-content:center; padding:60px; background:linear-gradient(160deg,#050F0D 0%, #0E332C 55%, #1B5A4C 100%) }
+  .print-detail .preg-card{ transform:none !important }
+  .print-detail .preg-card-img img{ max-width:1320px; max-height:780px }
+  .print-detail .img-marker-panel-card h3{font-family:'Playfair Display',serif;color:var(--gold-light);font-size:1.55rem;margin-bottom:16px}
+  .print-detail .img-marker-panel-card p{font-size:1.15rem;line-height:1.65;color:rgba(251,246,236,.94)}
+  .print-mt-card{ width:100%; max-width:1320px; height:100%; max-height:820px; display:flex; flex-direction:column }
+  .print-mt-list{ flex:1; overflow:visible }
+  .print-mot-inner{ display:grid; grid-template-columns:.62fr 1.85fr; gap:20px; width:100%; height:100%; padding:0 20px }
+  .print-mot-list{ display:flex; flex-direction:column; gap:9px; justify-content:center; overflow:visible }
+  .print-mot-visual{ height:100% }
+}
 </style>
 </head>
 <body>
@@ -788,6 +815,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
   </section>
   <section class="slide" data-section="Cierre">
     <div class="slide-eyebrow">${icon-clock}13 · Cierre</div>
+    <button class="print-pdf-btn" id="printPdfBtn" title="Generar PDF de toda la presentación">${icon-image}Generar PDF</button>
   </section>
 
 </div>
@@ -1289,6 +1317,145 @@ if(__qs.get('debug')==='1'){
   box.textContent = out;
   document.body.appendChild(box);
 }
+
+/* ===== PDF export (print nativo) ===== */
+const PRINT_ORDER = [...Array(slides.length).keys()];
+
+function stripLiveState(node){
+  node.querySelectorAll('.photo-frame').forEach(f=>{ f.style.width=''; f.style.height=''; });
+  node.querySelectorAll('.marker-open').forEach(el=>el.classList.remove('marker-open'));
+  node.querySelectorAll('.open').forEach(el=>el.classList.remove('open'));
+  node.querySelectorAll('.picked').forEach(el=>el.classList.remove('picked'));
+  node.querySelectorAll('.mot-item').forEach(el=>el.classList.remove('active','open'));
+  node.querySelectorAll('.mt-acc-item').forEach(el=>el.classList.remove('active'));
+  node.querySelectorAll('.mt-acc-list').forEach(el=>el.classList.remove('has-active'));
+  node.querySelectorAll('.preg-overlay, .mt-table-overlay').forEach(el=>el.remove());
+  node.querySelectorAll('#snakeSvg line').forEach(l=>l.remove());
+  const motVisual = node.querySelector('#motVisual');
+  if(motVisual) motVisual.innerHTML = motPhotoHTML(null);
+  const printBtn = node.querySelector('#printPdfBtn');
+  if(printBtn) printBtn.remove();
+}
+
+function buildMainPrintPage(idx){
+  const clone = slides[idx].cloneNode(true);
+  clone.classList.remove('active','prev');
+  clone.classList.add('print-page');
+  stripLiveState(clone);
+  return clone;
+}
+
+function ppWrap(innerEl){
+  const p = document.createElement('div');
+  p.className = 'print-page print-detail';
+  p.appendChild(innerEl);
+  return p;
+}
+
+function buildImageDetailPage(src, alt){
+  const wrap = document.createElement('div');
+  wrap.className = 'preg-card preg-card-img';
+  wrap.innerHTML = `<img src="${src}" alt="${alt||''}">`;
+  return ppWrap(wrap);
+}
+
+function buildClonedImageDetailPage(selector){
+  const src = document.querySelector(selector);
+  if(!src) return null;
+  const clone = src.cloneNode(true);
+  clone.querySelectorAll('.open').forEach(el=>el.classList.remove('open'));
+  return ppWrap(clone);
+}
+
+function buildObjEspDetailPage(i){
+  const card = document.createElement('div');
+  card.className = 'img-marker-panel-card';
+  card.innerHTML = `<h3>${OBJESP_INFO[i].t}</h3><p>${OBJESP_INFO[i].d}</p>`;
+  return ppWrap(card);
+}
+
+function buildMarcoTeoDetailPage(i){
+  const rows = MARCOTEO_TABLE.map((r,idx)=>{
+    const active = idx===i;
+    return `<div class="mt-acc-item${active?' active':''}">
+      <div class="mt-acc-row">
+        <span class="mt-acc-num">${String(idx+1).padStart(2,'0')}</span>
+        <span class="mt-acc-title">${MARCOTEO_INFO[idx].t.replace(/^\d+\.\s*/,'')}</span>
+        <span class="mt-acc-rol ${r.rol==='Explicativa'?'explicativa':''}">${r.rol}</span>
+      </div>
+      ${active?`<div class="mt-acc-detail" style="max-height:340px"><div class="mt-acc-detail-in">
+        <div class="mt-acc-field"><label>¿Qué es?</label><p>${r.queEs}</p></div>
+        <div class="mt-acc-field"><label>¿Por qué?</label><p>${r.porQue}</p></div>
+        <div class="mt-acc-field"><label>¿Cómo?</label><p>${r.como}</p></div>
+        <div class="mt-acc-field"><label>Qué</label><p>${r.que}</p></div>
+      </div></div>`:''}
+    </div>`;
+  }).join('');
+  const card = document.createElement('div');
+  card.className = 'mt-table-card print-mt-card';
+  card.innerHTML = `
+    <div class="mt-table-title">Tabla del marco teórico</div>
+    <div class="mt-table-subtitle">Modelo de Gobernanza Inteligente en Turismo de Bienestar para el Destino Turístico de La Fortuna, Costa Rica 2030</div>
+    <div class="mt-acc-list has-active print-mt-list">${rows}</div>`;
+  return ppWrap(card);
+}
+
+function buildMotDetailPage(i){
+  const rows = motivos.map((m,idx)=>{
+    const active = idx===i;
+    if(!m.t) return `<div class="mot-row mot-row-empty"><span class="mr-num">0${idx+1}</span><h4>Pendiente</h4></div>`;
+    return `<div class="mot-item${active?' active open':''}">
+      <div class="mot-row${active?' active':''}"><span class="mr-num">0${idx+1}</span><h4>${m.t}</h4></div>
+      ${active?`<div class="mot-accordion" style="max-height:190px"><div class="mot-accordion-in"><p>${m.d}</p></div></div>`:''}
+    </div>`;
+  }).join('');
+  const inner = document.createElement('div');
+  inner.className = 'print-mot-inner';
+  inner.innerHTML = `<div class="mot-list print-mot-list">${rows}</div>
+    <div class="mot-visual mot-visual-fit print-mot-visual">${motPhotoHTML(motivos[i])}</div>`;
+  return ppWrap(inner);
+}
+
+function buildPrintPages(){
+  const pages = [];
+  PRINT_ORDER.forEach(idx=>{
+    pages.push(buildMainPrintPage(idx));
+    const section = slides[idx].dataset.section;
+    if(section === 'Motivación'){
+      motivos.forEach((m,i)=>{ if(m.t) pages.push(buildMotDetailPage(i)); });
+    } else if(section === 'Pregunta'){
+      const p = buildClonedImageDetailPage('#pregOverlay .preg-card-img');
+      if(p) pages.push(p);
+    } else if(section === 'Obj. Específicos'){
+      OBJESP_INFO.forEach((_,i)=> pages.push(buildObjEspDetailPage(i)));
+    } else if(section === 'Marco teórico'){
+      MARCOTEO_INFO.forEach((_,i)=> pages.push(buildMarcoTeoDetailPage(i)));
+    } else if(section === 'Marco Metodológico'){
+      pages.push(buildImageDetailPage(MARCOMETO_IMAGES[0], 'Filosofía de la investigación'));
+      pages.push(buildImageDetailPage(MARCOMETO_IMAGES[1], 'Estrategia de investigación'));
+      const overview = buildClonedImageDetailPage('#mmProcesoImgWrap');
+      if(overview) pages.push(overview);
+      MARCOMETO_OBJ_IMAGES.forEach((src,i)=> pages.push(buildImageDetailPage(src, 'Métodos y proceso — punto ' + (i+1))));
+    }
+  });
+  return pages;
+}
+
+function generatePitchPDF(){
+  let root = document.getElementById('printRoot');
+  if(root) root.remove();
+  root = document.createElement('div');
+  root.id = 'printRoot';
+  buildPrintPages().forEach(p=> root.appendChild(p));
+  document.body.appendChild(root);
+  const cleanup = ()=>{ root.remove(); window.removeEventListener('afterprint', cleanup); };
+  window.addEventListener('afterprint', cleanup);
+  const imgs = [...root.querySelectorAll('img')];
+  Promise.all(imgs.map(img=> img.complete ? Promise.resolve() : new Promise(res=>{ img.onload = img.onerror = res; })))
+    .then(()=> setTimeout(()=> window.print(), 60));
+}
+const $printBtn = document.getElementById('printPdfBtn');
+if($printBtn) $printBtn.addEventListener('click', generatePitchPDF);
 </script>
 </body>
 </html>

@@ -579,15 +579,14 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 .print-pdf-btn svg.ic{font-size:15px}
 #printRoot{display:none}
 @media print{
-  *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; color-adjust:exact !important }
   body > *:not(#printRoot){display:none !important}
   #printRoot{display:block !important}
   html,body{height:auto !important;overflow:visible !important;background:#050F0D !important}
   @page{ size:15in 9.375in; margin:0 }
   .print-page{ width:15in; height:9.375in; position:relative; overflow:hidden; page-break-after:always; break-after:page; box-sizing:border-box }
   .print-page:last-child{ page-break-after:auto }
-  .print-page.slide{ position:relative !important; inset:auto !important; opacity:1 !important; pointer-events:none !important; transform:none !important; display:flex !important; padding:90px 56px 48px 20px !important }
-  .print-page.slide.cover{ padding:78px 0 0 !important }
+  .print-page.slide{ position:relative !important; inset:auto !important; opacity:1 !important; pointer-events:none !important; transform:none !important; display:flex !important; padding:110px 76px 64px 40px !important }
+  .print-page.slide.cover{ padding:96px 24px 24px !important }
   /* fuerza repintado en su propia capa: evita el bug de Chrome donde una imagen dentro de
      un contenedor overflow:hidden + border-radius no llega a imprimirse (queda en blanco) */
   .print-page .photo-frame, .print-page img{ transform:translateZ(0) !important; -webkit-backface-visibility:hidden !important }
@@ -603,7 +602,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
   .print-page .snake-node{ flex-direction:row !important }
   .print-page .snake-node .circ{ width:46px !important; height:46px !important }
   .print-page .snake-node .circ svg.ic{ font-size:23px !important }
-  .print-detail{ display:flex; align-items:center; justify-content:center; padding:60px; background:linear-gradient(160deg,#050F0D 0%, #0E332C 55%, #1B5A4C 100%) }
+  .print-detail{ display:flex; align-items:center; justify-content:center; padding:90px; background:linear-gradient(160deg,#050F0D 0%, #0E332C 55%, #1B5A4C 100%) }
   .print-detail .preg-card{ transform:none !important }
   .print-detail .preg-card-img img{ max-width:1320px; max-height:780px }
   .print-detail .img-marker-panel-card h3{font-family:'Playfair Display',serif;color:var(--gold-light);font-size:1.55rem;margin-bottom:16px}
@@ -617,7 +616,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
   .print-objesp-card{ width:100% !important; height:100% !important; max-width:none !important; max-height:none !important; box-sizing:border-box; display:flex !important; flex-direction:column; justify-content:center; overflow:hidden }
   .print-objesp-card h3{ font-size:1.15rem !important; margin-bottom:10px !important }
   .print-objesp-card p{ font-size:.92rem !important; line-height:1.5 !important }
-  .print-fulltable{ height:auto !important; min-height:9.375in; overflow:visible !important; align-items:flex-start !important; padding:50px 60px !important; page-break-after:always; break-after:page }
+  .print-fulltable{ height:auto !important; min-height:9.375in; overflow:visible !important; align-items:flex-start !important; padding:80px 90px !important; page-break-after:always; break-after:page }
   .print-mt-card-full{ height:auto !important; max-height:none !important }
   .print-mt-list-full{ overflow:visible !important }
 }

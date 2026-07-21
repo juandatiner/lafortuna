@@ -1342,7 +1342,7 @@ if(__qs.get('debug')==='1'){
 }
 
 /* ===== PDF export (print nativo) ===== */
-const PRINT_ORDER = [...Array(slides.length).keys()];
+const PRINT_ORDER = [...Array(slides.length).keys()].slice(1); // sin Portada (índice 0)
 
 function stripLiveState(node){
   node.querySelectorAll('.photo-frame').forEach(f=>{ f.style.width=''; f.style.height=''; });

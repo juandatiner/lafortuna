@@ -639,7 +639,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 </style>
 <script>
 (function(){
-  var KEY='lafortuna_access_ok';
+  var KEY='lafortuna_access_ok_v2';
   var today=new Date().toISOString().slice(0,10);
   if(localStorage.getItem(KEY)===today){
     var g=document.getElementById('accessGate');
@@ -651,7 +651,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
     if(e.target && e.target.id==='accessForm'){
       e.preventDefault();
       var input=document.getElementById('accessInput');
-      if(input.value==='admin123'){
+      if(input.value==='2026'){
         localStorage.setItem(KEY,today);
         var g=document.getElementById('accessGate');
         if(g) g.remove();

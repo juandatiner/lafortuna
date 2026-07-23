@@ -70,9 +70,10 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 .mm-obj-marker:hover{background:#FF5252;color:#fff}
 .img-marker-panel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:6%;opacity:0;pointer-events:none;transition:opacity .3s ease}
 .photo-frame.marker-open .img-marker-panel{opacity:1;pointer-events:auto}
-.img-marker-panel-card{position:relative;background:linear-gradient(165deg,#0A2521 0%,#0E332C 55%,#123C33 100%);backdrop-filter:blur(10px);border:1px solid rgba(227,168,59,.4);border-radius:22px;padding:54px 60px;max-width:92%;width:880px;color:var(--cream);box-shadow:0 30px 80px rgba(0,0,0,.55)}
-.img-marker-panel-card h3{font-family:'Playfair Display',serif;color:var(--gold-light);font-size:2.15rem;font-weight:800;letter-spacing:-.3px;margin:0 0 24px;padding-bottom:22px;border-bottom:1px solid rgba(227,168,59,.28)}
-.img-marker-panel-card p{font-size:1.28rem;line-height:1.8;color:rgba(251,246,236,.8);font-weight:500}
+.img-marker-panel-card{position:relative;background:linear-gradient(165deg,#161A17 0%,#1B211C 55%,#212A22 100%);backdrop-filter:blur(10px);border:1px solid rgba(227,168,59,.3);border-radius:22px;padding:54px 60px;max-width:92%;width:880px;color:var(--cream);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.img-marker-panel-card h3{position:relative;font-family:'Playfair Display',serif;color:rgba(251,246,236,.96);font-size:2.15rem;font-weight:800;letter-spacing:-.3px;margin:0 0 26px;padding-bottom:22px}
+.img-marker-panel-card h3::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:linear-gradient(90deg,var(--gold-light),var(--gold) 60%,rgba(227,168,59,.15))}
+.img-marker-panel-card p{font-size:1.28rem;line-height:1.8;color:rgba(251,246,236,.78);font-weight:500}
 .img-marker-close{position:absolute;top:-14px;right:-14px;width:28px;height:28px;border-radius:50%;background:var(--gold);border:none;color:var(--forest);font-size:16px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
 #objEspFrame .img-marker,#marcoTeoFrame .img-marker{background:#E23B3B;border:2px solid #FFFFFF;color:#FFFFFF;animation:pulseBadge 1.8s ease-in-out infinite}
 #objEspFrame .img-marker:hover,#marcoTeoFrame .img-marker:hover{animation-play-state:paused;background:#FF5252}

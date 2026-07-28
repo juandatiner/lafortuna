@@ -1212,7 +1212,6 @@ function go(i){
   $prev.disabled = i===0;
   $next.disabled = i===slides.length-1;
   if(i===1) requestAnimationFrame(drawSnakePath);
-  try{ localStorage.setItem('pitchSlide', String(i)); }catch(e){}
 }
 function nextSlide(){ go(current+1); }
 function prevSlide(){ go(current-1); }
@@ -1952,9 +1951,7 @@ window.addEventListener('resize', fitMarcoMetoFrame);
 
 const __qs = new URLSearchParams(location.search);
 const __s = parseInt(__qs.get('slide'));
-let __saved = NaN;
-try{ __saved = parseInt(localStorage.getItem('pitchSlide')); }catch(e){}
-go(!isNaN(__s) ? __s : (!isNaN(__saved) ? __saved : 0));
+go(!isNaN(__s) ? __s : 0);
 
 if(__qs.get('debug')==='1'){
   const box = document.createElement('div');

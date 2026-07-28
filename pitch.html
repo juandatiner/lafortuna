@@ -80,7 +80,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 #objEspFrame.marker-open img{filter:brightness(.32) blur(2px)}
 
 /* ===== Pregunta: botón + overlay de preguntas específicas ===== */
-#pregFrame,#objGeneralFrame,#planOperativoFrame,#resultadosFrame,#problemaFrame{transform:scale(1.08);transform-origin:center}
+#pregFrame,#objGeneralFrame,#planOperativoFrame,#resultadosFrame,#problemaFrame,#viabilidadFrame,#anexosFrame{transform:scale(1.08);transform-origin:center}
 .preg-cta-btn{pointer-events:auto;position:absolute;transform:translate(-50%,0);display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:999px;border:1.5px solid rgba(255,211,122,.85);background:linear-gradient(160deg,rgba(8,26,22,.92),rgba(10,40,34,.92));color:var(--gold-light);font-family:inherit;font-weight:800;font-size:12.5px;letter-spacing:.2px;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.4),0 0 0 4px rgba(121,230,221,.08);transition:transform .2s ease,box-shadow .2s ease,background .2s ease;white-space:nowrap;line-height:1.1}
 .preg-cta-btn svg.ic{font-size:14px}
 .preg-cta-btn:hover{transform:translate(-50%,-2px);box-shadow:0 14px 32px rgba(0,0,0,.45),0 0 0 6px rgba(121,230,221,.14);background:linear-gradient(160deg,rgba(10,34,29,.95),rgba(14,51,44,.95))}
@@ -650,6 +650,47 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 .print-pdf-btn{position:absolute;right:0;bottom:14px;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border-radius:50%;border:1.5px solid rgba(255,211,122,.85);background:linear-gradient(160deg,rgba(8,26,22,.92),rgba(10,40,34,.92));color:var(--gold-light);cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.4);transition:transform .2s ease,box-shadow .2s ease}
 .print-pdf-btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,0,0,.45)}
 .print-pdf-btn svg.ic{font-size:15px}
+
+/* ===== Cierre ===== */
+.cierre-slide{align-items:center;justify-content:center;padding:0!important}
+.cierre-stage{position:relative;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:1}
+.cierre-spark{position:absolute;inset:-18% -8%;z-index:0;pointer-events:none;background:radial-gradient(circle at 50% 42%,rgba(227,168,59,.28) 0%,rgba(227,168,59,.08) 34%,transparent 62%)}
+.cierre-eyebrow{font-size:12px;letter-spacing:5px;text-transform:uppercase;color:rgba(251,246,236,.68);font-weight:800;margin-bottom:6px}
+.cierre-mega{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(90px,13.5vw,210px);line-height:1.12;padding-top:.08em;letter-spacing:-4px;color:var(--gold-light);filter:drop-shadow(0 18px 40px rgba(0,0,0,.4))}
+.slide.cierre-slide .cierre-thanks{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:clamp(22px,2.1vw,30px);color:var(--cream)!important;max-width:620px;margin-top:24px}
+.cierre-sign{margin-top:22px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(251,246,236,.55);font-weight:700}
+.cierre-btn{margin-top:26px;display:inline-flex;align-items:center;gap:10px;padding:16px 32px;border-radius:999px;border:none;background:var(--gold);color:var(--forest);font-weight:800;font-size:14.5px;letter-spacing:.3px;cursor:pointer;transition:all .2s;font-family:inherit;box-shadow:0 14px 34px rgba(0,0,0,.35),0 0 0 0 rgba(227,168,59,.55);animation:pulseGold 2.2s ease-in-out infinite}
+.cierre-btn:hover{background:var(--gold-light);transform:translateY(-3px);animation-play-state:paused;box-shadow:0 18px 40px rgba(0,0,0,.4)}
+.cierre-btn svg.ic{font-size:17px}
+
+/* ===== Bibliografía (overlay, pantalla clara con links clicables) ===== */
+.biblio-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:92px 1.5vw 2.2vh;background:rgba(4,10,9,.82);backdrop-filter:blur(7px);opacity:0;pointer-events:none;transition:opacity .3s ease}
+.biblio-overlay.open{opacity:1;pointer-events:auto}
+.biblio-card{position:relative;width:96vw;max-width:1560px;height:100%;max-height:86vh;display:flex;flex-direction:column;background:var(--cream);border-radius:22px;box-shadow:0 40px 100px rgba(0,0,0,.55);overflow:hidden;transform:scale(.97);transition:transform .3s ease}
+.biblio-overlay.open .biblio-card{transform:scale(1)}
+.biblio-close{position:absolute;top:18px;right:20px;width:40px;height:40px;border-radius:50%;background:var(--white);color:var(--forest);border:none;font-size:20px;font-weight:900;cursor:pointer;z-index:2;box-shadow:0 6px 16px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;line-height:1}
+.biblio-close:hover{background:var(--volcano);color:var(--white)}
+.biblio-head{background:var(--grad-forest);color:var(--cream);padding:30px 76px 24px 38px;flex-shrink:0}
+.biblio-head-tag{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);font-weight:800;margin-bottom:7px}
+.biblio-head h3{font-family:'Playfair Display',serif;font-size:30px;font-weight:800;margin-bottom:6px}
+.biblio-head-count{font-size:13px;color:rgba(251,246,236,.7)}
+.biblio-search{margin:18px 38px 0;flex-shrink:0;position:relative;max-width:520px}
+.biblio-search input{width:100%;padding:13px 18px 13px 42px;border-radius:12px;border:1.5px solid rgba(14,51,44,.15);background:var(--white);font-family:inherit;font-size:14px;color:var(--text);box-shadow:var(--shadow-sm)}
+.biblio-search input:focus{outline:none;border-color:var(--teal)}
+.biblio-search svg.ic{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--text-soft);font-size:16px}
+.biblio-list{flex:1;min-height:0;overflow-y:auto;padding:16px 38px 26px;display:flex;flex-direction:column}
+.biblio-item{display:flex;gap:14px;padding:13px 12px;border-bottom:1px solid rgba(14,51,44,.08);font-size:14.5px;line-height:1.68;color:var(--text)}
+.biblio-item:hover{background:rgba(227,168,59,.1);border-radius:10px}
+.biblio-item .bi-num{flex-shrink:0;font-family:'Playfair Display',serif;font-weight:900;color:var(--gold);font-size:13.5px;width:30px;padding-top:1px}
+.biblio-item a{color:var(--teal);font-weight:700;text-decoration:underline;text-decoration-color:rgba(10,163,160,.35);word-break:break-all}
+.biblio-item a:hover{color:var(--volcano)}
+.biblio-empty{padding:40px;text-align:center;color:var(--text-soft);font-size:15px;display:none}
+.biblio-fade{position:absolute;left:0;right:0;bottom:0;height:70px;background:linear-gradient(180deg,rgba(251,246,236,0),var(--cream) 88%);pointer-events:none;transition:opacity .3s ease;z-index:2}
+.biblio-fade.hidden{opacity:0}
+.biblio-scrollhint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);width:38px;height:38px;border-radius:50%;background:var(--forest);color:var(--gold-light);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.3);animation:bounceHint 1.3s ease-in-out infinite;pointer-events:none;transition:opacity .3s ease;z-index:3}
+.biblio-scrollhint.hidden{opacity:0}
+.biblio-scrollhint svg.ic{font-size:18px;transform:rotate(90deg)}
+@keyframes bounceHint{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
 #printRoot{display:none}
 @media print{
   body > *:not(#printRoot){display:none !important}
@@ -1046,12 +1087,47 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
     </div>
   </section>
   <section class="slide" data-section="Viabilidad">
-    <div class="slide-eyebrow">${icon-award}12 · Viabilidad</div>
+    <div class="slide-eyebrow">${icon-award}12 · Viabilidad y Limitaciones</div>
+    <div class="slide-photo-wrap">
+      <div class="photo-frame slide-photo-border" id="viabilidadFrame">
+        <img src="assets/viabilidad.png" alt="Viabilidad y Limitaciones" id="viabilidadImg">
+      </div>
+    </div>
   </section>
-  <section class="slide" data-section="Cierre">
-    <div class="slide-eyebrow">${icon-clock}13 · Cierre</div>
+  <section class="slide" data-section="Anexos">
+    <div class="slide-eyebrow">${icon-image}13 · Anexos</div>
+    <div class="slide-photo-wrap">
+      <div class="photo-frame slide-photo-border" id="anexosFrame">
+        <img src="assets/anexos.png" alt="Anexos" id="anexosImg">
+      </div>
+    </div>
+  </section>
+  <section class="slide cierre-slide" data-section="Cierre">
+    <div class="cierre-spark"></div>
+    <div class="cierre-stage">
+      <span class="cierre-eyebrow">Modelo de Gobernanza Inteligente · La Fortuna 2030</span>
+      <h1 class="cierre-mega">Frase</h1>
+      <p class="cierre-thanks">Frase.</p>
+      <span class="cierre-sign">Lady Fernández Mora · ICAP</span>
+      <button class="cierre-btn" id="biblioOpenBtn">Referencias bibliográficas</button>
+    </div>
     <button class="print-pdf-btn" id="printPdfBtn" title="Generar PDF de toda la presentación">${icon-printer}</button>
   </section>
+
+  <div class="biblio-overlay" id="biblioOverlay" onclick="if(event.target===this) closeBiblioOverlay()">
+    <div class="biblio-card">
+      <button class="biblio-close" onclick="closeBiblioOverlay()">&times;</button>
+      <div class="biblio-head">
+        <div class="biblio-head-tag">Modelo de Gobernanza Inteligente en Turismo de Bienestar · La Fortuna, Costa Rica 2030</div>
+        <h3>Referencias bibliográficas</h3>
+        <div class="biblio-head-count"><span id="biblioCount"></span> fuentes citadas · Formato APA 7.ª ed. · los enlaces son clicables</div>
+      </div>
+      <div class="biblio-list" id="biblioList"></div>
+      <div class="biblio-empty" id="biblioEmpty">No se encontraron referencias con ese criterio.</div>
+      <div class="biblio-fade" id="biblioFade"></div>
+      <div class="biblio-scrollhint" id="biblioScrollHint">${icon-arrow}</div>
+    </div>
+  </div>
 
 </div>
 
@@ -1114,7 +1190,7 @@ let current = 0;
 
 slides.forEach((s,i)=>{
   const el = document.createElement('div');
-  el.className = 'progress-step' + (i>10?' pending':'');
+  el.className = 'progress-step';
   el.innerHTML = `<span class="ps-num">${String(i+1).padStart(2,'0')}</span><span class="ps-name">${s.dataset.section}</span>`;
   el.onclick = ()=>go(i);
   $progress.appendChild(el);
@@ -1123,7 +1199,7 @@ const $steps = document.querySelectorAll('.progress-step');
 
 function go(i){
   i = Math.max(0, Math.min(slides.length-1, i));
-  document.querySelectorAll('.preg-overlay.open, .mt-table-overlay.open').forEach(o=>o.classList.remove('open'));
+  document.querySelectorAll('.preg-overlay.open, .mt-table-overlay.open, .biblio-overlay.open').forEach(o=>o.classList.remove('open'));
   document.querySelectorAll('.photo-frame.marker-open').forEach(f=>f.classList.remove('marker-open'));
   if(window.__closeImgLightbox && document.getElementById('imgLightbox').classList.contains('active')) window.__closeImgLightbox();
   slides[current].classList.remove('active');
@@ -1165,7 +1241,8 @@ const trail = [
   {icon:'list', lbl:'Marco Metodológico', t:'Marco Metodológico', d:'Diseño metodológico y ruta de construcción del modelo', time:'8 min', slide:8},
   {icon:'calendar', lbl:'Plan Operativo', t:'Plan Operativo', d:'Cronograma y actividades de ejecución de la investigación', time:'3 min', slide:9},
   {icon:'chart', lbl:'Resultados esperados', t:'Resultados esperados', d:'Productos y aporte doctoral de la investigación', time:'4 min', slide:10},
-  {icon:'shield', lbl:'Viabilidad y limitaciones', t:'Viabilidad y limitaciones', d:'Seguridad de cierre y terreno para preguntas', time:'3 min', slide:11}
+  {icon:'shield', lbl:'Viabilidad y limitaciones', t:'Viabilidad y limitaciones', d:'Seguridad de cierre y terreno para preguntas', time:'3 min', slide:11},
+  {icon:'image', lbl:'Anexos', t:'Anexos', d:'Material complementario y evidencia de soporte', time:'2 min', slide:12}
 ];
 const $snakeWrap = document.getElementById('snakeWrap');
 const $snakeNodes = document.getElementById('snakeNodes');
@@ -1338,6 +1415,338 @@ function closePregOverlay(){
 }
 const $pregCtaBtn = document.getElementById('pregCtaBtn');
 if($pregCtaBtn) $pregCtaBtn.addEventListener('click', openPregOverlay);
+
+/* ===== Cierre: bibliografía completa ===== */
+const BIBLIO = [
+'Aguilera, R. V., & Cuervo-Cazurra, A. (2009). Codes of Good Governance. Corporate Governance: An International Review, 17(3), 376-387. https://doi.org/10.1111/j.1467-8683.2009.00737.x',
+'Alawadhi, S., & Scholl, H. J. (2016). Smart governance: A cross-case analysis of smart city initiatives. 2016 49th Hawaii International Conference on System Sciences (HICSS), 2953-2963. https://ieeexplore.ieee.org/abstract/document/7427553/',
+'Allam, Z., Sharifi, A., Bibri, S. E., & Chabaud, D. (2022). Emerging trends and knowledge structures of smart urban governance. Sustainability, 14(9), 5275.',
+'Andal-Ancion, A., Cartwright, P. A., & Yip, G. S. (2003). The digital transformation of traditional business. MIT Sloan Management Review, 44(4), 34.',
+'Anderson, P. (1999). Perspective: Complexity theory and organization science. Organization Science, 10(3), 216-232.',
+'Antonelli, G., & Cappiello, G. (2017). Smart development in smart communities. Routledge.',
+'Ardito, L., Cerchione, R., Del Vecchio, P., & Raguseo, E. (2019). Big data in smart tourism: Challenges, issues and opportunities. Current Issues in Tourism, 22(15), 1805-1809. https://doi.org/10.1080/13683500.2019.1612860',
+'Armenia, S., Barile, S., Iandolo, F., Pompei, A., & Sicca, L. M. (2024). Organisational ambidexterity and knowledge management: A systems perspective towards Smart Model-based Governance. Systems Research and Behavioral Science, 41(3), 439-452. https://doi.org/10.1002/sres.2985',
+'Asadullah, A., Faik, I., & Kankanhalli, A. (2018). Digital platforms: A review and future directions. https://aisel.aisnet.org/pacis2018/248/',
+'Asamblea Legislativa de la República de Costa Rica. Ley N.° 1917, Ley Orgánica del Instituto Costarricense de Turismo (1955).',
+'Asamblea Legislativa de la República de Costa Rica. Ley N.° 5395 (1973).',
+'Asamblea Legislativa de la República de Costa Rica. Ley N.° 6084 (1977).',
+'Asamblea Legislativa de la República de Costa Rica. Ley N.° 6990 (1985).',
+'Asamblea Legislativa de la República de Costa Rica (1994).',
+'Asamblea Legislativa de la República de Costa Rica (2009).',
+'Asamblea Legislativa de la República de Costa Rica. Ley N.° 9742 (2019).',
+'Asamblea Legislativa de la República de Costa Rica. Ley N.° 10320 (2022).',
+'Asamblea Legislativa de la República de Costa Rica. Ley N.° 10528 (2024).',
+'Asamblea Legislativa de la República de Costa Rica (2025).',
+'Asamblea Legislativa de la República de Costa Rica (2021).',
+'Ayuntamiento de Benidorm. (2019). Benidorm achieves certification as the world’s first Smart Tourist Destination. https://benidorm.org/en/news/benidorm-achieves-certification-worlds-first-smart-touristdestination',
+'Baggio, R. (2008). Symptoms of complexity in a tourism system. Tourism Analysis, 13(1), 1-20.',
+'Bai, T. (2020). Tian Xia: A Confucian Model of State Identity and Global Governance. En I. Rossi (Ed.), Challenges of Globalization and Prospects for an Inter-civilizational World Order (pp. 969-982). Springer International Publishing. https://doi.org/10.1007/978-3-030-44058-9_51',
+'Barbini, B., Biasone, A. M., Cacciutto, M., Castellucci, D. I., Corbo, Y. A., & Roldán, N. G. (2011). Gobernanza y turismo: Análisis del estado del arte. Simposio Internacional Gobernanza y Cambios Territoriales, 111-125. http://nulan.mdp.edu.ar/id/eprint/1467/',
+'Bastidas-Manzano, A.-B., Sánchez-Fernández, J., & Casado-Aranda, L.-A. (2021). The Past, Present, and Future of Smart Tourism Destinations: A Bibliometric Analysis. Journal of Hospitality & Tourism Research, 45(3), 529-552. https://doi.org/10.1177/1096348020967062',
+'Beaumont, N., & Dredge, D. (2010). Local tourism governance: A comparison of three network approaches. Journal of Sustainable Tourism, 18(1), 7-28. https://doi.org/10.1080/09669580903215139',
+'Ben Letaifa, S. (2013). A methodology for ecosystem creation: How organizations can shift from supply chains to ecosystems. En Understanding Business Ecosystems. How Firms Succeed in the New World of Convergence? (pp. 85-95). De Boeck.',
+'Ben Letaifa, S. (2009). La théorie de l’écosystème: Trois essais sur le relationnel et l’innovation dans les secteurs bancaire et des TIC (Technologies de l’information et des communications) [Tesis doctoral, Université du Québec à Montréal et Université Paris-Dauphine]. http://www.archipel.uqam.ca/2197/1/D1806.pdf',
+'Bodrožić, Z., & Adler, P. S. (2018). The evolution of management models: A neo-Schumpeterian theory. Administrative Science Quarterly, 63(1), 85-129. https://doi.org/10.1177/0001839217704811',
+'BOG. (2026, 19 de febrero). Bogotá fue recertificada Destino Turístico Inteligente 2026. Bogota.gov.co. https://bogota.gov.co/internacional/bogota-fue-recertificada-destino-destino-turistico-inteligente-2026',
+'Bolívar, M. P. R., & Meijer, A. J. (2016). Smart Governance: Using a Literature Review and Empirical Analysis to Build a Research Model. Social Science Computer Review, 34(6), 673-692. https://doi.org/10.1177/0894439315611088',
+'Bonnet, D., & Westerman, G. (2021). The new elements of digital transformation. MIT Sloan Management Review, 62(2), 82-89.',
+'Bramwell, B. (2011). Governance, the state and sustainable tourism: A political economy approach. Journal of Sustainable Tourism, 19(4-5), 459-477. https://doi.org/10.1080/09669582.2011.576765',
+'Bramwell, B., & Lane, B. (2011). Critical research on the governance of tourism and sustainability. Journal of Sustainable Tourism, 19(4-5), 411-421. https://doi.org/10.1080/09669582.2011.580586',
+'Brush, C. (2014). Exploring the concept of an entrepreneurship education ecosystem. En Innovative Pathways for University Entrepreneurship in the 21st Century (Vol. 24, pp. 25-39). Emerald Group Publishing Limited.',
+'Buede, D. M., & Miller, W. D. (2016). The engineering design of systems: Models and methods. Wiley.',
+'Bushell, R., & Sheldon, P. J. (2009). Wellness and tourism: Mind, body, spirit, place. Cognizant Communication.',
+'Butler, R. W. (1999). Sustainable tourism: A state-of-the-art review. Tourism Geographies, 1(1), 7-25. https://doi.org/10.1080/14616689908721291',
+'Çakar, K. (2023). Towards an ICT-led tourism governance: A systematic literature review. European Journal of Tourism Research, 34. https://doi.org/10.54055/ejtr.v34i.2471',
+'Carrera, P. M., & Bridges, J. F. (2006). Globalization and healthcare: Understanding health and medical tourism. Expert Review of Pharmacoeconomics & Outcomes Research, 6(4), 447-454. https://doi.org/10.1586/14737167.6.4.447',
+'CCZN. (2024, 8 de agosto). Cámara de Comercio, Industria y Turismo. https://camarazonanorte.com/',
+'Chandler, A. D. (1969). The role of business in the United States: A historical survey. Daedalus, 23-40.',
+'Chang, V., & Guetl, C. (2007). E-learning ecosystem (ELES): A holistic approach for the development of more effective learning environment for small-and-medium sized enterprises (SMEs). Digital EcoSystems and Technologies Conference, 2007. DEST’07. Inaugural IEEE-IES, 420-425. http://ieeexplore.ieee.org/abstract/document/4233744/',
+'Chen, X., & Thapa, D. (2025). Clarifying the business model construct: A theory-driven integrative literature review through ecosystems and open systems perspectives. Review of Managerial Science. https://doi.org/10.1007/s11846-025-00917-7',
+'Choi, J., Lee, S., & Jamal, T. (2021). Smart Korea: Governance for smart justice during a global pandemic. Journal of Sustainable Tourism, 29(2-3), 540-549. https://doi.org/10.1080/09669582.2020.1777143',
+'Chourabi, H., Nam, T., Walker, S., Gil-Garcia, J. R., Mellouli, S., Nahon, K., Pardo, T. A., & Scholl, H. J. (2012). Understanding smart cities: An integrative framework. 2012 45th Hawaii International Conference on System Sciences, 2289-2297. https://ieeexplore.ieee.org/abstract/document/6149291/',
+'Conrad, P. (1994). Wellness as virtue: Morality and the pursuit of health. Culture, Medicine and Psychiatry, 18(3), 385-401. https://doi.org/10.1007/BF01379232',
+'Cook, P. (2008). What is health and medical tourism? Reimagining Sociology, 1-13.',
+'Corallo, A. (2007). The business ecosystem as a multiple dynamic network. The Digital Business Ecosystem, 11-32.',
+'Csapó, J. (2024). The strategic relationship between smart tourism and sustainability: A theoretical approach. En A. Zajadacz (Ed.), Rethinking Sustainable Tourism in Geographical Environments (pp. 163-178). Springer Nature Switzerland. https://doi.org/10.1007/978-3-031-72130-4_9',
+'Daft, R. (2015). Teoría y diseño organizacional (11.ª ed.). Cengage Learning Editores.',
+'De la Barre, K., De la Barre, S., & Taggart, M. (2005). A feasibility study for a Yukon health and wellness tourism industry. Yukon Territorial Government.',
+'de Oliveira Santos, G. E. (2007). Modelos teóricos aplicados al turismo. Estudios y Perspectivas en Turismo, 16(1), 96-110.',
+'De Reuver, M., Sørensen, C., & Basole, R. C. (2018). The Digital Platform: A Research Agenda. Journal of Information Technology, 33(2), 124-135. https://doi.org/10.1057/s41265-016-0033-3',
+'Eagles, P. F. J. (2009). Governance of recreation and tourism partnerships in parks and protected areas. Journal of Sustainable Tourism, 17(2), 231-248. https://doi.org/10.1080/09669580802495725',
+'Ebert, C., & Duarte, C. H. C. (2018). Digital transformation. IEEE Software, 35(4), 16-21.',
+'El Archi, Y., Benbba, B., Nizamatdinova, Z., Issakov, Y., Vargáné, G. I., & Dávid, L. D. (2023). Systematic literature review analysing smart tourism destinations in context of sustainable development: Current applications and future directions. Sustainability, 15(6), 5086.',
+'Errichiello, L., & Micera, R. (2021). A process-based perspective of smart tourism destination governance. European Journal of Tourism Research, 29. https://doi.org/10.54055/ejtr.v29i.2436',
+'Escobedo, S. I. O., Jiménez, G. C., & Nechar, M. C. (2021). La gobernanza en los estudios sobre turismo: Estado del arte (2013-2019). Gran Tour, Revista de Investigaciones Turísticas, (23). https://www.eutm.es/grantour/index.php/grantour/article/view/208',
+'Escobedo, S., Jiménez, G., & Nechar, M. (2021). Governance in tourism studies: Literature review (2013-2019). Gran Tour, (23), 50-75.',
+'European Commission. (2018). Helsinki and Lyon selected as 2019 European Capitals of Smart Tourism by European jury.',
+'Fan, P., Ren, L., & Zeng, X. (2024). Resident participation in environmental governance of sustainable tourism in rural destination. Sustainability (Switzerland), 16(18). https://doi.org/10.3390/su16188173',
+'Farinós, J. (2021). Smart specialisation strategies and governance on cultural heritage (pp. 77-83). https://doi.org/10.1201/9781003182016-10',
+'Fasenfest, D. (2010). Government, governing, and governance. Critical Sociology, 36(6), 771-774. https://doi.org/10.1177/0896920510378192',
+'Femenia-Serra, F., Perles-Ribes, J. F., & Ivars-Baidal, J. A. (2019). Smart destinations and tech-savvy millennial tourists: Hype versus reality. Tourism Review, 74(1), 63-81.',
+'Finer, S. E. (1997). The History of Government from the Earliest Times: Ancient monarchies and empires (Vol. 1). Oxford University Press.',
+'Francisco, P. (2015). Laudato si’: Carta encíclica sobre el cuidado de la casa común. Palabra.',
+'Freeman, L. C. (2004). The development of social network analysis. Empirical Press.',
+'Gajdošík, T. (2021a). Smart Tourism Destination Governance: Technology and Design-Based Approach. https://doi.org/10.4324/9781003269342',
+'Gajdošík, T. (2021b). Smart Tourism Destination Governance: Technology and Design-Based Approach. https://doi.org/10.4324/9781003269342',
+'Gala Termal. (2015). Plan Director para desarrollo producto turístico de bienestar y salud con aguas termales en la Región Huetar Norte.',
+'Garau, C., Desogus, G., & Coni, M. (2019). Fostering and planning a smart governance strategy for evaluating the urban polarities of the Sardinian island (Italy). Sustainability (Switzerland), 11(18). https://doi.org/10.3390/su11184962',
+'Gasser, U., & Almeida, V. A. (2017). A layered model for AI governance. IEEE Internet Computing, 21(6), 58-62.',
+'Ghauri, P., Grønhaug, K., & Strange, R. (2020). Research methods in business studies. Cambridge University Press.',
+'Giotopoulos, K., & Papadopoulos, D. (2025). Digital Transformation in the Global Tourism Ecosystem: Consumer Attitudes and Business Adaptation. En V. Katsoni & C. Costa (Eds.), Innovation and Creativity in Tourism, Business and Social Sciences (pp. 259-298). Springer Nature Switzerland. https://doi.org/10.1007/978-3-031-78471-2_11',
+'Gohar, A. (2022). Tourism Governance: A Critical Discourse on a Global Industry. https://doi.org/10.1515/9783110638141',
+'Gómez-Bruna, D., & Thiel-Ellul, D. (2024). Governance in tourist destinations: The case of smart tourist destinations (STDs) in Spain. Investigaciones Turísticas, (27), 203-223. https://doi.org/10.14198/INTURI.24674',
+'Gompers, P., Ishii, J., & Metrick, A. (2003). Corporate governance and equity prices. The Quarterly Journal of Economics, 118(1), 107-156.',
+'González, R. A. (2010). A framework for ICT-supported coordination in crisis response.',
+'González, R. A., & López-Cruz, O. (2022). Transformación digital en tiempos de crisis. Cuadernos de Administración, 35, 1-9.',
+'Gretzel, U. (2022). The Smart DMO: A new step in the digital transformation of destination management organizations. European Journal of Tourism Research, 30, 3002-3002.',
+'Gretzel, U., & Scarpino-Johns, M. (2018). Destination resilience and smart tourism destinations. Tourism Review International, 22(3-4), 263-276.',
+'Gretzel, U., Sigala, M., Xiang, Z., & Koo, C. (2015). Smart tourism: Foundations and developments. Electronic Markets, 25(3), 179-188. https://doi.org/10.1007/s12525-015-0196-8',
+'Gretzel, U., Werthner, H., Koo, C., & Lamsfus, C. (2015). Conceptual foundations for understanding smart tourism ecosystems. Computers in Human Behavior, 50, 558-563.',
+'Grindle, M. S. (2007). Good Enough Governance Revisited. Development Policy Review, 25(5), 533-574. https://doi.org/10.1111/j.1467-7679.2007.00385.x',
+'Guba, E. G. (1990). The Paradigm Dialog. SAGE Publications.',
+'Gummesson, E. (2008). Quality, service-dominant logic and many-to-many marketing. The TQM Journal, 20(2), 143-153.',
+'GWI. (2019a). Global Wellness Economy Monitor: Latin America-Caribbean. Global Wellness Institute.',
+'GWI. (2019b). Must-Reads from the Wellness World (semana del 25 de febrero de 2019). Global Wellness Institute.',
+'GWI. (2024a). A decade of wellness tourism: First-ever compilation of 10 years of market data. Global Wellness Institute.',
+'GWI. (2024b). Global Wellness Economy Monitor 2024. Global Wellness Institute.',
+'GWI. (2025a). 2025 Global Wellness Economy Monitor. Global Wellness Institute.',
+'GWI. (2025b). Geography of Wellness: Country Reports. Global Wellness Institute.',
+'GWI. (2025c). The global wellness economy: Country rankings, 2019-2023. Global Wellness Institute.',
+'GWI. (2025d). The Global Wellness Economy Hits a Record $6.8 Trillion and Is Forecast to Reach $9.8 Trillion by 2029. Global Wellness Institute.',
+'GWI. (2026). The Global Wellness Economy: Country Rankings (2019-2024 data). Global Wellness Institute.',
+'Hall, C. M. (2011). Health and medical tourism: A kill or cure for global public health? Tourism Review, 66(1/2), 4-15.',
+'Hein, A., Schreieck, M., Riasanow, T., Setzke, D. S., Wiesche, M., Böhm, M., & Krcmar, H. (2020). Digital platform ecosystems. Electronic Markets, 30(1), 87-98. https://doi.org/10.1007/s12525-019-00377-4',
+'Hiererra, S. E., Gaol, F. L., Ranti, B., & Supangkat, S. H. (2022). Proposed IT Governance Model for Smart Tourism Destinations based on COBIT 2019 Framework (pp. 499-504). https://doi.org/10.1109/ICIMTech55957.2022.9915077',
+'Huang, G.-Q., & Lin, K.-L. (2021). Well-Designed Food Governance as Psychological Mechanism of Consumer Perceptions in the Context of Tourism Poverty Alleviation. Frontiers in Psychology, 11. https://doi.org/10.3389/fpsyg.2020.590816',
+'ICAP. (2025). Investigación y Extensión en el ICAP. https://icap.ac.cr/investigacion-y-extension/',
+'ICT. (2017). Plan Nacional de Desarrollo Turístico de Costa Rica 2017-2021.',
+'ICT. (2022). Plan Nacional de Turismo de Costa Rica 2022-2027. https://www.ict.go.cr/pdf/Plan%20nacional%20de%20turismo%202022-2027.pdf',
+'ICT. (2024a). Hoja de ruta y portafolio de proyectos. https://www.tec.ac.cr/destinos-turisticos-inteligentes',
+'ICT. (2024b). Plan Nacional y Planes Generales. https://www.ict.go.cr/es/documentos-institucionales/plan-nacional-y-planes-generales.html',
+'ICT. (2025a). Costa Rica recibió 2,6 millones de turistas durante el 2024. https://www.ict.go.cr/es/noticias-destacadas/2397-costa-rica-recibio-2-6-millones-de-turistas-durante-el-2024.html',
+'ICT. (2025b). Turismo superó los US$5400 millones en divisas y aumentó el empleo al cierre del 2024. https://www.ict.go.cr/es/noticias-destacadas/2410-turismo-supero-los-us-5400-millones-en-divisas-y-aumento-el-empleo-al-cierre-del-2024.html',
+'ICT. (2026a). Arenal Volcano National Park. Visit Costa Rica. https://www.visitcostarica.com/where-to-go/protected-areas/arenal-volcano-national-park',
+'ICT. (2026b). Plan Nacional y Planes Generales. https://www.ict.go.cr/es/?view=article&id=61:plan-nacional-y-planes-generales&catid=68',
+'ICT. (2026c). Top 10 de la Llanura Norte. Visit Costa Rica. https://es.visitcostarica.com/where-to-go/northern-plains/top-10-in-northern-plains',
+'Índice de Progreso Social. (2020). ICT. https://www.ict.go.cr/es/administrar-estadistica/cifras-turísticas/ips/1005-ips-2019/file.html',
+'Isenberg, D. J. (2010). How to start an entrepreneurial revolution. Harvard Business Review, 88(6), 40-50.',
+'Ivars-Baidal, J., Casado-Díaz, A. B., Navarro-Ruiz, S., & Fuster-Uguet, M. (2024). Smart tourism city governance: Exploring the impact on stakeholder networks. International Journal of Contemporary Hospitality Management, 36(2), 582-601. https://doi.org/10.1108/IJCHM-03-2022-0322',
+'Iyer, B., Lee, C.-H., & Venkatraman, N. (2006). Managing in a “small world ecosystem”: Lessons from the software sector. California Management Review, 48(3), 28-47.',
+'Jacobides, M. G., Cennamo, C., & Gawer, A. (2018). Towards a theory of ecosystems. Strategic Management Journal, 39(8), 2255-2276. https://doi.org/10.1002/smj.2904',
+'Jessop, B. (2002). The future of the capitalist state (Vol. 1). Polity Cambridge.',
+'Jones, C., Hesterly, W. S., & Borgatti, S. P. (1997). A General Theory of Network Governance: Exchange Conditions and Social Mechanisms. The Academy of Management Review, 22(4), 911. https://doi.org/10.2307/259249',
+'Joppe, M., Brooker, E., & Thomas, K. (2014). Drivers of Innovation in Rural Tourism: The Role of Good Governance and Engaged Entrepreneurs. Journal of Rural & Community Development, 9(4), 49-63.',
+'Kane, G. C. (2017). Digital maturity, not digital transformation. MIT Sloan Management Review, 1(1), 1-15.',
+'Kaspar, C. (1996). Gesundheitstourismus im Trend. Jahrbuch der Schweizer Tourismuswirtschaft. Institut für Tourismus und Verkehrswirtschaft, St. Gallen.',
+'Khan, H. (2011). A literature review of corporate governance. International Conference on E-business, Management and Economics, 25(1), 1-5.',
+'Kirsten, T. G., Van der Walt, H. J., & Viljoen, C. T. (2009). Health, well-being and wellness: An anthropological eco-systemic approach. Health SA Gesondheid, 14(1).',
+'Koncul, N. (2012). Wellness: A new mode of tourism. Economic Research-Ekonomska Istraživanja, 25(2), 503-534.',
+'Kramer, M. R., & Porter, M. (2011). Creating shared value (Vol. 17). FSG.',
+'Lagergren, M. (1998). What is the role and contribution of models to management and research in the health services? A view from Europe. European Journal of Operational Research, 105(2), 257-266.',
+'Lane, B. (1994). What is rural tourism? Journal of Sustainable Tourism, 2(1-2), 7-21. https://doi.org/10.1080/09669589409510680',
+'Lane, B., & Kastenholz, E. (2015). Rural tourism: The evolution of practice and research approaches: Towards a new generation concept? Journal of Sustainable Tourism, 23(8-9), 1133-1156.',
+'UNESCO. (2025). Las directrices. https://www.unesco.org/es/internet-trust/guidelines',
+'Le Moigne, J.-L. (1993). Sur "l’incongruité épistémologique" des sciences de gestion.',
+'Leleux, C., & Webster, W. (2018). Delivering smart governance in a future city: The case of Glasgow. Media and Communication, 6(4), 163-174.',
+'Lequeux-Dincă, A.-I., & Teodorescu, C. (2024). Governance and Development of Tourism in Rural Areas through the Lens of Media in South Bukovina (Romania). Agriculture (Switzerland), 14(9). https://doi.org/10.3390/agriculture14091462',
+'Liao, C., Zuo, Y., Xu, S., Law, R., & Zhang, M. (2023). Dimensions of the health benefits of wellness tourism: A review. Frontiers in Psychology, 13, 1071578.',
+'Lindbeck, A. (1999). The Sveriges Riksbank Prize in Economic Sciences in Memory of Alfred Nobel.',
+'Maholic, J. (2019). IT Strategy: A 3-Dimensional Framework to Plan Your Digital Transformation and Deliver Value to Your Enterprise.',
+'Malone, T. W., & Crowston, K. (1990). What is coordination theory and how can it help design cooperative work systems? Proceedings of the 1990 ACM Conference on Computer-Supported Cooperative Work, 357-370.',
+'Malone, T. W., & Crowston, K. (1994). The interdisciplinary study of coordination. ACM Computing Surveys (CSUR), 26(1), 87-119.',
+'Mandić, A., & Kennell, J. (2021). Smart governance for heritage tourism destinations: Contextual factors and destination management organization perspectives. Tourism Management Perspectives, 39. https://doi.org/10.1016/j.tmp.2021.100862',
+'Manzella, F. J. (2019). What Medical Tourism Tells Us about the Plural Sector of Global Health Diplomacy and Governance: An Organizational Analysis of Civil Society in Rio de Janeiro, Brazil [Tesis doctoral, Case Western Reserve University].',
+'Marsa-Maestre, I., Lopez-Carmona, M. A., Velasco, J. R., & Navarro, A. (2008). Mobile Agents for Service Personalization in Smart Environments. Journal of Networks, 3(5), 30-41.',
+'Means, G. (2017). The modern corporation and private property. Routledge.',
+'MED. (2022). Medellín, destino turístico inteligente [Video]. https://www.youtube.com/watch?v=3qYk56BcVRA',
+'Meijer, A., & Bolívar, M. P. R. (2016). Governing the smart city: A review of the literature on smart urban governance. International Review of Administrative Sciences, 82(2), 392-408. https://doi.org/10.1177/0020852314564308',
+'Michael Hall, C. (2011). A typology of governance and its implications for tourism policy analysis. Journal of Sustainable Tourism, 19(4-5), 437-457. https://doi.org/10.1080/09669582.2011.570346',
+'Mitchell, M. (2009). Complexity: A guided tour. Oxford University Press.',
+'Molina-Azorín, J. F., Tarí, J. J., López-Gamero, M. D., Pereira-Moliner, J., Pertusa-Ortega, E., & Antón López, A. I. (2022). Los destinos turísticos inteligentes y la sostenibilidad. https://rua.ua.es/dspace/handle/10045/125730',
+'Mooij, J. (2003). Smart governance: Politics in the policy process in Andhra Pradesh, India.',
+'Moore, J. F. (1996). The death of competition. Harper Collins.',
+'Moore, J. F. (1993). Predators and prey: A new ecology of competition. Harvard Business Review, 71(3), 75-86.',
+'Morgan, G. (1991). Imágenes de la organización. Alfaomega.',
+'Mueller, H., & Kaufmann, E. L. (2001). Wellness tourism: Market analysis of a special health tourism segment and implications for the hotel industry. Journal of Vacation Marketing, 7(1), 5-17. https://doi.org/10.1177/135676670100700101',
+'Müller, H., & Lanz Kaufmann, E. (2000). Wellness-Tourismus: Eine Analyse des Schweizer Marktes und Konsequenzen für die Hotellerie. The Tourist Review, 55(2), 26-38.',
+'Municipalidad de San Carlos. (2014). Plan de Desarrollo Distrital de La Fortuna 2014-2024. https://www.munisc.go.cr/documentos/Secciones/51/Plan%20desarrollo%20Distrital%20de%20Fortuna.pdf',
+'Nachira, F., Nicolai, A., Dini, P., Le Louarn, M., & Leon, L. R. (2007). Digital business ecosystems.',
+'Naveen Kumar, R., Janani, M., Pavithra, R., & John William, A. (2025). The role of TIAS in shaping smart tourism: Governance perspectives on choosing intelligent destinations. Business Analyst Journal.',
+'O’Brien, J. A., & Marakas, G. M. (2006). Sistemas de información gerencial (7.ª ed.). McGraw-Hill.',
+'OCDE. (2024). Principios de Gobierno Corporativo de la OCDE y del G20 2023. https://doi.org/10.1787/fb38c737-es',
+'OECD. (2024). OECD Tourism Trends and Policies 2024. https://doi.org/10.1787/80885d8b-en',
+'OECD. (2025). OECD Economic Surveys: Costa Rica 2025. https://doi.org/10.1787/048cf07b-en',
+'OECD. (1994). International Tourism in OECD Countries, 1991-1992: Special Feature: Tourism Strategies.',
+'Ormond, M., & Mainil, T. (2015). Government and governance strategies in medical tourism. En Handbook on Medical Tourism and Patient Mobility (pp. 154-163). https://doi.org/10.4337/9781783471195.00025',
+'Ortiz-Pabón, E. (2023). Ecosistemas de negocios, innovación y emprendimiento: Un marco de referencia y un caso de aplicación. Editorial Pontificia Universidad Javeriana.',
+'Ortiz-Pabón, E., Fernández-Mora, L., Nova-Arévalo, N., & González-Rivera, R. (2024). Desafíos digitales: Análisis de la madurez digital de un clúster turístico en seis cantones de Alajuela, Costa Rica. Revista Ibérica de Sistemas e Tecnologias de Informação, (E68), 57-74.',
+'Parisot, X. (2013). Critical perspectives on the business ecosystem ecological metaphor. En Understanding Business Ecosystems. How Firms Succeed in the New World of Convergence? (pp. 21-44). De Boeck.',
+'Parker, G. G., Van Alstyne, M. W., & Choudary, S. P. (2016). Platform revolution: How networked markets are transforming the economy and how to make them work for you. WW Norton & Company.',
+'Pechlaner, H., Baggio, R., Scott, N., & Cooper, C. (2010). Improving tourism destination governance: A complexity science approach. Tourism Review, 65(4), 51-60. https://doi.org/10.1108/16605371011093863',
+'Pechlaner, H., Raich, F., & Kofink, L. (2011). Elements of corporate governance in tourism organizations. Tourismos, 6(3), 57-76.',
+'Pechlaner, H., Volgger, M., & Herntrei, M. (2012). Destination management organizations as interface between destination governance and corporate governance. Anatolia, 23(2), 151-168. https://doi.org/10.1080/13032917.2011.652137',
+'Pencarelli, T. (2020). The digital revolution in the travel and tourism industry. Information Technology & Tourism, 22(3), 455-476. https://doi.org/10.1007/s40558-019-00160-3',
+'Peña-López, I. (2020). El ecosistema de gobernanza pública: Las instituciones como infraestructuras abiertas para la toma de decisiones colectivas. En Política confinada (pp. 53-71).',
+'Pereira, G. V., Parycek, P., Falco, E., & Kleinhans, R. (2018). Smart governance in the context of smart cities: A literature review. Information Polity, 23(2), 143-162. https://doi.org/10.3233/IP-170067',
+'Petrić, L., & Mandić, A. (2022). Smart governance in historic urban destinations: Evidence from Croatia. En A Research Agenda for Urban Tourism (pp. 53-82).',
+'Phaal, R., Farrukh, C., & Probert, D. (2015). Roadmapping for strategy and innovation. Centre for Technology Management, 47, 1-7.',
+'Philipp, J., Thees, H., Olbrich, N., & Pechlaner, H. (2022). Towards an ecosystem of hospitality: The dynamic future of destinations. Sustainability, 14(2), 821.',
+'PNC. (s. f.). Programa Nacional de Clústeres. Recuperado el 19 de junio de 2025. https://mtss.hermes-soft.com/pnc.html',
+'Poder Ejecutivo de la República de Costa Rica. Decreto Ejecutivo N.° 23774-MIRENEM (1994).',
+'Poder Ejecutivo de la República de Costa Rica. Decreto Ejecutivo N.° 37392-TUR-MEIC-COMEX (2012).',
+'Poder Ejecutivo de la República de Costa Rica. Decreto Ejecutivo N.° 41370-MEIC-TUR (2018).',
+'Poder Ejecutivo de la República de Costa Rica. Decreto Ejecutivo N.° 41415-MINAE-MCJ-MEIC-TUR (2018).',
+'Poder Ejecutivo de la República de Costa Rica. Decreto Ejecutivo N.° 43154-H-TUR (2021).',
+'Poder Ejecutivo de la República de Costa Rica. Decreto Ejecutivo N.° 44256-MEIC-TUR (2023).',
+'Poder Ejecutivo de la República de Costa Rica. Decreto Ejecutivo N.° 45738-MP-TUR (2026).',
+'Poder Ejecutivo de la República de Costa Rica. Decreto Ejecutivo N.° 45739-MP-TUR (2026).',
+'Poder Ejecutivo de la República de Costa Rica. Decreto Ejecutivo N.° 45740-MP-TUR (2026).',
+'Prahalad, C. K., & Hammond, A. (2002). Serving the world’s poor, profitably. Harvard Business Review, 80(9), 48-59.',
+'Quintela, J. A., Costa, C., & Correia, A. (2016). Health, wellness and medical tourism: A conceptual approach. Enlightening Tourism. A Pathmaking Journal, 6(1), 1-18.',
+'Rajagopal, M., Sivasakthivel, R., Ramar, G., & Karuppasamy, S. K. (2023). A conceptual framework for AI governance in public administration: A smart governance perspective. 2023 7th International Conference on I-SMAC (IoT in Social, Mobile, Analytics and Cloud) (I-SMAC), 488-495. https://ieeexplore.ieee.org/abstract/document/10290366/',
+'Rajan, R., & Zingales, L. (2000). The governance of the new enterprise. National Bureau of Economic Research.',
+'Reina-Usuga, L., Camino, F., Gomez-Casero, G., & Jara Alba, C. A. (2024). Rural tourism initiatives and their relationship to collaborative governance and perceived value: A review of recent research and trends. Journal of Destination Marketing and Management, 34. https://doi.org/10.1016/j.jdmm.2024.100926',
+'Robeyns, I. (2017). Wellbeing, freedom and social justice: The capability approach re-examined. Open Book Publishers.',
+'Robina-Ramírez, R., Sánchez, M. S.-O., Jiménez-Naranjo, H. V., & Castro-Serrano, J. (2022). Tourism governance during the COVID-19 pandemic crisis: A proposal for a sustainable model to restore the tourism industry. Environment, Development and Sustainability, 24(5), 6391-6412. https://doi.org/10.1007/s10668-021-01707-3',
+'Rodrigues, P., de Oliveira, E. R., Rodrigues, P., & Guerreiro, M. (2020). Knowledge management in sustainable and smart tourism: A review of empirical research. European Conference on Knowledge Management, 694-XXII.',
+'Röntynen, R. (2024). First steps towards ecosystemic governance for health and recreational tourism destinations. European Journal of Studies in Management & Business, 31, 64-79. https://doi.org/10.32038/mbrq.2024.31.05',
+'Rufín, R. (2002). Las empresas turísticas en la sociedad de la información. Editorial Centro de Estudios Ramón Areces.',
+'Ruhanen, L., Scott, N., Ritchie, B., & Tkaczynski, A. (2010). Governance: A review and synthesis of the literature. Tourism Review, 65(4), 4-16.',
+'Ruhlandt, R. W. S. (2018). The governance of smart cities: A systematic literature review. Cities, 81, 1-23.',
+'Ruijer, E., Van Twist, A., Haaker, T., Tartarin, T., Schuurman, N., Melenhorst, M., & Meijer, A. (2023). Smart governance toolbox: A systematic literature review. Smart Cities, 6(2), 878-896.',
+'Salvado, J., Ferreira, A., Serra, J., & Marujo, N. (2020). The creative and cultural tourism ecosystem: A conceptual model.',
+'Sampieri, R. H., Collado, C. F., Lucio, P. B., & Pérez, M. de la L. C. (1998). Metodología de la investigación. McGraw-Hill.',
+'Sánchez, M. R., & Palos-Sánchez, P. (2021). Virtual reality as tool for resilient tourism companies. En Advances in Tourism, Technology and Systems (pp. 35-48). Springer. https://doi.org/10.1007/978-981-33-4256-9_4',
+'Sarhan, S. A. A. (2026). Tourism, services, and customer experience: Expanding the tourism ecosystem to achieve the 2030 targets. Global Academic Journal of Humanities and Social Sciences, 8.',
+'Saxena, G., Clark, G., Oliver, T., & Ilbery, B. (2007). Conceptualizing integrated rural tourism. Tourism Geographies, 9(4), 347-370. https://doi.org/10.1080/14616680701647527',
+'Scholl, H. J., & AlAwadhi, S. (2016). Smart governance as key to multi-jurisdictional smart city initiatives: The case of the eCityGov Alliance. Social Science Information, 55(2), 255-277. https://doi.org/10.1177/0539018416629230',
+'Scholl, H. J., & Scholl, M. C. (2014). Smart governance: A roadmap for research and practice. iConference 2014 Proceedings.',
+'SEGITTUR. (2021). Libro blanco de destinos turísticos inteligentes. Sociedad Mercantil Estatal para la Gestión de la Innovación y las Tecnologías Turísticas.',
+'SEGITTUR. (2024). The Spanish model for smart tourism destination management: A methodological approach.',
+'Sen, A. (1985). Commodities and capabilities. Oxford University Press.',
+'Sen, A. (1990). Development as capability expansion. The Community Development Reader, 41(58), 31-44.',
+'Sen, A. (2014). Development as freedom (1999). En The Globalization and Development Reader: Perspectives on Development and Global Change (p. 525).',
+'Shafiee, S., Ghatari, A. R., Hasanzadeh, A., & Jahanyan, S. (2019). Developing a model for sustainable smart tourism destinations: A systematic review. Tourism Management Perspectives, 31, 287-300.',
+'Shaw, G., & Williams, A. (2009). Knowledge transfer and management in tourism organisations: An emerging research agenda. Tourism Management, 30(3), 325-335.',
+'Sheldon, P. J., Park, S.-Y., Galetic, L., & Cavlek, N. (2008). Sustainable wellness tourism: Governance and entrepreneurship issues. Fourth International Conference: An Enterprise Odyssey: Tourism: Governance and Entrepreneurship, 1969-1982.',
+'Shleifer, A., & Vishny, R. W. (1997). A survey of corporate governance. The Journal of Finance, 52(2), 737-783. https://doi.org/10.1111/j.1540-6261.1997.tb04820.x',
+'SINAC. (2018). Diagnóstico de la situación turística de los actores locales y las comunidades aledañas al Parque Nacional Volcán Arenal.',
+'Smith, M., & Kelly, C. (2006). Wellness tourism. Tourism Recreation Research, 31(1), 1-4. https://doi.org/10.1080/02508281.2006.11081241',
+'Smith, M., & Puczkó, L. (2008). Health and wellness tourism. Routledge.',
+'Soltani, R., & Ghaderi, Z. (2025). Rural tourism initiatives and governance: An insight from Iran. Anatolia: An International Journal of Tourism & Hospitality Research, 1-21. https://doi.org/10.1080/13032917.2025.2475017',
+'Spagnoletti, P., Resca, A., & Lee, G. (2015). A design theory for digital platforms supporting online communities: A multiple case study. Journal of Information Technology, 30(4), 364-380. https://doi.org/10.1057/jit.2014.37',
+'Spremic, M. (2017). Governing digital technology: How mature IT governance can help in digital transformation? International Journal of Economics and Management Systems, 2.',
+'Stacey, R. D. (1996). Complexity and creativity in organizations. Berrett-Koehler Publishers.',
+'Stare, M., & Križaj, D. (2018). Crossing the frontiers between touch points, innovation and experience design in tourism. En Services, Experiences and Innovation (pp. 81-106). Edward Elgar Publishing.',
+'Su, Y., Li, R., Ma, H., & Huang, L. (2022). Adaptive change of institutions and dynamic governance of the tragedy of the tourism commons: Evidence from rural China. Journal of Hospitality and Tourism Management, 53, 32-49. https://doi.org/10.1016/j.jhtm.2022.08.013',
+'Tan, E., & Crompvoets, J. (2022). A new era of digital governance. En The New Digital Era Governance (pp. 13-49). Wageningen Academic.',
+'Tansley, A. G. (1935). The use and abuse of vegetational concepts and terms. Ecology, 16(3), 284-307.',
+'TEC-UE. (2024). Destinos turísticos inteligentes TEC: Informe de diagnóstico y recomendaciones, San Carlos, Costa Rica. https://www.tec.ac.cr/destinos-turisticos-inteligentes',
+'Thibal, S. (1988). Le tourisme rural en Europe. Conseil de l’Europe.',
+'Tiwana, A., Konsynski, B., & Bush, A. A. (2010). Research commentary: Platform evolution: Coevolution of platform architecture, governance, and environmental dynamics. Information Systems Research, 21(4), 675-687. https://doi.org/10.1287/isre.1100.0323',
+'Tobirin, Rokhman, A., Indiahono, D., & Dadan, S. (2023). The bureaucratization of collaborative governance in realizing tourism villages during the COVID-19 pandemic in Winduaji Village, Paguyangan Brebes. KnE Social Sciences, 238-248. https://doi.org/10.18502/kss.v8i3.12831',
+'Tomor, Z., Meijer, A., Michels, A., & Geertman, S. (2019). Smart governance for sustainable cities: Findings from a systematic literature review. Journal of Urban Technology, 26(4), 3-27. https://doi.org/10.1080/10630732.2019.1651178',
+'Tőzsér, A. (2021). Challenges for sustainable tourism using Barcelona as a case study. Turisztikai és Vidékfejlesztési Tanulmányok, 6(2).',
+'Treviño-Villalobos, M., Cardinale-Villalobos, L., Fernández-Mora, L., Víquez-Acuña, L., & González-Quirós, R. (2022). Design of an information system to impulse a process of transformation into a Smart Tourism Destination. Revista Rosa dos Ventos: Turismo e Hospitalidade, 14(3).',
+'UN Tourism. (2025). International tourism recovers pre-pandemic levels in 2024.',
+'UN Tourism. (2026a). World Tourism Barometer, 24(1), enero 2026. https://doi.org/10.18111/wtobarometereng',
+'UN Tourism. (2026b). World Tourism Barometer, mayo 2026. https://doi.org/10.18111/wtobarometereng',
+'UNWTO. (2016). UNWTO Tourism Highlights, 2016 Edition.',
+'UNWTO. (2024). International Tourism Highlights, 2024 Edition.',
+'UNWTO. (2025). Glosario de términos de turismo. https://www.unwto.org/es/glosario-terminos-turisticos',
+'Valderrama, E.-L., Polanco, J.-A., & Hernández-Díaz, P. M. (2025). Does collaborative governance mediate rural tourism to achieve sustainable territory development? Evidence of stakeholders’ perceptions in Colombia. Sustainable Development, 33(1), 493-507. https://doi.org/10.1002/sd.3117',
+'Van de Ven, A. H. (2007). Engaged scholarship: Creating knowledge for science and practice. Oxford University Press.',
+'Van Diggelen, W. (2011). Changing face-to-face communication: Collaborative tools to support small-group discussions in the classroom [Tesis doctoral].',
+'Varghese, B., & Sandhya, H. (2025). Smart tourism eco space: Praxis, policies and governance. En Advancing Smart Tourism Through Analytics (pp. 373-388). IGI Global.',
+'Villalobos, M. T., Villalobos, L. C., Mora, L. F., Acuña, L. V., & Quirós, R. G. (2021). Transformación hacia un destino turístico inteligente: Priorización de los factores estratégicos del destino turístico La Fortuna, Costa Rica. El Periplo Sustentable, (41), 379-410.',
+'Von Haldenwang, C. (2005). Gobernanza sistémica y desarrollo en América Latina. Revista de la CEPAL, 2005(85), 35-52.',
+'Wang, Y., & Xiang, Z. (2007). Toward a theoretical framework of collaborative destination marketing. Journal of Travel Research, 46(1), 75-85. https://doi.org/10.1177/0047287507302384',
+'Watanabe, C., & Fukuda, K. (2006). National innovation ecosystem: The similarity and disparity of Japan-US technology policy systems toward a service-oriented economy, 6(1), 159-186.',
+'Weiss, T. (2000). Governance, good governance, and global governance: Conceptual and actual challenges. En Thinking about Global Governance (pp. 168-189). Routledge.',
+'Westerman, G., Bonnet, D., & McAfee, A. (2014). Leading Digital: Turning Technology Into Business Transformation. Harvard Business Press.',
+'Westerman, G., Calméjane, C., Bonnet, D., Ferraris, P., & McAfee, A. (2011). Digital transformation: A roadmap for billion-dollar organizations. MIT Center for Digital Business and Capgemini Consulting, 1, 1-68.',
+'Wöhler, K. (2008). Gesund durch Gesundheitstourismus? Strategische Herausforderungen und Anforderungen an Tourismusdestinationen.',
+'Xiang, Z., Stienmetz, J., & Fesenmaier, D. R. (2021). Smart Tourism Design: Launching the Annals of Tourism Research curated collection on designing tourism places. Annals of Tourism Research, 86, 103154.',
+'Zhao, X., Cui, L., & Zhang, Y. (2024). The Governance of Rural Tourism Destination under the Eco-bank Model: A Case Study of Jukou Township in Fujian Province. Journal of Resources and Ecology, 15(6), 1666-1678. https://doi.org/10.5814/j.issn.1674-764x.2024.06.022',
+'Zhong, L., Deng, B., Morrison, A. M., Coca-Stefaniak, J. A., & Yang, L. (2021). Medical, health and wellness tourism research: A review of the literature (1970-2020) and research agenda. International Journal of Environmental Research and Public Health, 18(20), 10875.',
+'Zurbriggen, C. (2011). Gobernanza: Una mirada desde América Latina. Perfiles Latinoamericanos, 19(38), 39-64.'
+];
+function linkifyRef(container, ref){
+  const urlRe = /(https?:\/\/[^\s]+)/g;
+  let last = 0, m;
+  while((m = urlRe.exec(ref))){
+    if(m.index > last) container.appendChild(document.createTextNode(ref.slice(last, m.index)));
+    let url = m[0].replace(/[.,;)\]]+$/, '');
+    const trail = m[0].slice(url.length);
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = url;
+    container.appendChild(a);
+    if(trail) container.appendChild(document.createTextNode(trail));
+    last = m.index + m[0].length;
+  }
+  if(last < ref.length) container.appendChild(document.createTextNode(ref.slice(last)));
+}
+function renderBiblio(){
+  const list = document.getElementById('biblioList');
+  if(!list || list.dataset.done) return;
+  const frag = document.createDocumentFragment();
+  BIBLIO.forEach((ref,i)=>{
+    const item = document.createElement('div');
+    item.className = 'biblio-item';
+    item.dataset.q = ref.toLowerCase();
+    const num = document.createElement('span');
+    num.className = 'bi-num';
+    num.textContent = String(i+1).padStart(2,'0');
+    const txt = document.createElement('span');
+    linkifyRef(txt, ref);
+    item.appendChild(num);
+    item.appendChild(txt);
+    frag.appendChild(item);
+  });
+  list.appendChild(frag);
+  list.dataset.done = '1';
+  const count = document.getElementById('biblioCount');
+  if(count) count.textContent = BIBLIO.length;
+  const search = document.getElementById('biblioSearch');
+  if(search) search.addEventListener('input', ()=>{
+    const q = search.value.trim().toLowerCase();
+    let visible = 0;
+    list.querySelectorAll('.biblio-item').forEach(el=>{
+      const show = !q || el.dataset.q.includes(q);
+      el.style.display = show ? '' : 'none';
+      if(show) visible++;
+    });
+    const empty = document.getElementById('biblioEmpty');
+    if(empty) empty.style.display = visible ? 'none' : 'block';
+    updateBiblioScrollHint();
+  });
+  const updateBiblioScrollHint = ()=>{
+    const hint = document.getElementById('biblioScrollHint');
+    const fade = document.getElementById('biblioFade');
+    if(!hint || !fade) return;
+    const atBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 12;
+    hint.classList.toggle('hidden', atBottom);
+    fade.classList.toggle('hidden', atBottom);
+  };
+  list.addEventListener('scroll', updateBiblioScrollHint);
+  window.addEventListener('resize', updateBiblioScrollHint);
+  requestAnimationFrame(updateBiblioScrollHint);
+}
+function openBiblioOverlay(){
+  renderBiblio();
+  const overlay = document.getElementById('biblioOverlay');
+  if(overlay) overlay.classList.add('open');
+}
+function closeBiblioOverlay(){
+  const overlay = document.getElementById('biblioOverlay');
+  if(overlay) overlay.classList.remove('open');
+}
+const $biblioOpenBtn = document.getElementById('biblioOpenBtn');
+if($biblioOpenBtn) $biblioOpenBtn.addEventListener('click', openBiblioOverlay);
+
 function makeFrameFitter(frameId, imgId){
   return function fit(){
     const frame = document.getElementById(frameId);
@@ -1373,6 +1782,12 @@ window.addEventListener('resize', fitObjGeneralFrame);
 const fitPlanOperativoFrame = makeFrameFitter('planOperativoFrame', 'planOperativoImg');
 fitPlanOperativoFrame();
 window.addEventListener('resize', fitPlanOperativoFrame);
+const fitViabilidadFrame = makeFrameFitter('viabilidadFrame', 'viabilidadImg');
+fitViabilidadFrame();
+window.addEventListener('resize', fitViabilidadFrame);
+const fitAnexosFrame = makeFrameFitter('anexosFrame', 'anexosImg');
+fitAnexosFrame();
+window.addEventListener('resize', fitAnexosFrame);
 const fitResultadosFrame = makeFrameFitter('resultadosFrame', 'resultadosImg');
 fitResultadosFrame();
 window.addEventListener('resize', fitResultadosFrame);

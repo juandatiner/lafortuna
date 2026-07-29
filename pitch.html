@@ -6,7 +6,7 @@
 <title>Gobernanza Inteligente DTLF — Sustentación de Anteproyecto</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;900&family=Bitter:ital,wght@0,700;0,800;1,600;1,700;1,800&display=swap" rel="stylesheet">
 <style>
 :root{
   --night:#050F0D;
@@ -656,14 +656,21 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 /* ===== Cierre ===== */
 .cierre-slide{align-items:center;justify-content:center;padding:0!important}
 .cierre-stage{position:relative;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:1}
-.cierre-spark{position:absolute;inset:-18% -8%;z-index:0;pointer-events:none;background:radial-gradient(circle at 50% 42%,rgba(227,168,59,.28) 0%,rgba(227,168,59,.08) 34%,transparent 62%)}
+.cierre-spark{position:absolute;inset:-18% -8%;z-index:0;pointer-events:none;background:radial-gradient(circle at 50% 42%,rgba(227,168,59,.13) 0%,rgba(227,168,59,.035) 34%,transparent 62%)}
 .cierre-eyebrow{font-size:12px;letter-spacing:5px;text-transform:uppercase;color:rgba(251,246,236,.68);font-weight:800;margin-bottom:6px}
-.cierre-mega{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(90px,13.5vw,210px);line-height:1.12;padding-top:.08em;letter-spacing:-4px;color:var(--gold-light);filter:drop-shadow(0 18px 40px rgba(0,0,0,.4))}
-.slide.cierre-slide .cierre-thanks{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:clamp(22px,2.1vw,30px);color:var(--cream)!important;max-width:620px;margin-top:24px}
+.cierre-mega{font-family:'Bitter','Playfair Display',serif;font-style:italic;font-weight:800;font-size:clamp(60px,8.2vw,132px);line-height:1.06;padding-top:.08em;letter-spacing:-2.5px;color:var(--gold-light);filter:drop-shadow(0 18px 40px rgba(0,0,0,.4))}
+.slide.cierre-slide .cierre-thanks{font-family:'Bitter','Playfair Display',serif;font-style:italic;font-weight:600;font-size:clamp(22px,2.1vw,32px);line-height:1.42;color:var(--cream)!important;max-width:1120px;margin-top:26px}
 .cierre-sign{margin-top:22px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(251,246,236,.55);font-weight:700}
 
 /* ===== Bibliografía (pantalla clara con links clicables) ===== */
-.biblio-wrap{position:relative;flex:1;display:flex;min-height:0;margin-top:24px}
+.biblio-wrap{position:relative;flex:1;display:flex;min-height:0;margin-top:14px}
+/* Declaración de uso de IA generativa */
+.ia-notice{flex-shrink:0;margin-top:14px;border:1px solid rgba(251,246,236,.22);border-left:6px solid var(--gold);border-radius:22px;background:var(--cream);padding:14px 22px;overflow:hidden}
+.ia-notice-head{display:flex;align-items:center;gap:9px;font-weight:800;font-size:13.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--forest);margin-bottom:7px}
+.ia-notice-head svg.ic{font-size:16px;flex-shrink:0;color:var(--gold)}
+.ia-notice-body{font-size:14px;line-height:1.6;color:var(--text);margin:0}
+.ia-notice-body b{color:var(--forest);font-weight:800}
+.ia-notice-body i{font-style:italic;color:var(--text)}
 .biblio-card{position:relative;width:100%;display:flex;flex-direction:column;background:var(--cream);border:1px solid rgba(251,246,236,.22);border-radius:22px;overflow:hidden}
 .biblio-meta{padding:22px 38px 2px;color:var(--text-soft);font-size:13px;font-weight:700;flex-shrink:0}
 .biblio-list{flex:1;min-height:0;overflow-y:auto;padding:12px 38px 26px;display:flex;flex-direction:column}
@@ -1094,8 +1101,8 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
     <div class="cierre-spark"></div>
     <div class="cierre-stage">
       <span class="cierre-eyebrow">Modelo de Gobernanza Inteligente · La Fortuna 2030</span>
-      <h1 class="cierre-mega">Frase</h1>
-      <p class="cierre-thanks">Frase.</p>
+      <h1 class="cierre-mega">¡Pura Vida!</h1>
+      <p class="cierre-thanks">Señores miembros del tribunal, este anteproyecto ofrece una propuesta novedosa y aplicable, con potencial para orientar PP en turismo inteligente, fortalecer la gobernanza del DTLF y aportar una referencia transferible para CR y otros destinos de América Latina. Muchas gracias por su atención y quedo atenta a sus preguntas.</p>
       <span class="cierre-sign">Lady Fernández Mora · ICAP</span>
     </div>
     <button class="print-pdf-btn" id="printPdfBtn" title="Generar PDF de toda la presentación">${icon-printer}</button>
@@ -1103,6 +1110,10 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 
   <section class="slide biblio-slide" data-section="Bibliografía">
     <div class="slide-eyebrow">${icon-link}14 · Referencias bibliográficas</div>
+    <div class="ia-notice">
+      <div class="ia-notice-head">${icon-spark}Declaración de uso de IA generativa</div>
+      <p class="ia-notice-body">Las imágenes que acompañan la presentación de la sustentación de este anteproyecto fueron elaboradas utilizando como herramienta de trabajo <b>ChatGPT</b>. La fuente de información utilizada para su elaboración fue el documento titulado: <i>“Modelo de Gobernanza Inteligente en Turismo de Bienestar para el Destino Turístico de La Fortuna, Costa Rica 2030”</i>. <b>Autora:</b> Lady Fernández Mora.</p>
+    </div>
     <div class="biblio-wrap">
       <div class="biblio-card">
         <div class="biblio-meta"><span id="biblioCount"></span> fuentes citadas</div>

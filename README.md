@@ -23,4 +23,3 @@ Abre `http://localhost:3000`.
 - `pitch.html` — presentación completa (HTML/CSS/JS inline).
 - `assets/` — imágenes usadas por la presentación.
 - `server.js` — servidor estático (sin dependencias) usado en producción.
-- `shot.js`, `shot2.js` — scripts de captura de pantalla con Playwright (uso de desarrollo, no se ejecutan en producción).

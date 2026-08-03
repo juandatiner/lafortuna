@@ -1197,6 +1197,8 @@ function go(i){
   i = Math.max(0, Math.min(slides.length-1, i));
   document.querySelectorAll('.preg-overlay.open, .mt-table-overlay.open').forEach(o=>o.classList.remove('open'));
   document.querySelectorAll('.photo-frame.marker-open').forEach(f=>f.classList.remove('marker-open'));
+  const mmImg = document.getElementById('mmImgOverlayImg');
+  if(mmImg) mmImg.style.visibility = 'hidden';
   if(window.__closeImgLightbox && document.getElementById('imgLightbox').classList.contains('active')) window.__closeImgLightbox();
   slides[current].classList.remove('active');
   slides[current].classList.toggle('prev', i>current);
@@ -1888,12 +1890,20 @@ function openMmImgOverlay(src){
   const overlay = document.getElementById('mmImgOverlay');
   const img = document.getElementById('mmImgOverlayImg');
   if(!overlay || !img) return;
+  if(img.src.endsWith(src)){
+    overlay.classList.add('open');
+    return;
+  }
+  img.style.visibility = 'hidden';
+  img.onload = function(){ img.style.visibility = 'visible'; };
   img.src = src;
   overlay.classList.add('open');
 }
 function closeMmImgOverlay(){
   const overlay = document.getElementById('mmImgOverlay');
   if(overlay) overlay.classList.remove('open');
+  const img = document.getElementById('mmImgOverlayImg');
+  if(img) img.style.visibility = 'hidden';
 }
 function openMarcoMetoMarker(i){
   if(i===2){

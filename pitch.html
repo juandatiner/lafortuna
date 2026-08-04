@@ -140,7 +140,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 
 /* ===== Top progress ===== */
 .progress-bar{position:fixed;top:0;left:0;right:0;display:flex;background:var(--cream);z-index:50;border-bottom:1px solid rgba(5,15,13,.12);box-shadow:0 8px 20px rgba(5,15,13,.08);overflow-x:auto}
-.progress-step{flex:1 1 0;min-width:64px;padding:9px 5px;text-align:center;font-size:10px;font-weight:900;color:var(--text-muted);cursor:pointer;transition:all .25s;border-right:1px solid rgba(5,15,13,.06);position:relative;text-transform:uppercase;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;gap:5px;min-height:42px;line-height:1.15;overflow:hidden}
+.progress-step{flex:1 1 auto;min-width:0;padding:8px 3px;text-align:center;font-size:10px;font-weight:900;color:var(--text-muted);cursor:pointer;transition:all .25s;border-right:1px solid rgba(5,15,13,.06);position:relative;text-transform:uppercase;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;gap:3px;min-height:42px;line-height:1.15;overflow:hidden}
 .progress-step .ps-num{font-weight:900;color:var(--volcano);font-size:10.5px;flex-shrink:0}
 .progress-step .ps-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
 .progress-step:last-child{border-right:none}
@@ -595,7 +595,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
   .brand-full{display:none}
   .brand{padding:8px 10px}
   .progress-bar{padding-bottom:2px}
-  .progress-step{min-width:50px;font-size:8.2px;min-height:38px}
+  .progress-step{min-width:0;padding:8px 2px;gap:2px;font-size:8.2px;min-height:38px}
   .photo-frame{max-width:210px}
   .tabbar{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
   .tabbtn{justify-content:center;padding:10px 8px}
@@ -639,7 +639,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 /* small phone */
 @media (max-width:400px){
   .slide{padding:58px 14px 32px}
-  .progress-step{min-width:44px;font-size:7.6px}
+  .progress-step{min-width:0;padding:7px 1px;gap:2px;font-size:7.6px}
   .progress-step .ps-num{font-size:9px}
   .cifras-bento{grid-template-columns:minmax(0,1fr)}
   .cifra.hl{grid-column:span 1}
@@ -796,6 +796,35 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
   if(mq.addEventListener) mq.addEventListener('change', applyMode);
   else mq.addListener(applyMode);
   window.addEventListener('orientationchange', function(){ setTimeout(applyMode, 50); });
+})();
+</script>
+
+<script>
+/* Aislamiento por slide: ningún elemento de una slide inactiva puede recibir
+   interacción ni abrir su contenido, aunque quede solapado en pantalla. */
+(function(){
+  function slideOf(el){
+    return (el && el.closest) ? el.closest('.slide') : null;
+  }
+  function belongsToActiveSlide(el){
+    var owner = (el && el.closest) ? el.closest('[data-owner-slide]') : null;
+    if(owner){
+      var slides = document.querySelectorAll('.slide');
+      var idx = +owner.dataset.ownerSlide;
+      return !!slides[idx] && slides[idx].classList.contains('active');
+    }
+    var s = slideOf(el);
+    return !s || s.classList.contains('active');
+  }
+  window.__belongsToActiveSlide = belongsToActiveSlide;
+
+  ['pointerdown','mousedown','click','dblclick','touchstart','keydown'].forEach(function(type){
+    document.addEventListener(type, function(e){
+      if(belongsToActiveSlide(e.target)) return;
+      e.stopImmediatePropagation();
+      if(type !== 'keydown') e.preventDefault();
+    }, true);
+  });
 })();
 </script>
 
@@ -1195,6 +1224,7 @@ const $steps = document.querySelectorAll('.progress-step');
 
 function go(i){
   i = Math.max(0, Math.min(slides.length-1, i));
+  if(document.activeElement && document.activeElement.closest && document.activeElement.closest('.slide')) document.activeElement.blur();
   document.querySelectorAll('.preg-overlay.open, .mt-table-overlay.open').forEach(o=>o.classList.remove('open'));
   document.querySelectorAll('.photo-frame.marker-open').forEach(f=>f.classList.remove('marker-open'));
   const mmImg = document.getElementById('mmImgOverlayImg');
@@ -1366,6 +1396,7 @@ const OBJESP_INFO = [
   {t:'4. Validación del modelo', d:'Validar el modelo propuesto en términos de completitud, coherencia y consistencia para asegurar su transferibilidad y aplicabilidad en el ecosistema del DTLF.'}
 ];
 function openObjEspMarker(i){
+  if(!window.__belongsToActiveSlide(document.getElementById('objEspOverlay'))) return;
   document.getElementById('objEspOverlayTitle').textContent = OBJESP_INFO[i].t;
   document.getElementById('objEspOverlayBody').textContent = OBJESP_INFO[i].d;
   const overlay = document.getElementById('objEspOverlay');
@@ -1406,6 +1437,7 @@ window.addEventListener('resize', fitObjEspFrame);
 /* ===== Pregunta: preguntas específicas ===== */
 function openPregOverlay(){
   const overlay = document.getElementById('pregOverlay');
+  if(!window.__belongsToActiveSlide(overlay)) return;
   if(overlay) overlay.classList.add('open');
 }
 function closePregOverlay(){
@@ -1842,7 +1874,7 @@ function setMarcoTeoAcc(i){
 }
 function openMarcoTeoMarker(i){
   const overlay = document.getElementById('mtTableOverlay');
-  if(!overlay) return;
+  if(!overlay || !window.__belongsToActiveSlide(overlay)) return;
   overlay.classList.add('open');
   setMarcoTeoAcc(i);
 }
@@ -1889,7 +1921,7 @@ const MARCOMETO_OBJ_IMAGES = ['assets/mm-obj1.png', 'assets/mm-obj2.png', 'asset
 function openMmImgOverlay(src){
   const overlay = document.getElementById('mmImgOverlay');
   const img = document.getElementById('mmImgOverlayImg');
-  if(!overlay || !img) return;
+  if(!overlay || !img || !window.__belongsToActiveSlide(overlay)) return;
   if(img.src.endsWith(src)){
     overlay.classList.add('open');
     return;
@@ -1908,7 +1940,7 @@ function closeMmImgOverlay(){
 function openMarcoMetoMarker(i){
   if(i===2){
     const overlay = document.getElementById('mmProcesoOverlay');
-    if(overlay) overlay.classList.add('open');
+    if(overlay && window.__belongsToActiveSlide(overlay)) overlay.classList.add('open');
     return;
   }
   openMmImgOverlay(MARCOMETO_IMAGES[i]);
@@ -2113,7 +2145,12 @@ if($printBtn) $printBtn.addEventListener('click', generatePitchPDF);
 <script>
 ['pregOverlay','mtTableOverlay','mmImgOverlay','mmProcesoOverlay','objEspOverlay'].forEach(function(id){
   var el=document.getElementById(id);
-  if(el && el.parentNode!==document.body) document.body.appendChild(el);
+  if(!el || el.parentNode===document.body) return;
+  /* Al sacar el overlay de su slide se pierde el vínculo: lo guardamos como índice
+     para que la guarda de aislamiento siga sabiendo a qué pantalla pertenece. */
+  var owner=el.closest('.slide');
+  if(owner) el.dataset.ownerSlide=[].indexOf.call(document.querySelectorAll('.slide'), owner);
+  document.body.appendChild(el);
 });
 </script>
 <script>

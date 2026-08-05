@@ -1074,22 +1074,18 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
       </div>
     </div>
     <!-- overlay: imagen simple (filosofía / estrategia) -->
-    <div class="preg-overlay mm-nested" id="mmImgOverlay" onclick="if(event.target===this) closeMmImgOverlay()">
-      <div class="preg-card">
-        <div class="preg-card-img"><img id="mmImgOverlayImg" src="" alt=""></div>
-      </div>
+    <div class="preg-overlay mm-nested" id="mmImgOverlay" style="align-items:center;padding-top:6vh" onclick="if(event.target===this) closeMmImgOverlay()">
+      <div class="preg-card preg-card-img preg-esp"><img id="mmImgOverlayImg" src="" alt=""></div>
     </div>
     <!-- overlay: métodos y proceso, con 4 puntos de información -->
-    <div class="preg-overlay" id="mmProcesoOverlay" onclick="if(event.target===this) closeMmProcesoOverlay()">
-      <div class="preg-card">
-        <div class="preg-card-img" id="mmProcesoImgWrap">
-          <img src="assets/mm-metodos-proceso.png" alt="Métodos y proceso de investigación">
-          <div class="marker-layer" id="mmProcesoMarkers" style="position:absolute;inset:0">
-            <button class="img-marker img-marker-sm mm-obj-marker" style="left:16.6%;top:33%" data-oi="0">+</button>
-            <button class="img-marker img-marker-sm mm-obj-marker" style="left:38.5%;top:33%" data-oi="1">+</button>
-            <button class="img-marker img-marker-sm mm-obj-marker" style="left:56%;top:33%" data-oi="2">+</button>
-            <button class="img-marker img-marker-sm mm-obj-marker" style="left:75.5%;top:33%" data-oi="3">+</button>
-          </div>
+    <div class="preg-overlay" id="mmProcesoOverlay" style="align-items:center;padding-top:6vh" onclick="if(event.target===this) closeMmProcesoOverlay()">
+      <div class="preg-card preg-card-img preg-esp" id="mmProcesoImgWrap">
+        <img src="assets/mm-metodos-proceso.png" alt="Métodos y proceso de investigación">
+        <div class="marker-layer" id="mmProcesoMarkers" style="position:absolute;inset:0">
+          <button class="img-marker img-marker-sm mm-obj-marker" style="left:16.6%;top:33%" data-oi="0">+</button>
+          <button class="img-marker img-marker-sm mm-obj-marker" style="left:38.5%;top:33%" data-oi="1">+</button>
+          <button class="img-marker img-marker-sm mm-obj-marker" style="left:56%;top:33%" data-oi="2">+</button>
+          <button class="img-marker img-marker-sm mm-obj-marker" style="left:75.5%;top:33%" data-oi="3">+</button>
         </div>
       </div>
     </div>
@@ -1240,6 +1236,7 @@ function go(i){
   $prev.disabled = i===0;
   $next.disabled = i===slides.length-1;
   if(i===1) requestAnimationFrame(drawSnakePath);
+  if(slides[i].dataset.section === 'Marco Metodológico') prefetchMarcoMetoImages();
   localStorage.setItem('lafortuna_current_slide', i);
 }
 function nextSlide(){ go(current+1); }
@@ -1918,6 +1915,12 @@ window.addEventListener('resize', fitMarcoTeoFrame);
 /* ===== Marco Metodológico: badges pulsantes ===== */
 const MARCOMETO_IMAGES = ['assets/mm-filosofia.png', 'assets/mm-estrategia.png'];
 const MARCOMETO_OBJ_IMAGES = ['assets/mm-obj1.png', 'assets/mm-obj2.png', 'assets/mm-obj3.png', 'assets/mm-obj4.png'];
+let __mmPrefetched = false;
+function prefetchMarcoMetoImages(){
+  if(__mmPrefetched) return;
+  __mmPrefetched = true;
+  MARCOMETO_IMAGES.concat(MARCOMETO_OBJ_IMAGES).forEach(src=>{ const im = new Image(); im.src = src; });
+}
 function openMmImgOverlay(src){
   const overlay = document.getElementById('mmImgOverlay');
   const img = document.getElementById('mmImgOverlayImg');

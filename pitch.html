@@ -1126,7 +1126,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
     <div class="cierre-spark"></div>
     <div class="cierre-stage">
       <span class="cierre-eyebrow">Modelo de Gobernanza Inteligente · La Fortuna 2030</span>
-      <h1 class="cierre-mega">¡Pura Vida!</h1>
+      <h1 class="cierre-mega">¡Muchas Gracias!</h1>
       <p class="cierre-thanks">Señores miembros del tribunal, este anteproyecto ofrece una propuesta novedosa y aplicable, con potencial para orientar PP en turismo inteligente, fortalecer la gobernanza del DTLF y aportar una referencia transferible para CR y otros destinos de América Latina. Muchas gracias por su atención y quedo atenta a sus preguntas.</p>
       <span class="cierre-sign">LADY FERNÁNDEZ MORA · Doctoranda ICAP</span>
     </div>
@@ -2036,7 +2036,15 @@ function stripLiveState(node){
   node.querySelectorAll('.preg-overlay, .mt-table-overlay').forEach(el=>el.remove());
   node.querySelectorAll('#snakeSvg line').forEach(l=>l.remove());
   const motVisual = node.querySelector('#motVisual');
-  if(motVisual) motVisual.innerHTML = motPhotoHTML(null);
+  if(motVisual){
+    motVisual.innerHTML = motPhotoHTML(null);
+    /* fitMotVisualImage() dejó un width/height en px calculado para el viewport
+       en pantalla; en el PDF la página tiene otro tamaño, así que se descarta
+       ese cálculo y se deja que el CSS (mot-visual-fit removido) estire la caja */
+    motVisual.style.width = '';
+    motVisual.style.height = '';
+    motVisual.classList.remove('mot-visual-fit');
+  }
   const printBtn = node.querySelector('#printPdfBtn');
   if(printBtn) printBtn.remove();
   /* la portada usa animación de entrada (landingIn); en el PDF no hay tiempo

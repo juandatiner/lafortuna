@@ -2039,6 +2039,13 @@ function stripLiveState(node){
   if(motVisual) motVisual.innerHTML = motPhotoHTML(null);
   const printBtn = node.querySelector('#printPdfBtn');
   if(printBtn) printBtn.remove();
+  /* la portada usa animación de entrada (landingIn); en el PDF no hay tiempo
+     de que corra, así que se fuerza el estado final para que no quede invisible */
+  node.querySelectorAll('.cover-kicker,.cover-rule,.cover h1,.cover .tagline,.cover-fields,.cover-photo').forEach(el=>{
+    el.style.animation = 'none';
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+  });
 }
 
 function buildMainPrintPage(idx){
@@ -2126,6 +2133,7 @@ function buildMotDetailPage(i){
 
 function buildPrintPages(){
   const pages = [];
+  pages.push(buildMainPrintPage(0)); // Portada, primera página del PDF
   PRINT_ORDER.forEach(idx=>{
     pages.push(buildMainPrintPage(idx));
     const section = slides[idx].dataset.section;

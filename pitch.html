@@ -91,8 +91,8 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 .preg-overlay.open .preg-card{transform:scale(1)}
 .preg-card-img{position:relative;display:inline-block;border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55)}
 .preg-card-img img{display:block;width:auto;height:auto;max-width:94vw;max-height:82vh;border-radius:20px}
-.preg-card-img.preg-esp{max-width:98vw;max-height:94vh}
-.preg-card-img.preg-esp img{max-width:98vw;max-height:94vh}
+.preg-card-img.preg-esp{max-width:90vw;max-height:90vh}
+.preg-card-img.preg-esp img{max-width:90vw;max-height:90vh}
 
 .mt-table-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:88px 1.5vw 2.2vh;background:rgba(4,10,9,.72);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s ease}
 .mt-table-overlay.open{opacity:1;pointer-events:auto}
@@ -1407,6 +1407,9 @@ function closeObjEspMarker(e){
 document.querySelectorAll('#objEspMarkers .img-marker').forEach(b=>{
   b.addEventListener('click', ()=> openObjEspMarker(+b.dataset.i));
 });
+/* Frames con transform:scale(1.08) decorativo (ver CSS) se ajustan a 1/1.08
+   del wrap para que el zoom no se salga del slide en pantallas grandes */
+const FRAME_ZOOM = 1.08;
 function fitObjEspFrame(){
   const frame = document.getElementById('objEspFrame');
   if(!frame) return;
@@ -1418,10 +1421,11 @@ function fitObjEspFrame(){
     frame.style.height = '';
     const box = wrap.getBoundingClientRect();
     if(!box.width || !box.height){ requestAnimationFrame(apply); return; }
+    const bw = box.width / FRAME_ZOOM, bh = box.height / FRAME_ZOOM;
     const ratio = img.naturalWidth / img.naturalHeight;
     let w, h;
-    if(box.width / box.height > ratio){ h = box.height; w = h * ratio; }
-    else { w = box.width; h = w / ratio; }
+    if(bw / bh > ratio){ h = bh; w = h * ratio; }
+    else { w = bw; h = w / ratio; }
     frame.style.width = Math.floor(w) + 'px';
     frame.style.height = Math.floor(h) + 'px';
   };
@@ -1777,10 +1781,11 @@ function makeFrameFitter(frameId, imgId){
       frame.style.height = '';
       const box = wrap.getBoundingClientRect();
       if(!box.width || !box.height){ requestAnimationFrame(apply); return; }
+      const bw = box.width / FRAME_ZOOM, bh = box.height / FRAME_ZOOM;
       const ratio = img.naturalWidth / img.naturalHeight;
       let w, h;
-      if(box.width / box.height > ratio){ h = box.height; w = h * ratio; }
-      else { w = box.width; h = w / ratio; }
+      if(bw / bh > ratio){ h = bh; w = h * ratio; }
+      else { w = bw; h = w / ratio; }
       frame.style.width = Math.floor(w) + 'px';
       frame.style.height = Math.floor(h) + 'px';
     };
@@ -1899,10 +1904,11 @@ function fitMarcoTeoFrame(){
     frame.style.height = '';
     const box = wrap.getBoundingClientRect();
     if(!box.width || !box.height){ requestAnimationFrame(apply); return; }
+    const bw = box.width / FRAME_ZOOM, bh = box.height / FRAME_ZOOM;
     const ratio = img.naturalWidth / img.naturalHeight;
     let w, h;
-    if(box.width / box.height > ratio){ h = box.height; w = h * ratio; }
-    else { w = box.width; h = w / ratio; }
+    if(bw / bh > ratio){ h = bh; w = h * ratio; }
+    else { w = bw; h = w / ratio; }
     frame.style.width = Math.floor(w) + 'px';
     frame.style.height = Math.floor(h) + 'px';
   };
@@ -1969,10 +1975,11 @@ function fitMarcoMetoFrame(){
     frame.style.height = '';
     const box = wrap.getBoundingClientRect();
     if(!box.width || !box.height){ requestAnimationFrame(apply); return; }
+    const bw = box.width / FRAME_ZOOM, bh = box.height / FRAME_ZOOM;
     const ratio = img.naturalWidth / img.naturalHeight;
     let w, h;
-    if(box.width / box.height > ratio){ h = box.height; w = h * ratio; }
-    else { w = box.width; h = w / ratio; }
+    if(bw / bh > ratio){ h = bh; w = h * ratio; }
+    else { w = bw; h = w / ratio; }
     frame.style.width = Math.floor(w) + 'px';
     frame.style.height = Math.floor(h) + 'px';
   };

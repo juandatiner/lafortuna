@@ -1922,23 +1922,36 @@ window.addEventListener('resize', fitMarcoTeoFrame);
 const MARCOMETO_IMAGES = ['assets/mm-filosofia.png', 'assets/mm-estrategia.png'];
 const MARCOMETO_OBJ_IMAGES = ['assets/mm-obj1.png', 'assets/mm-obj2.png', 'assets/mm-obj3.png', 'assets/mm-obj4.png'];
 let __mmPrefetched = false;
+function prefetchOne(src, attempt){
+  const im = new Image();
+  im.onerror = function(){
+    if(attempt < 2) setTimeout(()=> prefetchOne(src, attempt + 1), 500 * (attempt + 1));
+  };
+  im.src = src;
+}
 function prefetchMarcoMetoImages(){
   if(__mmPrefetched) return;
   __mmPrefetched = true;
-  MARCOMETO_IMAGES.concat(MARCOMETO_OBJ_IMAGES).forEach(src=>{ const im = new Image(); im.src = src; });
+  MARCOMETO_IMAGES.concat(MARCOMETO_OBJ_IMAGES).forEach(src=> prefetchOne(src, 0));
+}
+function loadMmImg(img, src, attempt){
+  img.style.visibility = 'hidden';
+  img.onload = function(){ img.dataset.loadedSrc = src; img.style.visibility = 'visible'; };
+  img.onerror = function(){
+    if(attempt < 3) setTimeout(()=> loadMmImg(img, src, attempt + 1), 500 * (attempt + 1));
+  };
+  img.src = src;
 }
 function openMmImgOverlay(src){
   const overlay = document.getElementById('mmImgOverlay');
   const img = document.getElementById('mmImgOverlayImg');
   if(!overlay || !img || !window.__belongsToActiveSlide(overlay)) return;
-  if(img.src.endsWith(src)){
-    overlay.classList.add('open');
+  overlay.classList.add('open');
+  if(img.dataset.loadedSrc === src && img.complete && img.naturalWidth){
+    img.style.visibility = 'visible';
     return;
   }
-  img.style.visibility = 'hidden';
-  img.onload = function(){ img.style.visibility = 'visible'; };
-  img.src = src;
-  overlay.classList.add('open');
+  loadMmImg(img, src, 0);
 }
 function closeMmImgOverlay(){
   const overlay = document.getElementById('mmImgOverlay');

@@ -35,7 +35,11 @@ http.createServer((req, res) => {
       return res.end('Not found');
     }
     const ext = path.extname(filePath).toLowerCase();
-    res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream' });
+    const headers = { 'Content-Type': MIME[ext] || 'application/octet-stream' };
+    if (filePath.includes(`${path.sep}assets${path.sep}`)) {
+      headers['Cache-Control'] = 'public, max-age=604800, immutable';
+    }
+    res.writeHead(200, headers);
     res.end(data);
   });
 }).listen(PORT, () => console.log(`Server running on port ${PORT}`));

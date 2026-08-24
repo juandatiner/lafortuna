@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tesis — Gobernanza Inteligente DTLF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shell.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+.topbar{display:flex;align-items:center;gap:8px}
+.brand{display:flex;align-items:center;gap:6px;background:#FFFFFF;padding:5px 10px;border-radius:999px;box-shadow:0 4px 14px rgba(5,15,13,.09);font-weight:800;color:#0E332C;font-size:11px;letter-spacing:.2px}
+.brand-dot{width:6px;height:6px;border-radius:50%;background:#0C7A78;flex-shrink:0}
+
+/* ===== Tesis content system ===== */
+.tc-wrap{position:absolute;inset:0;overflow-y:auto;padding:44px 56px 72px;background:
+  radial-gradient(circle at 30% 0%, rgba(10,163,160,.08) 0%, transparent 42%),
+  var(--shell-base,#F6F3EC)}
+.tc-eyebrow{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#0C7A78;margin-bottom:10px}
+.tc-title{font-family:'Playfair Display',serif;font-weight:800;font-size:1.9rem;color:#16211C;margin-bottom:16px;max-width:900px;letter-spacing:-.3px}
+.tc-lead{background:linear-gradient(160deg,#0E332C 0%,#123c33 100%);color:#FBF6EC;border-radius:18px;padding:22px 26px;font-size:1rem;line-height:1.65;margin-bottom:26px;max-width:980px;box-shadow:0 14px 34px rgba(16,27,22,.18)}
+.tc-lead b{color:#FFD37A}
+.tc-section-label{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#16211C;margin:26px 0 12px;display:flex;align-items:center;gap:8px}
+.tc-section-label:first-of-type{margin-top:0}
+.tc-section-label::after{content:'';flex:1;height:1px;background:rgba(16,27,22,.12)}
+
+.tc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-bottom:8px}
+.tc-card{background:rgba(255,255,255,.7);border:1px solid rgba(16,27,22,.08);border-radius:16px;padding:15px 17px;box-shadow:0 8px 22px rgba(16,27,22,.05)}
+.tc-card.tc-card-core{border-color:rgba(227,168,59,.5);background:rgba(255,247,225,.7)}
+.tc-card-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#0E332C;color:#FFD37A;font-weight:800;font-size:11px;margin-bottom:9px}
+.tc-card h4{font-size:.92rem;font-weight:800;color:#16211C;margin-bottom:6px;line-height:1.3}
+.tc-card p{font-size:.82rem;line-height:1.5;color:#5C6A62}
+.tc-card ul{margin:0;padding-left:16px;font-size:.8rem;line-height:1.6;color:#5C6A62}
+.tc-card ul li::marker{color:#0C7A78}
+
+.tc-stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:8px}
+.tc-stat{background:rgba(255,255,255,.55);border:1px solid rgba(16,27,22,.08);border-radius:14px;padding:13px 15px;font-size:.82rem;line-height:1.5;color:#3E4C43}
+.tc-stat b{color:#0C7A78}
+
+.tc-callout{background:#0E332C;color:#FBF6EC;border-radius:16px;padding:17px 20px;font-size:.88rem;line-height:1.6;margin-top:10px}
+.tc-callout b{color:#FFD37A}
+
+.tc-tag{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(12,122,120,.13);color:#0C7A78;flex-shrink:0}
+.tc-tag-explicativa{background:#E3A83B;color:#16211C}
+
+.tc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.tc-chip{background:rgba(255,255,255,.7);border:1px solid rgba(16,27,22,.1);border-radius:999px;padding:8px 15px;font-size:.82rem;font-weight:700;color:#16211C}
+
+/* big non-collapsible theory cards (marco teórico) */
+.tc-theory{border:1px solid rgba(16,27,22,.08);border-radius:18px;background:rgba(255,255,255,.65);padding:16px 20px;margin-bottom:12px;box-shadow:0 8px 22px rgba(16,27,22,.05)}
+.tc-theory.tc-theory-core{border-color:rgba(227,168,59,.5);background:rgba(255,247,225,.75)}
+.tc-theory-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.tc-theory-num{font-family:'Playfair Display',serif;font-weight:900;color:#E3A83B;font-size:.95rem;width:24px;flex-shrink:0}
+.tc-theory-name{flex:1;font-weight:800;font-size:1rem;color:#16211C}
+.tc-theory-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.tc-theory-fields label{display:block;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#0C7A78;margin-bottom:3px}
+.tc-theory-fields p{font-size:.82rem;line-height:1.5;color:#3E4C43}
+.tc-theory-fields ul{margin:0;padding-left:16px;font-size:.82rem;line-height:1.55;color:#3E4C43}
+
+/* compact meta block: objetivo general / pregunta general / pregunta específica */
+.tc-meta{margin-bottom:22px;border:1px solid rgba(16,27,22,.08);border-radius:14px;background:rgba(255,255,255,.42);overflow:hidden;max-width:980px}
+.tc-meta-row{display:flex;gap:16px;padding:10px 16px;border-bottom:1px solid rgba(16,27,22,.06)}
+.tc-meta-row:last-child{border-bottom:none}
+.tc-meta-row label{flex:0 0 150px;font-weight:800;color:#5C6A62;text-transform:uppercase;font-size:.66rem;letter-spacing:.4px;padding-top:2px}
+.tc-meta-row p{flex:1;color:#3E4C43;line-height:1.5;margin:0;font-size:.82rem}
+
+/* fase accordion (objetivos específicos) */
+.tc-facc-wrap{border:1px solid rgba(16,27,22,.08);border-radius:18px;overflow:hidden;background:rgba(255,255,255,.5)}
+.tc-facc-row{border-bottom:1px solid rgba(16,27,22,.07)}
+.tc-facc-row:last-child{border-bottom:none}
+.tc-facc-head{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;user-select:none}
+.tc-facc-head:hover{background:rgba(255,255,255,.55)}
+.tc-facc-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:#0E332C;color:#FFD37A;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.tc-facc-name{flex:1;font-weight:800;font-size:.94rem;color:#16211C}
+.tc-facc-arrow{font-size:14px;color:#5C6A62;transition:transform .25s ease;flex-shrink:0}
+.tc-facc-row.open .tc-facc-arrow{transform:rotate(90deg)}
+.tc-facc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.tc-facc-row.open .tc-facc-body{max-height:1400px}
+.tc-facc-body-in{padding:6px 20px 22px 64px}
+
+/* colorful field cards — more breathing room */
+.tc-facc-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:16px}
+.tc-facc-trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:16px}
+.tc-facc-field{background:#fff;border-radius:16px;box-shadow:0 10px 24px rgba(16,27,22,.09);padding:18px 20px;border-left:5px solid #0C7A78}
+.tc-facc-field label{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#0C7A78;margin-bottom:8px}
+.tc-facc-field p{font-size:.9rem;line-height:1.65;color:#2C3A34;margin:0}
+.tc-facc-field.fc-objetivo{border-left-color:#E3A83B}
+.tc-facc-field.fc-objetivo label{color:#B9820C}
+.tc-facc-field.fc-vdir{border-left-color:#2E8567}
+.tc-facc-field.fc-vdir label{color:#217056}
+.tc-facc-field.fc-vind{border-left-color:#C1461F}
+.tc-facc-field.fc-vind label{color:#C1461F}
+.tc-facc-field.fc-vint{border-left-color:#7A5AC1}
+.tc-facc-field.fc-vint label{color:#7A5AC1}
+.tc-facc-field.fc-resuelve{border-left-color:#0E332C}
+.tc-facc-field.fc-resuelve label{color:#0E332C}
+.tc-facc-field.fc-resultado{border-left-color:#2E8567;background:rgba(46,133,103,.06)}
+.tc-facc-field.fc-resultado label{color:#217056}
+.tc-facc-field.fc-instrumento-plain{border-left-color:#5C6A62}
+.tc-facc-field.fc-instrumento-plain label{color:#5C6A62}
+
+/* instrumento de síntesis: eye-catching card */
+.tc-facc-instrumento{margin-bottom:16px;background:linear-gradient(135deg,rgba(12,122,120,.12),rgba(227,168,59,.14));border:1.5px solid rgba(12,122,120,.4);border-radius:18px;padding:20px 22px;box-shadow:0 12px 30px rgba(12,122,120,.14)}
+.tc-facc-instrumento-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.tc-facc-instrumento-icon{flex-shrink:0;width:36px;height:36px;border-radius:11px;background:#0C7A78;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(12,122,120,.35)}
+.tc-facc-instrumento-icon svg{width:18px;height:18px}
+.tc-facc-instrumento-label{display:block;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#0C7A78}
+.tc-instrumento-link{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border-radius:999px;background:#0E332C;color:#FFD37A;font-weight:800;font-size:.9rem;text-decoration:none;border:1px solid rgba(227,168,59,.5);box-shadow:0 12px 28px rgba(16,27,22,.28);cursor:pointer}
+.tc-instrumento-link:hover{background:#123c33;transform:translateY(-2px);box-shadow:0 16px 32px rgba(16,27,22,.34)}
+.tc-instrumento-link svg{width:15px;height:15px;flex-shrink:0}
+.tc-instrumento-caption{margin-top:10px;font-size:.82rem;line-height:1.55;color:#3E4C43;max-width:680px}
+
+/* observaciones: social-post style with context */
+.tc-facc-obs{background:rgba(227,168,59,.08);border:1px dashed rgba(227,168,59,.4);border-radius:16px;padding:16px 18px}
+.tc-facc-obs > label{display:block;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#B9820C;margin-bottom:10px}
+.tc-facc-obs textarea{width:100%;min-height:64px;border:1px solid rgba(16,27,22,.14);border-radius:10px;padding:9px 11px;font:inherit;font-size:.85rem;color:#16211C;background:rgba(255,255,255,.9);resize:vertical;display:block;margin-bottom:10px}
+.tc-facc-obs textarea:focus{outline:2px solid rgba(12,122,120,.35);outline-offset:1px}
+.tc-obs-save{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;background:#0E332C;color:#FFD37A;font-weight:800;font-size:.76rem;cursor:pointer}
+.tc-obs-save:hover{background:#123c33}
+.tc-obs-published{display:none;background:#fff;border-radius:14px;padding:15px 17px;box-shadow:0 8px 20px rgba(16,27,22,.09);margin-bottom:10px}
+.tc-obs-post-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.tc-obs-avatar{width:24px;height:24px;border-radius:50%;background:#0E332C;color:#FFD37A;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0}
+.tc-obs-post-head-name{font-size:.78rem;font-weight:800;color:#16211C}
+.tc-obs-post-head-role{font-size:.7rem;color:#9AA39C}
+.tc-obs-published-text{font-size:.88rem;line-height:1.6;color:#16211C;white-space:pre-wrap;margin-bottom:10px}
+.tc-obs-published-foot{display:flex;align-items:center;justify-content:space-between}
+.tc-obs-published-tag{font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#0C7A78}
+.tc-obs-edit-btn{all:unset;box-sizing:border-box;font-size:.74rem;font-weight:700;color:#5C6A62;cursor:pointer;text-decoration:underline}
+.tc-facc-obs.is-published textarea,.tc-facc-obs.is-published .tc-obs-save{display:none}
+.tc-facc-obs.is-published .tc-obs-published{display:block}
+.tc-obs-context{margin-top:10px;border-top:1px solid rgba(16,27,22,.08);padding-top:2px}
+.tc-obs-context summary{list-style:none;cursor:pointer;font-size:.74rem;font-weight:700;color:#0C7A78;padding:8px 0;user-select:none}
+.tc-obs-context summary::-webkit-details-marker{display:none}
+.tc-obs-context summary::before{content:'Ver contexto ▾ ';}
+.tc-obs-context[open] summary::before{content:'Ocultar contexto ▴ ';}
+.tc-obs-context-body{display:flex;flex-direction:column;gap:8px;padding:4px 0 4px}
+.tc-obs-quote{background:rgba(246,243,236,.7);border-left:3px solid rgba(12,122,120,.4);border-radius:8px;padding:8px 10px}
+.tc-obs-quote label{display:block;font-size:8.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#5C6A62;margin-bottom:2px}
+.tc-obs-quote p{font-size:.76rem;line-height:1.5;color:#3E4C43;margin:0}
+
+.tc-pending{color:#9AA39C !important;font-style:italic}
+.tc-facc-name.tc-pending{color:#9AA39C !important;font-style:normal;font-weight:700}
+
+/* ===== Anexo modal ===== */
+#anexoModal{position:fixed;inset:0;z-index:5000;display:none;align-items:flex-start;justify-content:center;padding:5vh 4vw;background:rgba(10,17,14,.62);backdrop-filter:blur(4px)}
+#anexoModal.open{display:flex}
+.anexo-card{position:relative;width:100%;max-width:1360px;max-height:90vh;overflow-y:auto;background:var(--shell-base,#F6F3EC);border-radius:22px;box-shadow:0 40px 100px rgba(0,0,0,.4);padding:32px 36px 40px}
+.anexo-close{position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:50%;background:#0E332C;color:#FFD37A;border:none;font-size:16px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.anexo-close:hover{background:#123c33}
+.anexo-eyebrow{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#0C7A78;margin-bottom:8px}
+.anexo-title{font-family:'Playfair Display',serif;font-weight:800;font-size:1.5rem;color:#16211C;margin-bottom:6px;max-width:760px}
+.anexo-sub{font-size:.86rem;color:#5C6A62;margin-bottom:24px;max-width:760px;line-height:1.5}
+
+/* tabla real, estilo hoja de cálculo, igual a la fuente */
+.anexo-table-wrap{overflow-x:auto;border:1px solid #232D27;border-radius:2px;margin-bottom:4px}
+table.anexo-table{width:100%;min-width:1180px;border-collapse:collapse;font-size:.78rem}
+.anexo-table caption{caption-side:top;background:#fff;border-bottom:2px solid #232D27;padding:10px;font-weight:800;font-size:.95rem;color:#16211C;text-align:center}
+.anexo-table th{background:#D9E8D3;color:#16211C;font-weight:800;font-size:.7rem;text-transform:none;letter-spacing:.1px;padding:9px 10px;border:1px solid #232D27;text-align:center;vertical-align:middle}
+.anexo-table td{border:1px solid #7C8A80;padding:8px 10px;vertical-align:top;background:#fff}
+.anexo-table td.anexo-td-dim{font-weight:800;background:#EFEFE3;vertical-align:middle;text-align:left}
+.anexo-table td.anexo-td-var{font-weight:700;color:#16211C;white-space:normal}
+.anexo-table td.anexo-td-q{font-size:.76rem;line-height:1.5;color:#2C3A34}
+.anexo-table td.anexo-td-q b{display:block;font-weight:700}
+.anexo-table select{width:100%;min-width:140px;padding:5px 6px;border-radius:4px;border:1px solid rgba(16,27,22,.25);background:#fff;font:inherit;font-size:.74rem;color:#16211C}
+.anexo-table select + select{margin-top:5px}
+.anexo-table textarea{width:100%;min-width:190px;min-height:54px;border:1px solid rgba(16,27,22,.2);border-radius:4px;padding:6px 8px;font:inherit;font-size:.75rem;color:#16211C;background:rgba(246,243,236,.6);resize:vertical}
+.anexo-table textarea:focus,.anexo-table select:focus{outline:2px solid rgba(12,122,120,.4);outline-offset:1px}
+.anexo-td-empty{background:#F4F4EE;color:#B7BEB6}
+.anexo-td-brecha{font-weight:800;color:#16211C;text-align:center;background:#F3F0E6}
+.anexo-table input[type="checkbox"]{width:15px;height:15px;vertical-align:middle;margin-top:6px}
+
+.anexo-save-bar{position:sticky;bottom:-40px;margin:22px -36px -40px;padding:16px 36px;background:linear-gradient(0deg,var(--shell-base,#F6F3EC) 60%,transparent);display:flex;align-items:center;gap:14px}
+.anexo-save-btn{all:unset;box-sizing:border-box;padding:11px 22px;border-radius:999px;background:#0E332C;color:#FFD37A;font-weight:800;font-size:.84rem;cursor:pointer}
+.anexo-save-btn:hover{background:#123c33}
+.anexo-save-flash{font-size:.8rem;font-weight:700;color:#0C7A78;opacity:0;transition:opacity .3s ease}
+.anexo-save-flash.show{opacity:1}
+
+.tc-subtabs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:26px;max-width:980px}
+.tc-subtab{all:unset;box-sizing:border-box;display:flex;flex-direction:column;gap:4px;padding:14px 18px;border-radius:16px;border:1px solid rgba(16,27,22,.1);background:rgba(255,255,255,.55);cursor:pointer;transition:background .2s ease,transform .2s ease,box-shadow .2s ease}
+.tc-subtab:hover{background:rgba(255,255,255,.85)}
+.tc-subtab .tc-subtab-num{font-family:'Playfair Display',serif;font-weight:900;font-size:.78rem;color:#0C7A78}
+.tc-subtab .tc-subtab-label{font-weight:800;font-size:.86rem;color:#16211C;line-height:1.25}
+.tc-subtab.active{background:#0E332C;border-color:#0E332C;box-shadow:0 12px 28px rgba(16,27,22,.22);transform:translateY(-2px)}
+.tc-subtab.active .tc-subtab-num{color:#FFD37A}
+.tc-subtab.active .tc-subtab-label{color:#FBF6EC}
+
+.tc-phase{display:flex;gap:14px;margin-bottom:10px;background:rgba(255,255,255,.6);border:1px solid rgba(16,27,22,.08);border-radius:14px;padding:14px 16px}
+.tc-phase-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:#0E332C;color:#FFD37A;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12.5px}
+.tc-phase-body{flex:1;min-width:0}
+.tc-phase-body h4{font-size:.88rem;font-weight:800;color:#16211C;margin-bottom:8px}
+.tc-phase-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.tc-phase-field label{display:block;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#0C7A78;margin-bottom:3px}
+.tc-phase-field p{font-size:.8rem;line-height:1.5;color:#5C6A62}
+.tc-phase-simple p{font-size:.84rem;line-height:1.55;color:#5C6A62}
+</style>
+</head>
+<body class="shell-body">
+
+<script src="access-gate.js"></script>
+
+<div class="app-shell">
+
+  <a class="collapse-strip chevron-flip" href="/anteproyecto" aria-label="Ir a Anteproyecto">
+    <span class="collapse-chevron">&#8250;</span>
+    <span class="collapse-strip-label">Anteproyecto</span>
+  </a>
+
+  <div class="panel-main">
+    <div class="tc-wrap" id="tcWrap"></div>
+  </div>
+
+  <nav class="side-nav side-nav-right accent-teal" id="tesisSideNav">
+    <div class="side-nav-header">
+      <button type="button" class="side-nav-collapse-btn" data-nav-toggle title="Contraer / expandir lista">&#8250;</button>
+      <div class="topbar">
+        <div class="brand"><span class="brand-dot"></span> Tesis doctoral</div>
+      </div>
+      <a class="side-nav-home" href="/" title="Volver al inicio">&#8962;</a>
+    </div>
+    <div class="side-nav-list" id="tesisNavList"></div>
+  </nav>
+
+</div>
+
+<div id="anexoModal">
+  <div class="anexo-card">
+    <button type="button" class="anexo-close" data-anexo-close title="Cerrar">&times;</button>
+    <div id="anexoBody"></div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('[data-nav-toggle]').forEach(btn=>{
+  btn.addEventListener('click', ()=> btn.closest('.side-nav').classList.toggle('collapsed'));
+});
+
+/* ===================== DATA ===================== */
+
+const MT_MINDMAP = [
+  {n:1,t:'Transformación digital',b:['Digitalización de procesos','Datos y analítica','Innovación y conectividad']},
+  {n:2,t:'Economía del bienestar',b:['Bienestar como motor económico','Empleo y desarrollo local','Valor compartido y sostenibilidad']},
+  {n:3,t:'Ecosistemas',b:['Interacción entre actores','Recursos naturales y culturales','Servicios y experiencias integradas']},
+  {n:4,t:'Modelos',b:['Tipologías y taxonomía de modelos','Estructuras y componentes','Evaluación de modelos']},
+  {n:5,t:'Gobernanza',b:['Enfoque público y colaborativo','Principios de gobernanza','Problema de agencia','Marco basado en reglas','Buen gobierno y rendición de cuentas']},
+  {n:6,t:'Gobernanza y turismo',b:['Gobernanza aplicada al turismo','Tipos de gobernanza en turismo','Redes y colaboración turística']},
+  {n:7,t:'Gobernanza y modalidades de turismo',b:['Turismo rural','Turismo de salud','Turismo de bienestar']},
+  {n:8,t:'Turismo inteligente',b:['Destinos turísticos inteligentes','Experiencias inteligentes','Sostenibilidad e innovación']},
+  {n:9,t:'Gobernanza inteligente',b:['Proceso de gobernanza inteligente','Componentes en destinos turísticos inteligentes'],core:true},
+  {n:10,t:'Tecnologías de la información y la comunicación',b:['Infraestructura y conectividad','Gestión de la información','Comunicación y participación']},
+  {n:11,t:'Plataformas digitales',b:['Plataformas y ecosistemas digitales','Gestión de datos y servicios','Integración y cooperación']},
+  {n:12,t:'Política pública de Costa Rica sobre turismo',b:['Marco normativo y estrategias','Planes y políticas nacionales','Instituciones y coordinación']},
+  {n:13,t:'Cifras y tendencias globales',b:['Contexto complementario de evidencia global sobre gobernanza y turismo']}
+];
+
+const MT_TABLE = [
+  {t:'Transformación digital', queEs:'Proceso de cambio organizacional y sectorial impulsado por tecnologías digitales.', porQue:'Contextualiza la evolución del turismo y la necesidad de cambio del DTLF.', como:'Se usa como lente para analizar cambios en actores, procesos y servicios.', que:'Criterios para reconocer madurez y brechas de transformación.', rol:'Auxiliar'},
+  {t:'Economía del bienestar', queEs:'Enfoque que vincula bienestar, salud, calidad de vida y valor económico.', porQue:'Fundamenta la relevancia del turismo de bienestar como objeto de estudio.', como:'Se utiliza para delimitar el sentido económico y social del sector.', que:'Criterios para justificar la pertinencia del destino de bienestar.', rol:'Auxiliar'},
+  {t:'Ecosistemas', queEs:'Conjunto de actores interdependientes que co-crean valor en un entorno común.', porQue:'Permite entender al DTLF como red de relaciones y dependencias.', como:'Se emplea para identificar actores, vínculos y dinámicas del destino.', que:'Mapa del ecosistema turístico y de sus interdependencias.', rol:'Auxiliar'},
+  {t:'Modelos', queEs:'Representaciones conceptuales que simplifican y explican una realidad.', porQue:'Justifica la construcción de un modelo para orientar la propuesta.', como:'Se utiliza para estructurar componentes, relaciones y funciones de la tesis.', que:'Base de diseño del modelo de gobernanza propuesto.', rol:'Auxiliar'},
+  {t:'Gobernanza', queEs:'Proceso de coordinación entre actores, reglas e intereses para decidir y actuar colectivamente.', porQue:'Aporta el sustento general del problema de articulación del destino.', como:'Se usa para analizar coordinación, participación, reglas y toma de decisiones.', que:'Criterios de articulación institucional y coordinación multiactor.', rol:'Auxiliar'},
+  {t:'Gobernanza y turismo', queEs:'Aplicación de la gobernanza al funcionamiento y gestión de destinos turísticos.', porQue:'Aterriza la gobernanza al contexto específico del sector turístico.', como:'Se utiliza para examinar cómo se coordinan los actores del destino.', que:'Referentes para gestionar el destino turístico como sistema coordinado.', rol:'Auxiliar'},
+  {t:'Gobernanza y modalidades de turismo', queEs:'Manifestaciones de la gobernanza en turismo rural, de salud y de bienestar.', porQue:'Permite comparar experiencias y transferir aprendizajes al caso estudiado.', como:'Se emplea para contrastar modalidades turísticas relevantes para la tesis.', que:'Referentes específicos para la gobernanza del turismo de bienestar.', rol:'Auxiliar'},
+  {t:'Turismo inteligente', queEs:'Paradigma que integra datos, TIC y sostenibilidad para mejorar destinos, experiencias y negocios.', porQue:'Define el horizonte evolutivo hacia el que debe avanzar el DTLF.', como:'Se utiliza para orientar atributos y capacidades del destino inteligente.', que:'Criterios para caracterizar el ecosistema turístico inteligente.', rol:'Auxiliar'},
+  {t:'Gobernanza inteligente', queEs:'Gobernanza apoyada en datos, TIC y colaboración para decidir, coordinar y crear valor.', porQue:'Es la teoría central de la tesis y explica la propuesta de investigación.', como:'Se usa para articular actores, procesos, información y tecnología en el destino.', que:'Modelo de gobernanza inteligente para el turismo de bienestar del DTLF.', rol:'Explicativa'},
+  {t:'Tecnologías de la información y la comunicación', queEs:'Recursos digitales para comunicar, procesar, compartir y gestionar información.', porQue:'Constituyen la base habilitadora de la gobernanza inteligente.', como:'Se analizan como soportes para coordinación, innovación y digitalización.', que:'Requerimientos tecnológicos del modelo propuesto.', rol:'Auxiliar'},
+  {t:'Plataformas digitales', queEs:'Infraestructuras digitales que conectan actores, datos y servicios.', porQue:'Facilitan integración, interoperabilidad y coordinación del ecosistema.', como:'Se consideran como mecanismos de articulación e interacción entre actores.', que:'Lineamientos para flujos de información y conexión digital.', rol:'Auxiliar'},
+  {t:'Política pública de Costa Rica sobre turismo', queEs:'Marco institucional y normativo que orienta el desarrollo turístico del país.', porQue:'Alinea la tesis con prioridades nacionales y reglas del sector.', como:'Se revisa para identificar lineamientos, oportunidades y restricciones.', que:'Referentes normativos y de política para el modelo.', rol:'Auxiliar'}
+];
+
+const OBJETIVO_GENERAL_TXT = 'Generar un modelo de gobernanza inteligente en turismo de bienestar orientado a fortalecer la sostenibilidad y competitividad del Destino Turístico de La Fortuna, Costa Rica 2030.';
+const PREGUNTA_GENERAL_TXT = '¿Cómo generar un modelo de gobernanza inteligente para las organizaciones del sector turismo de bienestar, sustentado en la integración de las TICs y las nuevas tecnologías digitales, orientado a fortalecer la sostenibilidad y la competitividad del ecosistema del Destino Turístico de La Fortuna?';
+
+const OBJ_DATA = {
+  'Objetivo 1': {
+    sub:'Diagnóstico de la gobernanza y madurez digital del ecosistema de turismo de bienestar del DTLF',
+    statement:'Diagnosticar la configuración actual de la gobernanza y el nivel de madurez digital de los actores del turismo de bienestar en el DTLF, contrastando la realidad local con el marco de política pública de Costa Rica y los referentes globales de destinos turísticos inteligentes.',
+    pregunta:'¿Cuál es la brecha existente entre el estado actual de la gobernanza y la madurez digital del DTLF frente a los requerimientos de un destino turístico inteligente especializado en turismo bienestar?',
+    fases:[
+      {t:'Marco analítico y contexto de política pública',
+        proposito:'Esta fase tiene como propósito establecer el marco de referencia estructural que condiciona la gobernanza del DTLF, mediante el análisis documental y comparado de políticas públicas (turismo, digitalización, sostenibilidad).',
+        objetivoFase:'Construir el modelo conceptual de evaluación e identificar cómo el marco de política pública nacional condiciona la gobernanza del DTLF.',
+        varDirectas:'Conceptualización de gobernanza del destino, lineamientos nacionales que la impactan.',
+        varIndirectas:'Política pública nacional (turismo, digital, salud, sostenibilidad), entorno institucional, asignación de recursos.',
+        varIntervinientes:'Coherencia política y territorial; marco del turismo de bienestar; promoción pública de articulación y digitalización.',
+        queResuelve:'Cómo el Estado configura las reglas del sistema.',
+        instrumento:'Anexo 1. Matriz de análisis de políticas públicas: posibilita alinear gobernanza, madurez digital y política pública, identificando coherencias, vacíos o tensiones normativas.',
+        resultado:'El resultado esperado es un marco analítico que explica el condicionamiento institucional de la gobernanza del DTLF, base para interpretar los resultados posteriores del diagnóstico.'},
+      {t:'Caracterización del destino y actores',
+        proposito:'Esta fase busca describir la estructura institucional, organizativa y relacional del destino, identificando actores, roles, capacidades y dinámicas de coordinación existentes.',
+        objetivoFase:'Describir la estructura institucional, organizativa y relacional del destino, identificando roles, capacidades y relaciones.',
+        varDirectas:'Actores responsables de gobernanza y prácticas de coordinación existentes.',
+        varIndirectas:'Ecosistema empresarial de bienestar, cultura colaborativa, capacidades organizativas, recursos locales.',
+        varIntervinientes:'Nivel de articulación entre turismo, bienestar y TIC; adopción tecnológica de actores; confianza intersectorial.',
+        queResuelve:'Entender cómo factores como la cultura colaborativa o la confianza inciden en la gobernanza.',
+        instrumento:'Anexo 2. Encuesta estructurada: permite sistematizar información comparable entre actores, recogiendo percepciones sobre articulación, capacidades y adopción tecnológica.',
+        resultado:'El resultado es un mapa funcional del ecosistema del DTLF que permite comprender quién gobierna, cómo lo hace y con qué capacidades.'},
+      {t:'Diagnóstico integrado del estado actual',
+        proposito:'En esta fase se evalúa el desempeño real del destino en términos de gobernanza y madurez digital, integrando dimensiones como liderazgo, coordinación, participación, infraestructura, datos e interoperabilidad.',
+        objetivoFase:'Evaluar cómo funcionan actualmente la gobernanza y la madurez digital del DTLF.',
+        varDirectas:'Medición de gobernanza (liderazgo, coordinación, participación, regulación) y madurez digital (infraestructura, datos, interoperabilidad, servicios).',
+        varIndirectas:'Restricciones de recursos, cultura organizacional, capacidades técnicas e institucionales.',
+        varIntervinientes:'Exigencias de datos y seguridad del bienestar; uso real de tecnologías; grado de integración multisectorial.',
+        queResuelve:'Operacionalizar el diagnóstico, transformando variables cualitativas en resultados comparables; capturar la brecha entre lo formal y lo funcional.',
+        instrumento:'Anexo 3. Diagnóstico integrado del estado actual: instrumento de medición basado en indicadores de madurez.',
+        resultado:'El resultado es una línea base cuantificada y estructurada del estado actual del DTLF, que permite identificar fortalezas y debilidades.'},
+      {t:'Modelo de referencia DTI de bienestar',
+        proposito:'Esta fase tiene como objetivo definir el estado ideal del destino, a partir de la vigilancia tecnológica y el análisis de modelos de referencia internacionales en destinos turísticos inteligentes.',
+        objetivoFase:'Definir el estado ideal (criterios y niveles esperados) de gobernanza inteligente y madurez digital para un DTI de bienestar.',
+        varDirectas:'Criterios y niveles esperados de gobernanza inteligente y madurez digital para un DTI de bienestar.',
+        varIndirectas:'Condiciones habilitadoras institucionales y de recursos consideradas en el modelo ideal.',
+        varIntervinientes:'Requisitos específicos del turismo de bienestar (sanitarios, éticos, sostenibilidad) y articulación sectorial.',
+        queResuelve:'Introduce un marco normativo y aspiracional contra el cual contrastar la realidad local.',
+        instrumento:'Anexo 4. Modelo de referencia DTI de bienestar.',
+        resultado:'El resultado es un modelo de referencia estructurado, que define el "deber ser" del DTLF.'},
+      {t:'Brechas y lineamientos de transición',
+        proposito:'En esta fase se comparan sistemáticamente el estado actual (fase 3) y el modelo de referencia (fase 4), con el fin de identificar brechas en gobernanza y madurez digital.',
+        objetivoFase:'Comparar estado actual vs. modelo de referencia, identificar brechas y proponer hoja de ruta de mejora.',
+        varDirectas:'Diferencias en gobernanza y madurez digital (actual vs. requerida).',
+        varIndirectas:'Factores estructurales que explican las brechas (política, recursos, cultura, institucionalidad).',
+        varIntervinientes:'Nivel de adopción tecnológica, articulación multisectorial y coherencia política territorial que amplían o reducen la brecha.',
+        queResuelve:'Evidenciar diferencias y explicar sus causas a partir de variables estructurales.',
+        instrumento:'Anexo 5. Matriz de brechas: análisis de brechas y transición.',
+        resultado:'El resultado esperado es un mapa de brechas priorizadas y lineamientos de transición, que orienta la construcción del modelo de gobernanza inteligente del destino.'}
+    ],
+    resultadosGenerales:['Evaluación de la gobernanza.','Evaluación de la madurez digital.','Identificación de brechas y hoja de ruta.'],
+    aporte:'Generar una comprensión diagnóstica, situada e integrada de la gobernanza y la madurez digital del DTLF, articulando política pública, ecosistema de actores, medición, referentes DTI y análisis de brechas.'
+  },
+  'Objetivo 2': {
+    sub:'',
+    statement:'',
+    pregunta:'',
+    fases:[
+      {t:'', proposito:'', objetivoFase:'', varDirectas:'', varIndirectas:'', varIntervinientes:'', queResuelve:'', instrumento:'', resultado:''},
+      {t:'', proposito:'', objetivoFase:'', varDirectas:'', varIndirectas:'', varIntervinientes:'', queResuelve:'', instrumento:'', resultado:''},
+      {t:'', proposito:'', objetivoFase:'', varDirectas:'', varIndirectas:'', varIntervinientes:'', queResuelve:'', instrumento:'', resultado:''},
+      {t:'', proposito:'', objetivoFase:'', varDirectas:'', varIndirectas:'', varIntervinientes:'', queResuelve:'', instrumento:'', resultado:''},
+      {t:'', proposito:'', objetivoFase:'', varDirectas:'', varIndirectas:'', varIntervinientes:'', queResuelve:'', instrumento:'', resultado:''}
+    ],
+    aporte:'Convertir la comprensión estratégica del ecosistema en una base conceptual y funcional para el diseño del modelo de gobernanza inteligente del DTLF.'
+  },
+  'Objetivo 3': {
+    sub:'',
+    statement:'',
+    pregunta:'',
+    fases:[
+      {t:'', proposito:'', objetivoFase:'', varDirectas:'', varIndirectas:'', varIntervinientes:'', queResuelve:'', instrumento:'', resultado:''},
+      {t:'', proposito:'', objetivoFase:'', varDirectas:'', varIndirectas:'', varIntervinientes:'', queResuelve:'', instrumento:'', resultado:''},
+      {t:'', proposito:'', objetivoFase:'', varDirectas:'', varIndirectas:'', varIntervinientes:'', queResuelve:'', instrumento:'', resultado:''}
+    ],
+    extra:{t:'La arquitectura integra', b:['Arquitectura sociotécnica de alto nivel: componentes organizacionales, funcionales, informacionales y tecnológicos.','Coordinación: orientada a la toma de decisiones, articulación público–privada–comunitaria, sostenibilidad y co-creación de valor.','Flujos de información: administrativos, estadísticos, técnicos, ambientales, turísticos, comerciales y estratégicos.','TIC y nuevas tecnologías digitales: habilitan captura, intercambio, procesamiento y visualización de datos, interoperabilidad, indicadores y participación.']},
+    aporte:'Traducir problemas de gobernanza en componentes funcionales, flujos de información y soluciones tecnológicas integradas para diseñar una arquitectura de gobernanza inteligente del DTLF.'
+  },
+  'Objetivo 4': {
+    sub:'',
+    statement:'',
+    pregunta:'',
+    fases:[
+      {t:'', proposito:'', objetivoFase:'', varDirectas:'', varIndirectas:'', varIntervinientes:'', queResuelve:'', instrumento:'', resultado:''},
+      {t:'', proposito:'', objetivoFase:'', varDirectas:'', varIndirectas:'', varIntervinientes:'', queResuelve:'', instrumento:'', resultado:''},
+      {t:'', proposito:'', objetivoFase:'', varDirectas:'', varIndirectas:'', varIntervinientes:'', queResuelve:'', instrumento:'', resultado:''}
+    ],
+    extra:{t:'Criterios de validación', b:['Completitud: incorpora actores, roles, procesos, datos, tecnologías y seguimiento.','Coherencia: mantiene relación lógica con el problema, los objetivos y las necesidades del destino.','Consistencia: evita contradicciones entre dimensiones organizacionales, funcionales, informacionales y tecnológicas.','Transferibilidad: permite adaptación a otros destinos con condiciones semejantes.']},
+    aporte:'Demostrar que el modelo de gobernanza inteligente es completo, coherente, consistente, viable y transferible para orientar procesos reales de gestión del destino.'
+  }
+};
+
+/* ===================== ANEXOS ===================== */
+
+const NIVEL_DESARROLLO = [
+  {v:'', l:'Sin valorar'},
+  {v:'0', l:'0 — Inexistente'},
+  {v:'1', l:'1 — Débil'},
+  {v:'2', l:'2 — Parcialmente desarrollado'},
+  {v:'3', l:'3 — Consolidado / institucionalizado'}
+];
+const TIPO_INCIDENCIA = [
+  {v:'', l:'Sin valorar'},
+  {v:'E', l:'E — Estructural'},
+  {v:'I', l:'I — Institucional'},
+  {v:'T', l:'T — Tecnológica'},
+  {v:'O', l:'O — Operativa'},
+  {v:'A', l:'A — Adaptativa'}
+];
+const MODELO_COORD = [
+  {v:'', l:'Sin valorar'},
+  {v:'0', l:'0 — Centralizado rígido'},
+  {v:'1', l:'1 — Jerárquico con articulación incipiente'},
+  {v:'2', l:'2 — En red parcialmente institucionalizada'},
+  {v:'3', l:'3 — Red colaborativa institucionalizada'}
+];
+
+const MADUREZ_SCALE = [
+  {v:'', l:'Sin valorar'},
+  {v:'0', l:'0 — Inexistente'},
+  {v:'1', l:'1 — Inicial / informal'},
+  {v:'2', l:'2 — En desarrollo / parcialmente estructurado'},
+  {v:'3', l:'3 — Formalizado / sistemático'},
+  {v:'4', l:'4 — Integrado / optimizado / medido'}
+];
+const ESTADO_SCALE = [
+  {v:'', l:'Sin valorar'},
+  {v:'1', l:'1 — Básico'},
+  {v:'2', l:'2 — Avanzado'},
+  {v:'3', l:'3 — Ideal'}
+];
+const PRIORIDAD_SCALE = [
+  {v:'', l:'Sin valorar'},
+  {v:'Alta', l:'Alta — acción inmediata'},
+  {v:'Media', l:'Media — desarrollo progresivo'},
+  {v:'Baja', l:'Baja — consolidación futura'}
+];
+
+/* anexo 2: en blanco (sin tabla), solo el botón + modal vacío por ahora */
+const ANEXOS = {};
+ANEXOS.anexo2 = {
+  key:'anexo2_obj1_f2',
+  eyebrow:'Objetivo específico 1 · Fase 2',
+  title:'Anexo 2',
+  sub:'',
+  dimensiones:[]
+};
+
+/* anexo 1: tabla completa (objetivo específico 1, fase 1) */
+ANEXOS.anexo1 = {
+  key:'anexo1_obj1_f1',
+  type:'matrix',
+  eyebrow:'Objetivo específico 1 · Fase 1',
+  title:'Anexo 1. Matriz de análisis de políticas públicas',
+  sub:'Instrumento para abordar el marco analítico de política pública. Para cada variable, registrá la evidencia documental encontrada y valorá su nivel de desarrollo y tipo de incidencia en la gobernanza.',
+  dimensiones:[
+    {name:'Marco estratégico de política pública', vars:[
+      {t:'Visión estratégica sectorial', q:'Existencia de lineamientos explícitos para turismo de bienestar — ¿La política reconoce explícitamente el turismo de bienestar como sector estratégico?'},
+      {t:'Enfoque en sostenibilidad', q:'Existencia integración ambiental, social y económica — ¿La sostenibilidad está integrada como eje transversal?'},
+      {t:'Alineación multinivel', q:'Coherencia entre niveles de gobierno — ¿Existe articulación entre política nacional, regional y local?'}
+    ]},
+    {name:'Diseño institucional de gobernanza', vars:[
+      {t:'Modelo de coordinación', q:'Tipología de coordinación jerárquica, en red, colaborativa — ¿Se promueve la gobernanza colaborativa?', coordinacion:true},
+      {t:'Participación de actores', q:'Inclusión público, privada, comunitaria — ¿La política formaliza mecanismos de participación?'},
+      {t:'Claridad de competencias', q:'Definición de roles y responsabilidades — ¿Las funciones están claramente asignadas?'}
+    ]},
+    {name:'Madurez digital y gobernanza', vars:[
+      {t:'Estrategia digital explícita', q:'Existencia de una agenda digital sectorial — ¿La política incorpora la transformación digital?'},
+      {t:'Infraestructura y datos', q:'Uso de TIC, datos abiertos, plataformas — ¿Se promueve la gestión basada en datos?'},
+      {t:'Interoperabilidad institucional', q:'Integración de sistemas — ¿Existen lineamientos para interoperabilidad?'}
+    ]},
+    {name:'Mecanismos de implementación, seguimiento y evaluación', vars:[
+      {t:'Instrumentos de implementación', q:'Programas, incentivos, regulación — ¿Existen instrumentos concretos?'},
+      {t:'Indicadores de desempeño', q:'Sistema de monitoreo — ¿Se establecen indicadores medibles?'},
+      {t:'Mecanismos de aprendizaje', q:'Evaluación y retroalimentación — ¿Hay revisión y ajuste periódico?'}
+    ]}
+  ]
+};
+
+/* anexo 3: escala de madurez (objetivo específico 1, fase 3) */
+ANEXOS.anexo3 = {
+  key:'anexo3_obj1_f3',
+  type:'madurez',
+  eyebrow:'Objetivo específico 1 · Fase 3',
+  title:'Anexo 3. Diagnóstico integrado del estado actual',
+  sub:'Escala de madurez (Westerman et al., 2014). Valorá cada indicador de 0 a 4 según su nivel de desarrollo.',
+  dimensiones:[
+    {name:'Gobernanza del destino', subs:[
+      {name:'Direccionamiento estratégico', inds:['Existencia de visión estratégica compartida para turismo de bienestar.','Claridad en roles y competencias institucionales.','Alineación entre planificación y ejecución.']},
+      {name:'Coordinación y articulación', inds:['Instancias formales de coordinación interinstitucional.','Participación público-privada estructurada.','Nivel de cooperación entre actores.']},
+      {name:'Marco normativo y regulatorio', inds:['Instrumentos normativos específicos para el sector.','Coherencia entre niveles de gobierno.','Mecanismos formales de toma de decisiones.']},
+      {name:'Capacidad adaptativa', inds:['Sistema de monitoreo y seguimiento.','Evaluación periódica de políticas.','Mecanismos de aprendizaje institucional.']}
+    ]},
+    {name:'Madurez digital del destino', subs:[
+      {name:'Estrategia digital', inds:['Existencia de estrategia digital sectorial.','Alineación digital con objetivos estratégicos.','Liderazgo digital definido.']},
+      {name:'Infraestructura y tecnología', inds:['Conectividad adecuada.','Uso de plataformas digitales compartidas.','Integración de sistemas (interoperabilidad).']},
+      {name:'Datos y analítica', inds:['Recolección sistemática de datos turísticos.','Uso de datos para toma de decisiones.','Disponibilidad de indicadores digitales.']},
+      {name:'Cultura y capacidades digitales', inds:['Capacitación digital de actores.','Cultura organizacional favorable a la innovación.','Nivel de digitalización de procesos.']}
+    ]}
+  ]
+};
+
+/* criterios compartidos entre anexo 4 y anexo 5 */
+const CRITERIOS_GOBERNANZA_DIGITAL = [
+  {name:'Gobernanza inteligente', criterios:['Visión estratégica compartida','Modelo de gobernanza colaborativa','Articulación multinivel','Participación y co-creación','Sistema de evaluación y aprendizaje']},
+  {name:'Madurez digital', criterios:['Estrategia digital integrada','Infraestructura tecnológica interoperable','Gestión de datos y analítica avanzada','Experiencia digital del visitante','Cultura de innovación y capacidades digitales']}
+];
+
+/* anexo 4: comparación de niveles / modelo de referencia (objetivo específico 1, fase 4) */
+ANEXOS.anexo4 = {
+  key:'anexo4_obj1_f4',
+  type:'comparativo',
+  eyebrow:'Objetivo específico 1 · Fase 4',
+  title:'Anexo 4. Modelo de referencia DTI de bienestar',
+  sub:'Para cada criterio, marcá el nivel alcanzado (básico, avanzado o ideal) y registrá la evidencia y fuente del modelo de referencia.',
+  dimensiones:[
+    {name:'Gobernanza inteligente', criterios:[
+      {t:'Visión estratégica compartida', basico:'Declaración formal sin mecanismos de alineación', avanzado:'Plan estratégico con metas medibles', ideal:'Visión compartida institucionalizada, alineada con sostenibilidad, bienestar y digitalización, con seguimiento continuo.'},
+      {t:'Modelo de gobernanza colaborativa', basico:'Coordinación jerárquica', avanzado:'Red formal con participación público / privada', ideal:'Gobernanza en red institucionalizada, con corresponsabilidad y toma de decisiones compartida basada en datos.'},
+      {t:'Articulación multinivel', basico:'Existencia de lineamientos nacionales con baja coordinación territorial. La relación entre niveles es predominantemente vertical y reactiva.', avanzado:'Mecanismos formales de coordinación intergubernamental. Alineación parcial entre planes nacionales y territoriales. Espacios periódicos de concertación.', ideal:'Sistema institucionalizado de gobernanza multinivel con planificación integrada, corresponsabilidad financiera y técnica, interoperabilidad de información y mecanismos permanentes de decisión conjunta. La articulación es estratégica, no solo operativa.'},
+      {t:'Participación y co-creación', basico:'Participación consultiva no vinculante. Procesos informativos sin incidencia real en decisiones.', avanzado:'Espacios estructurados de diálogo y consulta. Participación periódica en mesas técnicas o proyectos colaborativos.', ideal:'Modelo de co-creación institucionalizado. Toma de decisiones compartida, innovación abierta, participación comunitaria activa y mecanismos formales de corresponsabilidad. La participación incide directamente en la estrategia y en la asignación de recursos.'},
+      {t:'Sistema de evaluación y aprendizaje', basico:'Indicadores aislados sin sistema formal de seguimiento. Evaluación esporádica y no sistemática.', avanzado:'Sistema de indicadores definido, monitoreo periódico y reportes formales de desempeño.', ideal:'Sistema integral de evaluación basado en datos en tiempo real, analítica avanzada, evaluación participativa y mecanismos institucionalizados de retroalimentación y ajuste estratégico continuo. El aprendizaje es parte estructural del modelo de gobernanza.'}
+    ]},
+    {name:'Madurez digital', criterios:[
+      {t:'Estrategia digital integrada', basico:'Iniciativas digitales aisladas sin marco estratégico formal. Uso táctico de tecnologías (marketing digital, redes sociales).', avanzado:'Documento estratégico digital formalizado, alineado con el plan turístico. Proyectos priorizados y liderazgo digital definido.', ideal:'Estrategia digital transversal integrada al modelo de gobernanza inteligente, con objetivos medibles, hoja de ruta tecnológica, financiación definida y articulación con sostenibilidad y bienestar. La digitalización es eje estructural del desarrollo del destino.'},
+      {t:'Infraestructura tecnológica interoperable', basico:'Infraestructura fragmentada. Sistemas independientes sin integración.', avanzado:'Plataformas compartidas entre algunos actores. Intercambio básico de información.', ideal:'Ecosistema tecnológico interoperable con integración de sistemas públicos y privados, estándares comunes, intercambio seguro de datos y arquitectura digital escalable. La infraestructura permite gestión coordinada y toma de decisiones en tiempo real.'},
+      {t:'Gestión de datos y analítica avanzada', basico:'Recolección de datos fragmentada.', avanzado:'Sistema centralizado de información turística.', ideal:'Plataforma interoperable con analítica predictiva, indicadores en tiempo real y apoyo a decisiones estratégicas.'},
+      {t:'Experiencia digital del visitante', basico:'Información digital estática (webs informativas, redes sociales).', avanzado:'Servicios digitales interactivos (reservas online, apps, información georreferenciada).', ideal:'Experiencia digital omnicanal, personalizada y basada en datos, con integración de servicios, plataformas inteligentes, recomendaciones adaptadas y mecanismos de retroalimentación en tiempo real. La experiencia digital fortalece el posicionamiento del destino como inteligente y sostenible.'},
+      {t:'Cultura de innovación y capacidades digitales', basico:'Capacidades digitales limitadas. Formación esporádica. Resistencia al cambio tecnológico.', avanzado:'Programas de capacitación digital periódicos. Proyectos de innovación sectorial.', ideal:'Ecosistema con cultura digital consolidada, formación continua, liderazgo transformacional, alianzas con academia y centros tecnológicos, y procesos sistemáticos de innovación abierta orientados al bienestar y sostenibilidad.'}
+    ]}
+  ]
+};
+
+/* anexo 5: análisis de brechas y transición (objetivo específico 1, fase 5) */
+ANEXOS.anexo5 = {
+  key:'anexo5_obj1_f5',
+  type:'brechas',
+  eyebrow:'Objetivo específico 1 · Fase 5',
+  title:'Anexo 5. Matriz de brechas y transición',
+  sub:'Brecha = Nivel ideal − Nivel actual. 0 sin brecha · 1 moderada · 2 significativa · más de 2 crítica.',
+  dimensiones: JSON.parse(JSON.stringify(CRITERIOS_GOBERNANZA_DIGITAL))
+};
+
+function selectField(cls, label, options, value){
+  return `<div class="anexo-select-field ${cls}"><label>${label}</label>
+    <select>${options.map(o=>`<option value="${o.v}"${o.v===value?' selected':''}>${o.l}</option>`).join('')}</select>
+  </div>`;
+}
+
+function fieldSelect(field, options, value){
+  return `<select data-field="${field}">${options.map(o=>`<option value="${o.v}"${o.v===value?' selected':''}>${o.l}</option>`).join('')}</select>`;
+}
+function fieldTextarea(field, placeholder, value){
+  return `<textarea data-field="${field}" placeholder="${placeholder}">${value || ''}</textarea>`;
+}
+function fieldCheckbox(field, checked){
+  return `<input type="checkbox" data-field="${field}"${checked ? ' checked' : ''}>`;
+}
+
+function renderMatrixBody(a, saved){
+  let vi = 0;
+  const rows = a.dimensiones.map(d => d.vars.map((v,vIdxInDim)=>{
+    const idx = vi++;
+    const s = saved[idx] || {};
+    const [q1, ...qRest] = v.q.split(' — ');
+    return `<tr data-vi="${idx}">
+      ${vIdxInDim===0 ? `<td class="anexo-td-dim" rowspan="${d.vars.length}">${d.name}</td>` : ''}
+      <td class="anexo-td-var">${v.t}</td>
+      <td class="anexo-td-q"><b>${q1}</b>${qRest.length ? `— ${qRest.join(' — ')}` : ''}</td>
+      <td>${fieldSelect('nivel', NIVEL_DESARROLLO, s.nivel)}</td>
+      <td class="${v.coordinacion ? '' : 'anexo-td-empty'}">${v.coordinacion ? fieldSelect('coord', MODELO_COORD, s.coord) : '—'}</td>
+      <td>${fieldSelect('incidencia', TIPO_INCIDENCIA, s.incidencia)}</td>
+      <td>${fieldTextarea('texto', 'Observaciones, comparaciones, elementos concluyentes...', s.texto)}</td>
+    </tr>`;
+  }).join('')).join('');
+  return { rows, head:`
+    <th style="width:13%">Dimensión</th>
+    <th style="width:13%">Variable de análisis</th>
+    <th style="width:24%">Evidencia documental<br>(qué analiza / pregunta guía)</th>
+    <th style="width:11%">Nivel de desarrollo (0-3)</th>
+    <th style="width:13%">Modelo de coordinación — Nivel de desarrollo</th>
+    <th style="width:11%">Tipo de incidencia en la gobernanza</th>
+    <th style="width:15%">Observaciones, comparaciones, elementos concluyentes</th>
+  `};
+}
+
+function renderMadurezBody(a, saved){
+  let vi = 0;
+  const rows = a.dimensiones.map(d => {
+    const totalInds = d.subs.reduce((n,s)=>n+s.inds.length,0);
+    let firstInDim = true;
+    return d.subs.map(sub => sub.inds.map((ind,indIdx)=>{
+      const idx = vi++;
+      const s = saved[idx] || {};
+      const tds = [];
+      if(firstInDim){ tds.push(`<td class="anexo-td-dim" rowspan="${totalInds}">${d.name}</td>`); firstInDim = false; }
+      if(indIdx===0){ tds.push(`<td class="anexo-td-var" rowspan="${sub.inds.length}">${sub.name}</td>`); }
+      tds.push(`<td class="anexo-td-q">${ind}</td>`);
+      tds.push(`<td>${fieldSelect('nivel', MADUREZ_SCALE, s.nivel)}</td>`);
+      return `<tr data-vi="${idx}">${tds.join('')}</tr>`;
+    }).join('')).join('');
+  }).join('');
+  return { rows, head:`
+    <th style="width:20%">Dimensión</th>
+    <th style="width:22%">Subdimensión</th>
+    <th style="width:38%">Indicadores</th>
+    <th style="width:20%">Escala de madurez (0-4)</th>
+  `};
+}
+
+function renderComparativoBody(a, saved){
+  let vi = 0;
+  const rows = a.dimensiones.map(d => d.criterios.map((c,cIdx)=>{
+    const idx = vi++;
+    const s = saved[idx] || {};
+    return `<tr data-vi="${idx}">
+      ${cIdx===0 ? `<td class="anexo-td-dim" rowspan="${d.criterios.length}">${d.name}</td>` : ''}
+      <td class="anexo-td-var">${c.t}</td>
+      <td class="anexo-td-q">${c.basico}<br>${fieldCheckbox('basico', s.basico)} <span style="font-size:.7rem;color:#5C6A62">Aplica</span></td>
+      <td class="anexo-td-q">${c.avanzado}<br>${fieldCheckbox('avanzado', s.avanzado)} <span style="font-size:.7rem;color:#5C6A62">Aplica</span></td>
+      <td class="anexo-td-q">${c.ideal}<br>${fieldCheckbox('ideal', s.ideal)} <span style="font-size:.7rem;color:#5C6A62">Aplica</span></td>
+      <td>${fieldTextarea('evidencia', 'Evidencia en el modelo de referencia...', s.evidencia)}</td>
+      <td>${fieldTextarea('fuente', 'Fuente (sitio web / documento)...', s.fuente)}</td>
+    </tr>`;
+  }).join('')).join('');
+  return { rows, head:`
+    <th style="width:11%">Dimensión</th>
+    <th style="width:14%">Criterio de evaluación</th>
+    <th style="width:17%">Nivel básico</th>
+    <th style="width:17%">Nivel avanzado</th>
+    <th style="width:17%">Nivel ideal (patrón esperado)</th>
+    <th style="width:12%">Evidencia en el modelo de referencia</th>
+    <th style="width:12%">Fuente</th>
+  `};
+}
+
+function computeBrecha(actual, ideal){
+  if(!actual || !ideal) return { txt:'—', cls:'' };
+  const b = Number(ideal) - Number(actual);
+  let label = 'sin brecha';
+  if(b > 2) label = 'crítica';
+  else if(b === 2) label = 'significativa';
+  else if(b === 1) label = 'moderada';
+  return { txt:`${b} — ${label}`, cls:'' };
+}
+function renderBrechasBody(a, saved){
+  let vi = 0;
+  const rows = a.dimensiones.map(d => d.criterios.map((c,cIdx)=>{
+    const idx = vi++;
+    const s = saved[idx] || {};
+    const brecha = computeBrecha(s.actual, s.ideal);
+    return `<tr data-vi="${idx}">
+      ${cIdx===0 ? `<td class="anexo-td-dim" rowspan="${d.criterios.length}">${d.name}</td>` : ''}
+      <td class="anexo-td-var">${c}</td>
+      <td>${fieldSelect('actual', ESTADO_SCALE, s.actual)}</td>
+      <td>${fieldSelect('ideal', ESTADO_SCALE, s.ideal)}</td>
+      <td class="anexo-td-brecha">${brecha.txt}</td>
+      <td>${fieldSelect('prioridad', PRIORIDAD_SCALE, s.prioridad)}</td>
+      <td>${fieldTextarea('accion', 'Acción estratégica sugerida...', s.accion)}</td>
+    </tr>`;
+  }).join('')).join('');
+  return { rows, head:`
+    <th style="width:14%">Dimensión</th>
+    <th style="width:18%">Criterio de evaluación</th>
+    <th style="width:11%">Estado actual</th>
+    <th style="width:11%">Estado ideal</th>
+    <th style="width:13%">Brecha identificada</th>
+    <th style="width:11%">Prioridad</th>
+    <th style="width:22%">Acción estratégica sugerida</th>
+  `};
+}
+
+const ANEXO_RENDERERS = { matrix:renderMatrixBody, madurez:renderMadurezBody, comparativo:renderComparativoBody, brechas:renderBrechasBody };
+
+function renderAnexo(id){
+  const a = ANEXOS[id];
+  if(!a.dimensiones.length){
+    return `
+      <div class="anexo-eyebrow">${a.eyebrow}</div>
+      <div class="anexo-title">${a.title}</div>
+      <p style="color:#9AA39C;font-style:italic;font-size:.9rem">Contenido en construcción.</p>
+    `;
+  }
+  let saved = {};
+  try{ saved = JSON.parse(localStorage.getItem('tesis_' + a.key) || '{}'); }catch(e){}
+  const { rows, head } = ANEXO_RENDERERS[a.type](a, saved);
+  return `
+    <div class="anexo-eyebrow">${a.eyebrow}</div>
+    <div class="anexo-title">${a.title}</div>
+    <div class="anexo-sub">${a.sub}</div>
+    <div class="anexo-table-wrap">
+      <table class="anexo-table">
+        <thead><tr>${head}</tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <div class="anexo-save-bar">
+      <button type="button" class="anexo-save-btn" data-anexo-save="${id}">Guardar anexo</button>
+      <span class="anexo-save-flash" id="anexoSaveFlash">Guardado ✓</span>
+    </div>
+  `;
+}
+
+function wireBrechaCompute(){
+  document.querySelectorAll('.anexo-table tr[data-vi]').forEach(row=>{
+    const actualSel = row.querySelector('[data-field="actual"]');
+    const idealSel = row.querySelector('[data-field="ideal"]');
+    const brechaCell = row.querySelector('.anexo-td-brecha');
+    if(!actualSel || !idealSel || !brechaCell) return;
+    function update(){ brechaCell.textContent = computeBrecha(actualSel.value, idealSel.value).txt; }
+    actualSel.addEventListener('change', update);
+    idealSel.addEventListener('change', update);
+  });
+}
+
+function openAnexo(id){
+  document.getElementById('anexoBody').innerHTML = renderAnexo(id);
+  document.getElementById('anexoModal').classList.add('open');
+  wireBrechaCompute();
+  const saveBtn = document.querySelector(`[data-anexo-save="${id}"]`);
+  if(!saveBtn) return;
+  saveBtn.addEventListener('click', ()=>{
+    const a = ANEXOS[id];
+    const data = {};
+    document.querySelectorAll('.anexo-table tr[data-vi]').forEach(row=>{
+      const obj = {};
+      row.querySelectorAll('[data-field]').forEach(el=>{
+        obj[el.dataset.field] = el.type === 'checkbox' ? el.checked : el.value;
+      });
+      data[row.dataset.vi] = obj;
+    });
+    try{ localStorage.setItem('tesis_' + a.key, JSON.stringify(data)); }catch(e){}
+    const flash = document.getElementById('anexoSaveFlash');
+    flash.classList.add('show');
+    setTimeout(()=> flash.classList.remove('show'), 1800);
+  });
+}
+function closeAnexo(){
+  document.getElementById('anexoModal').classList.remove('open');
+}
+document.getElementById('anexoModal').addEventListener('click', (e)=>{
+  if(e.target.id === 'anexoModal') closeAnexo();
+});
+document.querySelector('[data-anexo-close]').addEventListener('click', closeAnexo);
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('[data-anexo-id]');
+  if(btn) openAnexo(btn.dataset.anexoId);
+});
+
+/* ===================== RENDER HELPERS ===================== */
+
+function card(num, title, body){
+  return `<div class="tc-card">${num!=null?`<div class="tc-card-num">${num}</div>`:''}<h4>${title}</h4><p>${body}</p></div>`;
+}
+function cardList(num, title, items, core){
+  return `<div class="tc-card${core?' tc-card-core':''}">${num!=null?`<div class="tc-card-num">${num}</div>`:''}<h4>${title}</h4><ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
+}
+function stat(html){ return `<div class="tc-stat">${html}</div>`; }
+function tag(rol){ return `<span class="tc-tag${rol==='Explicativa'?' tc-tag-explicativa':''}">${rol}</span>`; }
+function chips(items){ return `<div class="tc-chips">${items.map(i=>`<span class="tc-chip">${i}</span>`).join('')}</div>`; }
+
+function renderMtTheories(){
+  return MT_MINDMAP.map((m,i)=>{
+    const row = MT_TABLE[i];
+    const fields = row
+      ? `<div class="tc-theory-fields">
+          <div><label>¿Qué es?</label><p>${row.queEs}</p></div>
+          <div><label>¿Por qué?</label><p>${row.porQue}</p></div>
+          <div><label>¿Cómo?</label><p>${row.como}</p></div>
+          <div><label>Aporte</label><p>${row.que}</p></div>
+        </div>`
+      : `<div class="tc-theory-fields"><div><label>Contenido</label><ul>${m.b.map(x=>`<li>${x}</li>`).join('')}</ul></div></div>`;
+    return `<div class="tc-theory${m.core?' tc-theory-core':''}">
+      <div class="tc-theory-head">
+        <span class="tc-theory-num">${String(m.n).padStart(2,'0')}</span>
+        <span class="tc-theory-name">${m.t}</span>
+        ${row ? tag(row.rol) : ''}
+      </div>
+      ${fields}
+    </div>`;
+  }).join('');
+}
+
+function renderPhases(fases){
+  return fases.map((f,i)=>`
+    <div class="tc-phase">
+      <div class="tc-phase-num">${i+1}</div>
+      <div class="tc-phase-body">
+        <h4>${f.t}</h4>
+        <div class="tc-phase-grid">
+          <div class="tc-phase-field"><label>Propósito</label><p>${f.prop}</p></div>
+          <div class="tc-phase-field"><label>Método / instrumento</label><p>${f.met}</p></div>
+          <div class="tc-phase-field"><label>Resultado esperado</label><p>${f.res}</p></div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+const PENDING = 'Pendiente de completar';
+function orPending(text){
+  return text ? text : `<span class="tc-pending">${PENDING}</span>`;
+}
+function faccField(cls, label, text){
+  return `<div class="tc-facc-field ${cls}"><label>${label}</label><p>${orPending(text)}</p></div>`;
+}
+function renderInstrumento(text){
+  if(!text){
+    return faccField('fc-instrumento-plain', 'Instrumento de síntesis', '');
+  }
+  const m = text.match(/^Anexo\s+(\d+)\.([^:]+):?\s*(.*)$/);
+  if(!m){
+    return faccField('fc-instrumento-plain', 'Instrumento de síntesis', text);
+  }
+  const anexoId = 'anexo' + m[1];
+  const hasAnexo = !!ANEXOS[anexoId];
+  return `<div class="tc-facc-instrumento">
+    <div class="tc-facc-instrumento-top">
+      <div class="tc-facc-instrumento-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v17H6.5A2.5 2.5 0 0 0 4 22.5v-17Z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v17h5.5a2.5 2.5 0 0 1 2.5 2.5v-17Z"/></svg></div>
+      <span class="tc-facc-instrumento-label">Instrumento de síntesis</span>
+    </div>
+    <button type="button" class="tc-instrumento-link"${hasAnexo ? ` data-anexo-id="${anexoId}"` : ' disabled style="opacity:.55;cursor:default;box-shadow:none"'}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 15 15 9"/><path d="M11 6.5 12.5 5A4 4 0 1 1 18 10.5L16.5 12"/><path d="M13 17.5 11.5 19A4 4 0 1 1 6 13.5L7.5 12"/></svg>
+      Anexo ${m[1]}.${m[2]}${hasAnexo ? '' : ' (próximamente)'}
+    </button>
+    ${m[3] ? `<p class="tc-instrumento-caption">${m[3]}</p>` : ''}
+  </div>`;
+}
+function obsContext(name, o){
+  return `<details class="tc-obs-context">
+    <summary></summary>
+    <div class="tc-obs-context-body">
+      <div class="tc-obs-quote"><label>${name} específico</label><p>${orPending(o.statement)}</p></div>
+      <div class="tc-obs-quote"><label>Pregunta específica</label><p>${orPending(o.pregunta)}</p></div>
+      <div class="tc-obs-quote"><label>Pregunta general</label><p>${PREGUNTA_GENERAL_TXT}</p></div>
+      <div class="tc-obs-quote"><label>Objetivo general</label><p>${OBJETIVO_GENERAL_TXT}</p></div>
+    </div>
+  </details>`;
+}
+function renderFaseAccordion(objKey, fases, name, o){
+  return `<div class="tc-facc-wrap">${fases.map((f,i)=>{
+    const obsKey = `tesis_obs_${objKey}_f${i+1}`;
+    const faseName = f.t ? `Fase ${i+1}. ${f.t}` : `Fase ${i+1}`;
+    return `<div class="tc-facc-row" data-i="${i}">
+      <div class="tc-facc-head">
+        <span class="tc-facc-num">${i+1}</span>
+        <span class="tc-facc-name${f.t?'':' tc-pending'}">${faseName}</span>
+        <span class="tc-facc-arrow">&#8250;</span>
+      </div>
+      <div class="tc-facc-body"><div class="tc-facc-body-in">
+        <div class="tc-facc-pair">
+          ${faccField('', 'Propósito general', f.proposito)}
+          ${faccField('fc-objetivo', 'Objetivo de la fase', f.objetivoFase)}
+        </div>
+        <div class="tc-facc-trio">
+          ${faccField('fc-vdir', 'Variables directas', f.varDirectas)}
+          ${faccField('fc-vind', 'Variables indirectas', f.varIndirectas)}
+          ${faccField('fc-vint', 'Variables intervinientes', f.varIntervinientes)}
+        </div>
+        <div class="tc-facc-pair">
+          ${faccField('fc-resuelve', 'Qué se busca resolver', f.queResuelve)}
+          ${faccField('fc-resultado', 'Resultado específico de la fase', f.resultado)}
+        </div>
+        ${renderInstrumento(f.instrumento)}
+        <div class="tc-facc-obs" data-obs-key="${obsKey}">
+          <label>Observaciones</label>
+          <textarea placeholder="Comentario o retroalimentación del director / evaluadores..."></textarea>
+          <button type="button" class="tc-obs-save">Guardar observación</button>
+          <div class="tc-obs-published">
+            <div class="tc-obs-post-head">
+              <div class="tc-obs-avatar">D</div>
+              <div>
+                <div class="tc-obs-post-head-name">Director / evaluador</div>
+                <div class="tc-obs-post-head-role">Fase ${i+1} · ${name}</div>
+              </div>
+            </div>
+            <div class="tc-obs-published-text"></div>
+            <div class="tc-obs-published-foot">
+              <span class="tc-obs-published-tag">Publicado</span>
+              <button type="button" class="tc-obs-edit-btn">Editar</button>
+            </div>
+            ${obsContext(name, o)}
+          </div>
+        </div>
+      </div></div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function renderObjetivo(name){
+  const o = OBJ_DATA[name];
+  const objKey = name.toLowerCase().replace(/\s+/g,'');
+  return `
+    <div class="tc-eyebrow">${name}: proceso de investigación</div>
+    <div class="tc-title${o.sub?'':' tc-pending'}">${o.sub || name}</div>
+    <div class="tc-meta">
+      <div class="tc-meta-row"><label>Objetivo general</label><p>${OBJETIVO_GENERAL_TXT}</p></div>
+      <div class="tc-meta-row"><label>Pregunta general</label><p>${PREGUNTA_GENERAL_TXT}</p></div>
+      <div class="tc-meta-row"><label>Pregunta específica</label><p>${orPending(o.pregunta)}</p></div>
+      <div class="tc-meta-row"><label>${name} específico</label><p>${orPending(o.statement)}</p></div>
+    </div>
+    <div class="tc-section-label">Fases del proceso</div>
+    ${renderFaseAccordion(objKey, o.fases, name, o)}
+    ${o.resultadosGenerales ? `<div class="tc-section-label">Resultados generales del objetivo</div>${cardList(null,'Resultados', o.resultadosGenerales)}` : ''}
+    ${o.extra ? `<div class="tc-section-label">${o.extra.t}</div>${cardList(null, o.extra.t, o.extra.b)}` : ''}
+    <div class="tc-callout"><b>Aporte de ${name.toLowerCase()}:</b> ${o.aporte}</div>
+  `;
+}
+function wireObjetivoAccordion(){
+  $wrap.querySelectorAll('.tc-facc-head').forEach(h=>{
+    h.addEventListener('click', ()=> h.closest('.tc-facc-row').classList.toggle('open'));
+  });
+  $wrap.querySelectorAll('.tc-facc-obs').forEach(box=>{
+    const key = box.dataset.obsKey;
+    const ta = box.querySelector('textarea');
+    const saveBtn = box.querySelector('.tc-obs-save');
+    const editBtn = box.querySelector('.tc-obs-edit-btn');
+    const publishedText = box.querySelector('.tc-obs-published-text');
+    function showPublished(text){
+      publishedText.textContent = text;
+      box.classList.add('is-published');
+    }
+    let saved = null;
+    try{ saved = localStorage.getItem(key); }catch(e){}
+    if(saved){ ta.value = saved; showPublished(saved); }
+    saveBtn.addEventListener('click', ()=>{
+      const val = ta.value.trim();
+      if(!val) return;
+      try{ localStorage.setItem(key, val); }catch(e){}
+      showPublished(val);
+    });
+    editBtn.addEventListener('click', ()=>{
+      box.classList.remove('is-published');
+      ta.focus();
+    });
+  });
+}
+
+/* ===================== SECTION RENDERERS ===================== */
+
+const CONTENT = {
+  'Problema': () => `
+    <div class="tc-eyebrow">Problema de investigación</div>
+    <div class="tc-title">Ausencia de un modelo de gobernanza inteligente en el DTLF</div>
+    <div class="tc-lead">El DTLF carece de un modelo de <b>gobernanza inteligente</b> para el turismo de bienestar que articule actores e integre TIC y nuevas tecnologías digitales. Esta carencia limita su competitividad, sostenibilidad y transición hacia un destino turístico inteligente al 2030, y además el estado del arte evidencia la ausencia de modelos específicos para destinos turísticos de bienestar.</div>
+    <div class="tc-section-label">Seis ejes del problema</div>
+    <div class="tc-grid">
+      ${card(1,'Gobernanza débil','El ICT diagnostica la gobernanza como el eje más débil del DTLF.')}
+      ${card(2,'Baja madurez digital','Las empresas y actores del ecosistema aún no incorporan plenamente las tecnologías requeridas por el turismo inteligente.')}
+      ${card(3,'Escasa coordinación','Persisten debilidades en integración, coordinación, cooperación y trabajo colaborativo entre actores.')}
+      ${card(4,'Brecha tecnológica','No se aprovecha todo el potencial de analítica de datos, IA, IoT, nube, realidad virtual y blockchain.')}
+      ${card(5,'Vulnerabilidad evidenciada','La pandemia del COVID-19 mostró carencias en innovación, respuesta coordinada y planes de contingencia.')}
+      ${card(6,'Impacto en el destino','La debilidad de la gobernanza inteligente afecta la sostenibilidad, la competitividad y el desarrollo del turismo de bienestar.')}
+    </div>
+    <div class="tc-section-label">Sustento del estado del arte</div>
+    <div class="tc-stat-row">
+      ${stat('<b>3.761</b> artículos identificados en la búsqueda inicial sobre gobernanza en turismo.')}
+      ${stat('De <b>60</b> artículos promisorios sobre gobernanza en turismo inteligente, solo <b>18</b> se relacionan con bienestar y salud; apenas <b>5</b> se centran en bienestar.')}
+      ${stat('La relación gobernanza inteligente–DTI–sostenibilidad se consolida desde <b>2016</b>; el concepto específico toma fuerza desde <b>2018</b> con solo <b>12</b> publicaciones.')}
+      ${stat('<b>Conclusión:</b> predominan enfoques genéricos; persiste la carencia de modelos específicos para destinos turísticos de bienestar.')}
+    </div>
+    <div class="tc-callout"><b>Necesidad de investigación:</b> diseñar un modelo de gobernanza inteligente específico para el turismo de bienestar del DTLF, que fortalezca la coordinación, la transformación digital y el desarrollo sostenible.</div>
+  `,
+
+  'Pregunta': () => `
+    <div class="tc-eyebrow">Pregunta de investigación</div>
+    <div class="tc-title">Pregunta general y preguntas específicas</div>
+    <div class="tc-lead">¿Cómo generar un modelo de gobernanza inteligente para las organizaciones del sector turismo de bienestar, sustentado en la integración de las TICs y las nuevas tecnologías digitales, orientado a fortalecer la sostenibilidad y la competitividad del ecosistema del Destino Turístico de La Fortuna?</div>
+    <div class="tc-section-label">Preguntas específicas</div>
+    <div class="tc-grid">
+      ${card(1,'Pregunta específica 1','¿Cuál es la brecha existente entre el estado actual de la gobernanza y la madurez digital del DTI frente a los requerimientos de un destino turístico inteligente especializado en turismo bienestar?')}
+      ${card(2,'Pregunta específica 2','¿Qué componentes estructurales, relacionales y tecnológicos son determinantes para diseñar una arquitectura de gobernanza que responda a las necesidades futuras de los actores del ecosistema de bienestar?')}
+      ${card(3,'Pregunta específica 3','¿De qué manera se pueden integrar funcionalmente las TIC, las nuevas tecnologías digitales y los ecosistemas en los procesos de toma de decisiones y coordinación de la cadena de valor del turismo de bienestar?')}
+      ${card(4,'Pregunta específica 4','¿Cuál es la validez y viabilidad del modelo propuesto según la valoración de los actores estratégicos del DTI en términos de aceptación tecnológica y potencial de implementación?')}
+    </div>
+    <div class="tc-section-label">Ejes temáticos</div>
+    ${chips(['Gobernanza','Madurez digital','Arquitectura','TIC y nuevas tecnologías','Sostenibilidad','Competitividad','Validación'])}
+  `,
+
+  'Objetivo general': () => `
+    <div class="tc-eyebrow">Objetivo general</div>
+    <div class="tc-title">Modelo de gobernanza inteligente para el DTLF</div>
+    <div class="tc-lead">Generar un modelo de gobernanza inteligente en turismo de bienestar orientado a fortalecer la sostenibilidad y competitividad del Destino Turístico de La Fortuna, Costa Rica 2030.</div>
+    <div class="tc-section-label">Componentes del objetivo</div>
+    <div class="tc-grid">
+      ${card(1,'Turismo de bienestar','Sector y modalidad turística sobre la que se construye el modelo.')}
+      ${card(2,'Sostenibilidad','Dimensión que el modelo busca fortalecer en el destino.')}
+      ${card(3,'Competitividad','Segunda dimensión estratégica que orienta el modelo.')}
+      ${card(4,'Destino Turístico La Fortuna','Territorio y ecosistema donde se aplica el modelo.')}
+      ${card(5,'Horizonte 2030','Marco temporal de proyección del modelo propuesto.')}
+    </div>
+    <div class="tc-section-label">Fortalecimiento del destino</div>
+    ${chips(['Gobierno local','Empresas turísticas','Comunidad','Academia'])}
+  `,
+
+  'Marco teórico': () => `
+    <div class="tc-eyebrow">Marco teórico</div>
+    <div class="tc-title">Modelo de gobernanza inteligente en turismo de bienestar</div>
+    <div class="tc-lead">El marco teórico se organiza en <b>13 categorías</b> alrededor del núcleo <b>Gobernanza inteligente</b>, que actúa como teoría explicativa central; las demás categorías se emplean como teorías auxiliares que sustentan y contextualizan la propuesta.</div>
+    <div class="tc-section-label">Categorías del marco teórico</div>
+    ${renderMtTheories()}
+    <div class="tc-callout" style="margin-top:14px"><b>Nota:</b> la teoría explicativa definida para la tesis es la gobernanza inteligente; las demás se emplean como teorías auxiliares.</div>
+  `,
+
+  'Marco metodológico': () => `
+    <div class="tc-eyebrow">Marco metodológico</div>
+    <div class="tc-title">Filosofía, estrategia, métodos y proceso de investigación</div>
+    <div class="tc-lead"><b>Propósito metodológico:</b> comprender, diagnosticar, diseñar y validar un modelo de gobernanza inteligente para el DTLF, mediante una ruta metodológica mixta (cualitativa y cuantitativa).</div>
+    <div class="tc-subtabs" id="mmTabs">
+      <button type="button" class="tc-subtab active" data-tab="filosofia"><span class="tc-subtab-num">01</span><span class="tc-subtab-label">Filosofía de la investigación</span></button>
+      <button type="button" class="tc-subtab" data-tab="estrategia"><span class="tc-subtab-num">02</span><span class="tc-subtab-label">Estrategia de investigación</span></button>
+      <button type="button" class="tc-subtab" data-tab="metodos"><span class="tc-subtab-num">03</span><span class="tc-subtab-label">Métodos y proceso</span></button>
+    </div>
+    <div id="mmTabBody"></div>
+  `
+};
+
+const MM_TABS = {
+  filosofia: () => `
+    <p style="font-size:.86rem;color:#5C6A62;line-height:1.6;margin-bottom:18px;max-width:900px">Define la base ideológica del estudio: el enfoque, la naturaleza del fenómeno (ontología), los métodos para su comprensión (epistemología) y lo que debe hacer quien investiga (metodología).</p>
+    <div class="tc-callout" style="margin-bottom:20px">Ontología crítica con postura de <b>realismo crítico</b>; epistemológicamente <b>subjetivista</b>, compartida entre la teoría crítica y el constructivismo.</div>
+    <div class="tc-section-label">Postura filosófica</div>
+    <div class="tc-grid">
+      ${card(null,'Ontología — ¿cuál es la naturaleza de la realidad?','Realismo crítico: existe una realidad objetiva en el ecosistema turístico que puede conocerse, pero nuestro conocimiento es siempre parcial, provisional y contextual.')}
+      ${card(null,'Epistemología — ¿cómo se puede conocer la realidad?','Subjetivista: el conocimiento se construye a partir de las percepciones, experiencias y valores de los actores. Teoría crítica y constructivismo: se construye colectivamente a través del diálogo, la reflexión crítica y la participación.')}
+      ${card(null,'Metodología — ¿qué debe hacer quien investiga?','Dialéctica transformativa: la investigación es un proceso participativo y reflexivo que transforma la realidad al generar conocimiento útil para mejorar la gobernanza, la sostenibilidad y la competitividad del destino.')}
+    </div>
+    <div class="tc-section-label">Implicaciones de esta postura</div>
+    ${cardList(null,'Implicaciones', ['Reconoce la complejidad del fenómeno turístico.','Valora las perspectivas de múltiples actores.','Promueve la construcción colectiva de soluciones.','Busca generar cambios positivos y sostenibles en el ecosistema.'])}
+    <div class="tc-section-label">Principios que orientan la investigación</div>
+    ${cardList(null,'Principios', ['Participación activa de los actores.','Reflexión crítica y ética.','Rigor metodológico y transparencia.','Compromiso con la transformación social y la sostenibilidad.'])}
+    <div class="tc-section-label">Propósito</div>
+    ${cardList(null,'Propósito', ['Comprender y transformar la realidad del ecosistema turístico de bienestar.','Generar conocimiento válido, relevante y útil.','Fortalecer la gobernanza, la sostenibilidad y la competitividad del destino.','Construir un modelo de gobernanza inteligente contextualizado y co-creado con los actores.'])}
+  `,
+  estrategia: () => `
+    <div class="tc-grid" style="margin-bottom:8px">
+      ${card(null,'Posición metodológica','Teoría crítica, orientación dialéctico-transformativa e Investigación Acción Participativa.')}
+      ${card(null,'Enfoque','Mixto con predominio cualitativo, alcance descriptivo-exploratorio y orientación prescriptiva/propositiva.')}
+      ${card(null,'Procedimiento','Secuencial y articulado con los objetivos específicos.')}
+    </div>
+    <div class="tc-section-label">Fases estratégicas</div>
+    ${renderPhases([
+      {t:'Fase 1. Diagnóstico', prop:'Comprender la situación actual de gobernanza, madurez digital y brechas.', met:'Decisión 1 — validar diagnóstico.', res:'Base para identificar determinantes estratégicos.'},
+      {t:'Fase 2. Determinantes y requisitos', prop:'Identificar determinantes estratégicos y requisitos funcionales del modelo.', met:'Decisión 2 — priorizar determinantes y requisitos.', res:'Insumos para diseñar la arquitectura del modelo.'},
+      {t:'Fase 3. Arquitectura del modelo', prop:'Diseñar la arquitectura sociotécnica de alto nivel del modelo.', met:'Decisión 3 — aprobar arquitectura de alto nivel.', res:'Arquitectura lista para su validación.'},
+      {t:'Fase 4. Validación y transferencia', prop:'Validar aplicabilidad y transferibilidad del modelo propuesto.', met:'Decisión 4 — validar modelo y lineamientos.', res:'Modelo de gobernanza inteligente validado.'}
+    ])}
+    <div class="tc-callout">La arquitectura se entiende como una arquitectura conceptual y funcional de alto nivel, que integra componentes estructurales, relacionales y tecnológicos; roles, relaciones, flujos de información, mecanismos de coordinación y criterios de integración estratégica de TIC y tecnologías digitales emergentes.</div>
+    <div class="tc-section-label">Criterios transversales</div>
+    ${cardList(null,'Criterios', ['Participación multiactor.','Sostenibilidad.','Competitividad.','Trazabilidad metodológica.','Uso estratégico de TIC.','Capacidades habilitadoras: analítica predictiva y prospectiva (opcionales e integradas).'])}
+  `,
+  metodos: () => `
+    <p style="font-size:.86rem;color:#5C6A62;line-height:1.6;margin-bottom:18px;max-width:900px">Ruta metodológica mixta (cualitativa y cuantitativa) que integra diagnóstico, análisis estratégico, diseño y validación para generar un modelo de Gobernanza Inteligente en Turismo de Bienestar para el DTLF. El proceso completo se organiza en 4 objetivos específicos — ver el detalle de cada uno en la lista de la izquierda del panel.</p>
+    <div class="tc-section-label">Variables del estudio</div>
+    <div class="tc-grid">
+      ${card(null,'Variables directas','Elementos clave que responden directamente al objetivo de cada fase.')}
+      ${card(null,'Variables indirectas','Factores contextuales que influyen en el comportamiento o desempeño de las variables directas.')}
+      ${card(null,'Variables intervinientes','Elementos mediadores que pueden potenciar, limitar o modificar la relación entre variables directas y resultados.')}
+    </div>
+    <div class="tc-section-label">Métodos de investigación</div>
+    <div class="tc-grid">
+      ${card(null,'Análisis documental','Revisión y análisis de marcos normativos, políticas, planes, informes, literatura académica y referentes internacionales.')}
+      ${card(null,'Trabajo de campo','Encuestas, entrevistas semiestructuradas, matrices de valoración, mapas de actores y ejercicios de validación participativa con informantes clave.')}
+      ${card(null,'Análisis integrado','Triangulación de información cualitativa y cuantitativa para el diagnóstico, definición de determinantes, requisitos, diseño y validación del modelo.')}
+    </div>
+    <div class="tc-section-label">Enfoque y garantías éticas</div>
+    ${cardList(null,'Enfoque y garantías', [
+      'Enfoque mixto (cualitativo y cuantitativo): combina comprensión profunda y medición objetiva para una visión integral del fenómeno.',
+      'Rigor metodológico y trazabilidad: uso de instrumentos validados, matrices de trazabilidad y criterios claros en cada fase.',
+      'Participación y transparencia: involucra activamente a los actores del ecosistema en todas las etapas del proceso.',
+      'Garantías éticas: confidencialidad, consentimiento informado, uso responsable de la información y respeto a los participantes.'
+    ])}
+    <div class="tc-callout"><b>Resultado final:</b> Modelo de Gobernanza Inteligente aplicable al Destino Turístico de La Fortuna, Costa Rica 2030.</div>
+  `
+};
+
+/* ===================== NAV + WIRING ===================== */
+
+const TESIS_MAIN = ['Problema', 'Pregunta', 'Objetivo general', 'Marco teórico', 'Marco metodológico'];
+const TESIS_OBJETIVOS = ['Objetivo 1', 'Objetivo 2', 'Objetivo 3', 'Objetivo 4'];
+const $list = document.getElementById('tesisNavList');
+const $wrap = document.getElementById('tcWrap');
+
+$list.innerHTML =
+  TESIS_MAIN.map((name,i)=>
+    `<div class="side-nav-item" data-name="${name}"><span class="sni-num">${String(i+1).padStart(2,'0')}</span><span class="sni-name">${name}</span></div>`
+  ).join('') +
+  '<div class="side-nav-divider"></div>' +
+  TESIS_OBJETIVOS.map((name,i)=>
+    `<div class="side-nav-item side-nav-item-title" data-name="${name}"><span class="sni-name">${name}</span><span class="sni-short">Obj ${i+1}</span></div>`
+  ).join('');
+
+function renderSection(name){
+  if(CONTENT[name]){
+    $wrap.innerHTML = CONTENT[name]();
+    if(name === 'Marco metodológico') wireMmTabs();
+  } else if(OBJ_DATA[name]){
+    $wrap.innerHTML = renderObjetivo(name);
+    wireObjetivoAccordion();
+  }
+  $wrap.scrollTop = 0;
+}
+function wireMmTabs(){
+  const $tabs = document.getElementById('mmTabs');
+  const $body = document.getElementById('mmTabBody');
+  function show(tab){
+    $tabs.querySelectorAll('.tc-subtab').forEach(b=> b.classList.toggle('active', b.dataset.tab===tab));
+    $body.innerHTML = MM_TABS[tab]();
+  }
+  $tabs.querySelectorAll('.tc-subtab').forEach(b=>{
+    b.addEventListener('click', ()=> show(b.dataset.tab));
+  });
+  show('filosofia');
+}
+
+$list.querySelectorAll('.side-nav-item').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    $list.querySelectorAll('.side-nav-item').forEach(o=>o.classList.remove('active'));
+    el.classList.add('active');
+    renderSection(el.dataset.name);
+  });
+});
+
+$list.querySelector('.side-nav-item').classList.add('active');
+renderSection('Problema');
+</script>
+
+</body>
+</html>

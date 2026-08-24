@@ -19,9 +19,15 @@ const MIME = {
   '.webp': 'image/webp'
 };
 
+const ROUTES = {
+  '/': '/index.html',
+  '/anteproyecto': '/anteproyecto.html',
+  '/tesis': '/tesis.html'
+};
+
 http.createServer((req, res) => {
   let urlPath = req.url.split('?')[0];
-  if (urlPath === '/') urlPath = '/pitch.html';
+  if (ROUTES[urlPath]) urlPath = ROUTES[urlPath];
 
   const filePath = path.normalize(path.join(ROOT, decodeURIComponent(urlPath)));
   if (!filePath.startsWith(ROOT)) {

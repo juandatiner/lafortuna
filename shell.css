@@ -1,0 +1,114 @@
+/* =========================================================
+   SHELL — shared across index.html / anteproyecto.html / tesis.html
+   Liquid-glass chrome: home gate + side-nav + collapse strip
+   ========================================================= */
+:root{
+  --glass-bg:rgba(255,255,255,.58);
+  --glass-bg-strong:rgba(255,255,255,.78);
+  --glass-border:rgba(255,255,255,.7);
+  --glass-shadow:0 20px 60px rgba(16,27,22,.14);
+  --shell-base:#F6F3EC;
+  --shell-ink:#16211C;
+  --shell-ink-soft:#5C6A62;
+}
+html,body{height:100%}
+body.shell-body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;overflow:hidden}
+
+/* ---------- Home gate (index.html) ---------- */
+.home-gate{position:fixed;inset:0;display:flex;background:var(--shell-base)}
+.home-gate::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 16% 20%, rgba(227,168,59,.20) 0%, transparent 42%),
+    radial-gradient(circle at 84% 78%, rgba(10,163,160,.16) 0%, transparent 46%),
+    radial-gradient(circle at 82% 14%, rgba(46,133,103,.14) 0%, transparent 40%);
+}
+.home-gate-half{all:unset;box-sizing:border-box;position:relative;flex:1;display:flex;align-items:center;justify-content:center;cursor:pointer;text-align:center;padding:8vh 6vw;font-family:inherit}
+.home-gate-half::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .35s ease}
+.home-gate-half:hover::after{background:rgba(255,255,255,.35)}
+.home-gate-inner{position:relative;z-index:1;max-width:420px;transition:transform .35s ease}
+.home-gate-half:hover .home-gate-inner{transform:translateY(-4px)}
+.home-gate-eyebrow{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:2.6px;text-transform:uppercase;color:var(--shell-ink-soft);margin-bottom:16px}
+.home-gate-half h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(2.4rem,5.4vw,4.2rem);letter-spacing:-1.5px;color:var(--shell-ink);margin-bottom:14px}
+.home-gate-half p{font-size:1rem;line-height:1.6;color:var(--shell-ink-soft);font-weight:500}
+.home-gate-left h2{color:#0E332C}
+.home-gate-right h2{color:#0C7A78}
+.home-gate-divider{position:relative;width:2px;flex-shrink:0;z-index:2}
+.home-gate-divider svg{position:absolute;top:0;left:-19px;width:40px;height:100%;opacity:.7}
+.home-gate-divider svg path.dg-line{fill:none;stroke:var(--shell-ink-soft);stroke-width:1.4}
+@media (max-width:760px){
+  .home-gate{flex-direction:column}
+  .home-gate-divider{width:100%;height:2px}
+  .home-gate-divider svg{width:100%;height:40px;top:-19px;left:0}
+}
+
+/* ---------- App shell (anteproyecto.html / tesis.html) ---------- */
+.app-shell{position:fixed;inset:0;display:flex;background:var(--shell-base)}
+
+.collapse-strip{
+  all:unset;box-sizing:border-box;position:relative;flex:0 0 60px;width:60px;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  cursor:pointer;background:var(--glass-bg);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);
+  transition:background .25s ease;
+}
+.collapse-strip:hover{background:var(--glass-bg-strong)}
+.collapse-strip-label{writing-mode:vertical-rl;transform:rotate(180deg);font-weight:800;font-size:12.5px;letter-spacing:2px;text-transform:uppercase;color:var(--shell-ink)}
+.collapse-strip.accent-teal .collapse-strip-label{color:#0C7A78}
+.collapse-chevron{font-size:18px;font-weight:900;color:var(--shell-ink-soft);line-height:1}
+.collapse-strip.chevron-flip .collapse-chevron{transform:rotate(180deg)}
+
+/* side-nav: small collapsible list of sections */
+.side-nav{
+  flex:0 0 236px;height:100%;display:flex;flex-direction:column;min-width:0;
+  background:var(--glass-bg);backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);
+  transition:flex-basis .3s ease;border-right:1px solid var(--glass-border);
+}
+.side-nav.side-nav-right{border-right:none;border-left:1px solid var(--glass-border)}
+.side-nav.collapsed{flex-basis:64px}
+.side-nav-header{display:flex;align-items:center;gap:6px;padding:14px 10px;border-bottom:1px solid rgba(16,27,22,.08);flex-shrink:0}
+.side-nav-home,.side-nav-collapse-btn{
+  flex-shrink:0;width:30px;height:30px;border-radius:10px;border:1px solid rgba(16,27,22,.1);background:rgba(255,255,255,.6);
+  color:var(--shell-ink);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .2s ease,transform .2s ease;text-decoration:none;
+}
+.side-nav-home:hover,.side-nav-collapse-btn:hover{background:#fff;transform:translateY(-1px)}
+.side-nav-header .topbar{position:static;top:auto;left:auto;right:auto;flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:6px;pointer-events:auto}
+.side-nav-header .brand{white-space:normal;line-height:1.25;width:100%}
+.side-nav-header .brand-full{display:inline}
+.side-nav.collapsed .side-nav-header .topbar{display:none}
+.side-nav.collapsed .side-nav-header{justify-content:center}
+.side-nav.collapsed .side-nav-collapse-btn{transform:rotate(180deg)}
+
+.side-nav-list{flex:1;min-height:0;overflow-y:auto;padding:10px}
+.side-nav-item{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:14px;cursor:pointer;color:var(--shell-ink-soft);font-weight:700;font-size:13px;transition:background .2s ease,color .2s ease;margin-bottom:3px}
+.side-nav-item:hover{background:rgba(255,255,255,.6);color:var(--shell-ink)}
+.side-nav-item.active{background:#0E332C;color:#FBF6EC}
+.side-nav.accent-teal .side-nav-item.active{background:#0C7A78}
+.sni-num{flex-shrink:0;font-family:'Playfair Display',serif;font-weight:900;font-size:12px;color:#E3A83B;width:20px}
+.side-nav-item.active .sni-num{color:#FFD37A}
+.sni-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side-nav-divider{height:1px;margin:10px 6px 12px;background:rgba(16,27,22,.14)}
+.side-nav-item-title{padding:10px 12px}
+.side-nav-item-title .sni-name{font-weight:900;font-size:14px;letter-spacing:.2px;color:var(--shell-ink);white-space:normal}
+.side-nav-item-title.active .sni-name{color:inherit}
+.side-nav.collapsed .side-nav-item{justify-content:center;padding:11px 4px}
+.side-nav.collapsed .sni-name{display:none}
+.sni-short{display:none}
+.side-nav.collapsed .side-nav-item-title .sni-short{display:inline;font-weight:900;font-size:10.5px;letter-spacing:.3px;color:var(--shell-ink)}
+.side-nav-empty-hint{padding:16px 10px;color:var(--shell-ink-soft);font-size:12.5px;font-weight:600;text-align:center}
+
+.panel-main{position:relative;flex:1 1 auto;min-width:0;height:100%;overflow:hidden}
+.panel-main .nav-arrow{display:none}
+
+/* Tesis: empty placeholder */
+.tesis-empty-state{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:6vh 8vw;background:
+  radial-gradient(circle at 30% 24%, rgba(10,163,160,.14) 0%, transparent 44%),
+  radial-gradient(circle at 76% 74%, rgba(227,168,59,.10) 0%, transparent 42%),
+  var(--shell-base)}
+.tesis-empty-badge{width:64px;height:64px;border-radius:20px;display:flex;align-items:center;justify-content:center;background:var(--glass-bg-strong);border:1px solid var(--glass-border);color:#0C7A78;font-size:26px;box-shadow:var(--glass-shadow)}
+.tesis-empty-state h3{font-family:'Playfair Display',serif;font-weight:800;font-size:1.6rem;color:var(--shell-ink)}
+.tesis-empty-state p{max-width:420px;color:var(--shell-ink-soft);font-size:.98rem;line-height:1.6}
+
+@media (max-width:760px){
+  .side-nav{flex-basis:200px}
+}

@@ -189,6 +189,16 @@ table.anexo-table{width:100%;min-width:1180px;border-collapse:collapse;font-size
 .tc-edit-toggle.active{background:#0E332C;color:#FFD37A;border-color:#0E332C}
 .side-nav.collapsed .tc-edit-toggle{width:30px;height:30px;padding:0;margin:0 auto 10px}
 .side-nav.collapsed .tc-edit-toggle-text{display:none}
+.tc-edit-exit-row{display:none;flex-direction:column;gap:8px;margin:0 14px 10px}
+.tc-edit-exit-row .tc-edit-toggle{margin:0}
+.tc-edit-save-exit{background:#0E332C;color:#FFD37A;border-color:#0E332C}
+.tc-edit-save-exit:hover{background:#123c33}
+.tc-edit-cancel-exit{background:rgba(214,69,69,.1);color:#B33F3F;border-color:rgba(214,69,69,.35)}
+.tc-edit-cancel-exit:hover{background:rgba(214,69,69,.18)}
+body.editing-content #editToggleBtn{display:none}
+body.editing-content .tc-edit-exit-row{display:flex}
+.side-nav.collapsed .tc-edit-exit-row{flex-direction:row}
+.side-nav.collapsed .tc-edit-exit-row .tc-edit-toggle{width:30px;height:30px;padding:0}
 body.editing-content [data-ekey]{position:relative;cursor:pointer;outline:1.5px dashed rgba(12,122,120,.45);outline-offset:3px;border-radius:6px;transition:background .15s ease}
 body.editing-content [data-ekey]:hover{outline-color:#0C7A78;background:rgba(12,122,120,.07)}
 body.editing-content [data-ekey]:hover::after{content:'✎';position:absolute;top:-11px;right:-11px;width:20px;height:20px;border-radius:50%;background:#0E332C;color:#FFD37A;font-size:11px;line-height:20px;text-align:center;box-shadow:0 4px 10px rgba(16,27,22,.3);pointer-events:none}
@@ -216,15 +226,70 @@ body.editing-content .tc-box-add{display:flex;align-items:center;justify-content
 body.editing-content .tc-box-add:hover{background:rgba(12,122,120,.12)}
 
 /* contenido largo: clamp + "ver más" */
-.tc-eclamp-inner{max-height:200px;overflow:hidden}
-.tc-ver-mas{all:unset;box-sizing:border-box;display:inline-block;margin-top:6px;font-size:.74rem;font-weight:800;color:#0C7A78;cursor:pointer}
-.tc-ver-mas:hover{text-decoration:underline}
+.tc-eclamp-inner{max-height:140px;overflow:hidden}
+.tc-clamp-footer{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:10px}
+.tc-ver-mas{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:999px;background:#E7E4FB;color:#3730A3;font-weight:800;font-size:.68rem;cursor:pointer;transition:background .15s ease}
+.tc-ver-mas:hover{background:#DAD5FA}
+.tc-ver-mas span{font-size:.95em}
 #vmModal{position:fixed;inset:0;z-index:5600;display:none;align-items:flex-start;justify-content:center;padding:8vh 4vw;background:rgba(10,17,14,.55);backdrop-filter:blur(3px)}
 #vmModal.open{display:flex}
 .vm-card{position:relative;max-width:640px;width:100%;max-height:80vh;overflow-y:auto;background:var(--shell-base,#F6F3EC);border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.35);padding:30px 32px}
 .vm-close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;background:#0E332C;color:#FFD37A;border:none;font-size:15px;font-weight:900;cursor:pointer}
 .vm-body{font-size:.9rem;line-height:1.7;color:#16211C}
 .vm-body ul{padding-left:18px;margin-top:6px}
+
+/* adjuntos: imagen/documento por campo — siempre en la fila inferior, con o sin botón "Ver más" */
+[data-ekey],[data-group-key] [data-gi],[data-group-key] [data-gfield]{position:relative}
+.tc-attach-badge{box-sizing:border-box;display:flex;align-items:center;gap:10px}
+.tc-attach-icon{all:unset;box-sizing:border-box;width:32px;height:32px;border-radius:50%;background:rgba(12,122,120,.12);border:1.5px solid rgba(12,122,120,.25);box-shadow:0 3px 8px rgba(16,27,22,.1);display:flex;align-items:center;justify-content:center;color:#0C7A78;cursor:pointer;transition:transform .15s ease,background .15s ease}
+.tc-attach-icon svg{width:16px;height:16px;display:block}
+.tc-attach-icon:hover{background:rgba(12,122,120,.22);transform:scale(1.1)}
+#attachPreview{position:fixed;inset:0;z-index:9998;background:rgba(3,10,8,.92);display:none;align-items:center;justify-content:center;padding:6vh 5vw}
+#attachPreview.open{display:flex}
+#attachPreview .ap-close{position:absolute;top:18px;right:22px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;border:none;font-size:18px;font-weight:900;cursor:pointer;z-index:2}
+#attachPreview .ap-close:hover{background:rgba(255,255,255,.22)}
+#attachPreview .ap-body{max-width:100%;max-height:100%;display:flex;align-items:center;justify-content:center}
+#attachPreview .ap-body img{max-width:100%;max-height:88vh;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6);object-fit:contain}
+#attachPreview .ap-frame{width:min(90vw,980px);height:88vh;border:none;border-radius:12px;background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+#attachPreview .ap-fallback{background:#F6F3EC;border-radius:14px;padding:26px 30px;text-align:center;color:#16211C;max-width:420px}
+#attachPreview .ap-fallback a{color:#0C7A78;font-weight:800}
+
+/* ===== Modal de clave para entrar a edición ===== */
+#editKeyModal{position:fixed;inset:0;z-index:5700;display:none;align-items:center;justify-content:center;padding:6vh 4vw;background:rgba(10,17,14,.55);backdrop-filter:blur(3px)}
+#editKeyModal.open{display:flex}
+.ek-card{position:relative;width:100%;max-width:340px;background:var(--shell-base,#F6F3EC);border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.35);padding:32px 28px 26px;text-align:center}
+.ek-close{all:unset;box-sizing:border-box;position:absolute;top:12px;right:14px;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#16211C;font-size:14px;font-weight:900;cursor:pointer}
+.ek-close:hover{background:rgba(16,27,22,.08)}
+.ek-icon{width:44px;height:44px;margin:0 auto 12px;border-radius:50%;background:#0E332C;color:#FFD37A;display:flex;align-items:center;justify-content:center;font-size:18px}
+.ek-card h3{margin:0 0 6px;font-size:1.05rem;color:#16211C}
+.ek-card p{margin:0 0 16px;font-size:.8rem;color:#5A655F;line-height:1.5}
+#editKeyInput{all:unset;box-sizing:border-box;width:100%;text-align:center;letter-spacing:.12em;padding:11px 14px;border-radius:12px;border:1.5px solid rgba(16,27,22,.16);background:#fff;font:inherit;font-size:.95rem;color:#16211C}
+#editKeyInput:focus{outline:2px solid rgba(12,122,120,.4);outline-offset:1px}
+.ek-error{display:none;margin-top:10px;font-size:.76rem;font-weight:700;color:#B33F3F}
+.ek-error.show{display:block}
+.ek-actions{display:flex;gap:10px;margin-top:18px}
+.ek-btn{all:unset;box-sizing:border-box;flex:1;text-align:center;padding:10px 0;border-radius:999px;font-weight:800;font-size:.82rem;cursor:pointer}
+.ek-btn-ghost{background:rgba(16,27,22,.08);color:#16211C}
+.ek-btn-ghost:hover{background:rgba(16,27,22,.14)}
+.ek-btn-solid{background:#0E332C;color:#FFD37A}
+.ek-btn-solid:hover{background:#123c33}
+.vm-attach{margin-top:16px}
+.vm-media{margin-bottom:12px}
+.vm-media img{cursor:zoom-in}
+.vm-doc-open{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:6px;color:#0C7A78;font-weight:800;font-size:.85rem;cursor:pointer}
+.vm-doc-open:hover{text-decoration:underline}
+.vm-media img{max-width:100%;border-radius:12px;display:block}
+.vm-doc{margin-bottom:12px}
+.vm-doc a{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;background:rgba(12,122,120,.1);color:#0C7A78;font-weight:800;font-size:.82rem;text-decoration:none}
+.vm-doc a:hover{background:rgba(12,122,120,.18)}
+.tc-ebox-attach{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(16,27,22,.15)}
+.tc-attach-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.tc-attach-input{position:relative;display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:999px;background:rgba(16,27,22,.06);color:#16211C;font-weight:700;font-size:.72rem;cursor:pointer}
+.tc-attach-input:hover{background:rgba(16,27,22,.1)}
+.tc-attach-input input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.tc-attach-remove{all:unset;box-sizing:border-box;font-size:.7rem;font-weight:700;color:#B33F3F;cursor:pointer;text-decoration:underline}
+.tc-attach-name{font-size:.7rem;color:#4B5A52;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tc-attach-hint{font-size:.66rem;color:#7A867F}
 
 /* grupos con dos campos por item (título + descripción) */
 .tc-chipcard-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
@@ -238,6 +303,10 @@ body.editing-content .tc-chipcard [data-gfield]:hover{outline-color:#0C7A78;back
 /* preguntas del marco teórico como grupo editable */
 .tc-theory-qa{position:relative}
 body.editing-content .tc-theory-qa{padding-top:8px}
+body.editing-content .tc-theory-qa [data-gfield]:not([data-locked="1"]){cursor:pointer;outline:1.5px dashed rgba(12,122,120,.4);outline-offset:2px;border-radius:5px}
+body.editing-content .tc-theory-qa [data-gfield]:not([data-locked="1"]):hover{outline-color:#0C7A78;background:rgba(12,122,120,.07)}
+body.editing-content .tc-theory-qa [data-gfield][data-locked="1"]{cursor:default;opacity:.85}
+body.editing-content .tc-theory-qa [data-gfield][data-locked="1"]::after{content:'🔒';font-size:.7em;margin-left:6px;opacity:.6}
 </style>
 </head>
 <body class="shell-body">
@@ -264,6 +333,10 @@ body.editing-content .tc-theory-qa{padding-top:8px}
       <a class="side-nav-home" href="/" title="Volver al inicio">&#8962;</a>
     </div>
     <button type="button" class="tc-edit-toggle" id="editToggleBtn" title="Editar contenido"><span class="tc-edit-toggle-icon">✎</span><span class="tc-edit-toggle-text">Editar contenido</span></button>
+    <div class="tc-edit-exit-row" id="editExitRow">
+      <button type="button" class="tc-edit-toggle tc-edit-save-exit" id="editSaveExitBtn" title="Guardar y salir"><span class="tc-edit-toggle-icon">✓</span><span class="tc-edit-toggle-text">Guardar y salir</span></button>
+      <button type="button" class="tc-edit-toggle tc-edit-cancel-exit" id="editCancelExitBtn" title="Cancelar y salir"><span class="tc-edit-toggle-icon">✕</span><span class="tc-edit-toggle-text">Cancelar y salir</span></button>
+    </div>
     <div class="side-nav-list" id="tesisNavList"></div>
   </nav>
 
@@ -280,6 +353,27 @@ body.editing-content .tc-theory-qa{padding-top:8px}
   <div class="vm-card">
     <button type="button" class="vm-close" data-vm-close title="Cerrar">&times;</button>
     <div class="vm-body"></div>
+    <div class="vm-attach"></div>
+  </div>
+</div>
+
+<div id="attachPreview">
+  <button type="button" class="ap-close" data-ap-close title="Cerrar">&times;</button>
+  <div class="ap-body"></div>
+</div>
+
+<div id="editKeyModal">
+  <div class="ek-card">
+    <button type="button" class="ek-close" data-ek-close title="Cerrar">&times;</button>
+    <div class="ek-icon">✎</div>
+    <h3>Editar contenido</h3>
+    <p>Ingresá la clave para activar el modo edición.</p>
+    <input type="password" id="editKeyInput" placeholder="Clave" autocomplete="off">
+    <div class="ek-error" id="editKeyError">Clave incorrecta.</div>
+    <div class="ek-actions">
+      <button type="button" class="ek-btn ek-btn-ghost" id="editKeyCancel">Cancelar</button>
+      <button type="button" class="ek-btn ek-btn-solid" id="editKeySubmit">Entrar</button>
+    </div>
   </div>
 </div>
 
@@ -291,6 +385,7 @@ document.querySelectorAll('[data-nav-toggle]').forEach(btn=>{
 /* ===================== CONTENIDO EDITABLE ===================== */
 
 const EDIT_KEY_LOCAL = '2026'; // mismo código que access-gate.js; sirve solo de filtro liviano, la clave real la valida el server
+const MAX_UPLOAD_MB = 20;
 let OVERRIDES = {};
 
 function escHtml(s){
@@ -337,6 +432,99 @@ async function saveKey(key, value){
   }
 }
 
+function fileToBase64(file){
+  return new Promise((resolve, reject)=>{
+    const r = new FileReader();
+    r.onload = ()=> resolve(String(r.result).split(',')[1] || '');
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+async function uploadAttachment(key, kind, file){
+  if(file.size > MAX_UPLOAD_MB * 1024 * 1024){
+    alert(`Archivo demasiado grande. Máx. ${MAX_UPLOAD_MB} MB por archivo.`);
+    return false;
+  }
+  let dataBase64;
+  try{ dataBase64 = await fileToBase64(file); }
+  catch(e){ alert('No se pudo leer el archivo.'); return false; }
+  try{
+    const res = await fetch('/api/upload', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Edit-Key':EDIT_KEY_LOCAL},
+      body: JSON.stringify({ key, kind, filename:file.name, mime:file.type, dataBase64 })
+    });
+    const data = await res.json();
+    if(!res.ok){ alert(data.error || 'No se pudo subir el archivo.'); return false; }
+    OVERRIDES[key+'.attach'] = data.attach;
+    return true;
+  }catch(e){
+    alert('No se pudo subir el archivo. Revisá la conexión.');
+    return false;
+  }
+}
+async function removeAttachment(key, kind){
+  try{
+    const res = await fetch('/api/attach', {
+      method:'DELETE',
+      headers:{'Content-Type':'application/json','X-Edit-Key':EDIT_KEY_LOCAL},
+      body: JSON.stringify({ key, kind })
+    });
+    const data = await res.json();
+    if(!res.ok){ alert(data.error || 'No se pudo quitar el archivo.'); return false; }
+    OVERRIDES[key+'.attach'] = data.attach;
+    return true;
+  }catch(e){
+    alert('No se pudo quitar el archivo. Revisá la conexión.');
+    return false;
+  }
+}
+function attachControlsHtml(key){
+  const rec = OVERRIDES[key+'.attach'] || {};
+  return `<div class="tc-ebox-attach">
+    <div class="tc-attach-row">
+      <label class="tc-attach-input">📷 ${rec.image ? 'Cambiar imagen' : 'Imagen'}<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-attach-kind="image"></label>
+      <label class="tc-attach-input">📄 ${rec.doc ? 'Cambiar documento' : 'Documento'}<input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" data-attach-kind="doc"></label>
+    </div>
+    ${rec.image ? `<div class="tc-attach-row">
+      <button type="button" class="tc-attach-remove" data-attach-kind="image">Quitar imagen</button>
+      <span class="tc-attach-name" title="${escHtml(rec.image.name)}">${escHtml(rec.image.name)}</span>
+    </div>` : ''}
+    ${rec.doc ? `<div class="tc-attach-row">
+      <button type="button" class="tc-attach-remove" data-attach-kind="doc">Quitar documento</button>
+      <span class="tc-attach-name" title="${escHtml(rec.doc.name)}">${escHtml(rec.doc.name)}</span>
+    </div>` : ''}
+    <div class="tc-attach-hint">Máx. ${MAX_UPLOAD_MB} MB por archivo.</div>
+  </div>`;
+}
+function wireAttachControls(panel, key, onChange){
+  panel.querySelectorAll('input[type=file]').forEach(inp=>{
+    inp.addEventListener('click', e=> e.stopPropagation());
+    inp.addEventListener('change', async ()=>{
+      const file = inp.files[0];
+      if(!file) return;
+      const ok = await uploadAttachment(key, inp.dataset.attachKind, file);
+      if(ok) onChange();
+    });
+  });
+  panel.querySelectorAll('.tc-attach-remove').forEach(btn=>{
+    btn.addEventListener('click', async (e)=>{
+      e.stopPropagation();
+      const ok = await removeAttachment(key, btn.dataset.attachKind);
+      if(ok) onChange();
+    });
+  });
+}
+/* monta los controles de adjuntar imagen/documento dentro de un panel .tc-ebox de edición inline */
+function mountAttachControls(panelEl, key){
+  function refresh(){
+    const holder = panelEl.querySelector('.tc-ebox-attach');
+    holder.outerHTML = attachControlsHtml(key);
+    wireAttachControls(panelEl, key, refresh);
+  }
+  refresh();
+}
+
 function flashSaved(){
   let el = document.getElementById('tcEsaveFlash');
   if(!el){
@@ -363,6 +551,7 @@ function enterEdit(box){
   } else {
     currentVal = OVERRIDES[key] !== undefined ? String(OVERRIDES[key]) : (box.querySelector('.tc-pending') ? '' : stripTags(contentRoot.innerHTML));
   }
+  const allowAttach = !/\.(title|t)$/.test(key);
   box.classList.add('tc-ebox-active');
   box.innerHTML = `<div class="tc-ebox">
     <textarea>${escHtml(currentVal)}</textarea>
@@ -370,29 +559,35 @@ function enterEdit(box){
       <button type="button" class="tc-ebox-save">Guardar</button>
       <button type="button" class="tc-ebox-cancel">Cancelar</button>
     </div>
+    ${allowAttach ? '<div class="tc-ebox-attach"></div>' : ''}
   </div>`;
+  if(allowAttach) mountAttachControls(box.querySelector('.tc-ebox'), key);
   const ta = box.querySelector('textarea');
   ta.focus();
-  box.querySelector('.tc-ebox-cancel').addEventListener('click', (e)=>{
-    e.stopPropagation();
+  function doCancel(){
     box.classList.remove('tc-ebox-active');
     box.innerHTML = original;
-  });
-  box.querySelector('.tc-ebox-save').addEventListener('click', async (e)=>{
-    e.stopPropagation();
+    applyAttachBadge(box);
+  }
+  async function doSave(){
     const raw = ta.value;
     const value = kind === 'list' ? raw.split('\n').map(s=>s.trim()).filter(Boolean) : raw.trim();
     const ok = await saveKey(key, value);
     box.classList.remove('tc-ebox-active');
-    if(!ok){ box.innerHTML = original; return; }
+    if(!ok){ box.innerHTML = original; applyAttachBadge(box); return; }
     if(kind === 'list'){
       box.innerHTML = value.length ? value.map(i=>`<li>${escHtml(i)}</li>`).join('') : `<li class="tc-pending">${PENDING}</li>`;
     } else {
       box.innerHTML = value ? nl2html(value) : `<span class="tc-pending">${PENDING}</span>`;
     }
     applyClamp(box);
+    applyAttachBadge(box);
     flashSaved();
-  });
+  }
+  box._eboxCancel = doCancel;
+  box._eboxSave = doSave;
+  box.querySelector('.tc-ebox-cancel').addEventListener('click', (e)=>{ e.stopPropagation(); doCancel(); });
+  box.querySelector('.tc-ebox-save').addEventListener('click', (e)=>{ e.stopPropagation(); doSave(); });
 }
 
 /* ---- grupo de cajas con + / papelera (largo variable, ej. estado del arte) ---- */
@@ -426,14 +621,19 @@ function renderChipGroup(key){
   return `<div class="tc-chipcard-row" data-group-key="${key}" data-group-kind="card">${chipGroupInner(key)}</div>`;
 }
 
-/* ---- grupo tipo "qa": item = {q, a} (preguntas del marco teórico) ---- */
+/* ---- grupo tipo "qa": item = {q, a} (preguntas del marco teórico) ----
+   las primeras 4 preguntas (¿Qué es?, ¿Por qué?, ¿Cómo?, Aporte) son la estructura base:
+   no se pueden borrar ni renombrar, solo se les puede cambiar la descripción (a) */
 function qaGroupInner(key){
   const items = groupItems(key);
-  return items.map((it,i)=>`<div class="tc-theory-qa" data-gi="${i}">
-      <button type="button" class="tc-box-del" title="Eliminar">&minus;</button>
-      <label data-gfield="q">${escHtml(it.q||'')}</label>
+  return items.map((it,i)=>{
+    const locked = i < 4;
+    return `<div class="tc-theory-qa" data-gi="${i}">
+      ${locked ? '' : `<button type="button" class="tc-box-del" title="Eliminar">&minus;</button>`}
+      <label data-gfield="q"${locked ? ' data-locked="1"' : ''}>${escHtml(it.q||'')}</label>
       <p data-gfield="a">${it.a ? escHtml(it.a) : `<span class="tc-pending">${PENDING}</span>`}</p>
-    </div>`).join('')
+    </div>`;
+  }).join('')
     + `<button type="button" class="tc-box-add" data-add-group="${key}">+ Agregar pregunta</button>`;
 }
 
@@ -448,15 +648,16 @@ function renderGroupInPlace(container){
   const kind = container.dataset.groupKind;
   container.innerHTML = GROUP_RENDERERS[kind](key);
   wireClamps(container);
+  wireAttachBadges(container);
 }
 
 /* edición de un item completo (grupo "stat": el item entero es un solo campo de texto) */
 function enterGroupItemEdit(itemEl){
   const container = itemEl.closest('[data-group-key]');
-  const key = container.dataset.groupKey;
+  const key = attachKeyFor(itemEl);
   const idx = Number(itemEl.dataset.gi);
   const original = itemEl.innerHTML;
-  const currentVal = groupItems(key)[idx] || '';
+  const currentVal = groupItems(container.dataset.groupKey)[idx] || '';
   itemEl.classList.add('tc-ebox-active');
   itemEl.innerHTML = `<div class="tc-ebox">
     <textarea>${escHtml(stripTags(currentVal))}</textarea>
@@ -464,36 +665,42 @@ function enterGroupItemEdit(itemEl){
       <button type="button" class="tc-ebox-save">Guardar</button>
       <button type="button" class="tc-ebox-cancel">Cancelar</button>
     </div>
+    <div class="tc-ebox-attach"></div>
   </div>`;
+  mountAttachControls(itemEl.querySelector('.tc-ebox'), key);
   const ta = itemEl.querySelector('textarea');
   ta.focus();
-  itemEl.querySelector('.tc-ebox-cancel').addEventListener('click', (e)=>{
-    e.stopPropagation();
+  function doCancel(){
     itemEl.classList.remove('tc-ebox-active');
     itemEl.innerHTML = original;
-  });
-  itemEl.querySelector('.tc-ebox-save').addEventListener('click', async (e)=>{
-    e.stopPropagation();
-    const items = groupItems(key);
+    applyAttachBadge(itemEl);
+  }
+  async function doSave(){
+    const items = groupItems(container.dataset.groupKey);
     items[idx] = nl2html(ta.value.trim());
-    const ok = await saveKey(key, items);
+    const ok = await saveKey(container.dataset.groupKey, items);
     itemEl.classList.remove('tc-ebox-active');
-    if(!ok){ itemEl.innerHTML = original; return; }
+    if(!ok){ itemEl.innerHTML = original; applyAttachBadge(itemEl); return; }
     renderGroupInPlace(container);
     flashSaved();
-  });
+  }
+  itemEl._eboxCancel = doCancel;
+  itemEl._eboxSave = doSave;
+  itemEl.querySelector('.tc-ebox-cancel').addEventListener('click', (e)=>{ e.stopPropagation(); doCancel(); });
+  itemEl.querySelector('.tc-ebox-save').addEventListener('click', (e)=>{ e.stopPropagation(); doSave(); });
 }
 
 /* edición de un campo suelto dentro de un item de grupo "card" / "qa" (título, descripción, pregunta...) */
 function enterCardFieldEdit(fieldEl){
   const itemEl = fieldEl.closest('[data-gi]');
   const container = fieldEl.closest('[data-group-key]');
-  const key = container.dataset.groupKey;
+  const key = attachKeyFor(fieldEl);
   const idx = Number(itemEl.dataset.gi);
   const field = fieldEl.dataset.gfield;
   const original = fieldEl.innerHTML;
-  const items = groupItems(key);
+  const items = groupItems(container.dataset.groupKey);
   const currentVal = (items[idx] && items[idx][field]) || '';
+  const allowAttach = field !== 'q' && field !== 'title';
   fieldEl.classList.add('tc-ebox-active');
   fieldEl.innerHTML = `<div class="tc-ebox">
     <textarea>${escHtml(currentVal)}</textarea>
@@ -501,53 +708,184 @@ function enterCardFieldEdit(fieldEl){
       <button type="button" class="tc-ebox-save">Guardar</button>
       <button type="button" class="tc-ebox-cancel">Cancelar</button>
     </div>
+    ${allowAttach ? '<div class="tc-ebox-attach"></div>' : ''}
   </div>`;
+  if(allowAttach) mountAttachControls(fieldEl.querySelector('.tc-ebox'), key);
   const ta = fieldEl.querySelector('textarea');
   ta.focus();
-  fieldEl.querySelector('.tc-ebox-cancel').addEventListener('click', (e)=>{
-    e.stopPropagation();
+  function doCancel(){
     fieldEl.classList.remove('tc-ebox-active');
     fieldEl.innerHTML = original;
-  });
-  fieldEl.querySelector('.tc-ebox-save').addEventListener('click', async (e)=>{
-    e.stopPropagation();
-    const freshItems = groupItems(key);
+    applyAttachBadge(fieldEl);
+  }
+  async function doSave(){
+    const freshItems = groupItems(container.dataset.groupKey);
     const base = freshItems[idx] || {};
     freshItems[idx] = { ...base, [field]: ta.value.trim() };
-    const ok = await saveKey(key, freshItems);
+    const ok = await saveKey(container.dataset.groupKey, freshItems);
     fieldEl.classList.remove('tc-ebox-active');
-    if(!ok){ fieldEl.innerHTML = original; return; }
+    if(!ok){ fieldEl.innerHTML = original; applyAttachBadge(fieldEl); return; }
     renderGroupInPlace(container);
     flashSaved();
-  });
+  }
+  fieldEl._eboxCancel = doCancel;
+  fieldEl._eboxSave = doSave;
+  fieldEl.querySelector('.tc-ebox-cancel').addEventListener('click', (e)=>{ e.stopPropagation(); doCancel(); });
+  fieldEl.querySelector('.tc-ebox-save').addEventListener('click', (e)=>{ e.stopPropagation(); doSave(); });
 }
 
 /* ---- contenido largo: clamp + overlay "ver más" ---- */
-const CLAMP_MAX = 200;
+const CLAMP_MAX = 140;
 function applyClamp(el){
   if(el.classList.contains('tc-ebox-active')) return;
   if(el.querySelector(':scope > .tc-eclamp-inner')) return;
-  if(el.scrollHeight <= CLAMP_MAX + 6) return;
+  if(el.scrollHeight <= CLAMP_MAX + 26) return;
   const delBtn = el.querySelector(':scope > .tc-box-del');
   const inner = document.createElement('div');
   inner.className = 'tc-eclamp-inner';
   Array.from(el.childNodes).forEach(n=>{ if(n !== delBtn) inner.appendChild(n); });
   el.prepend(inner);
+  const footer = document.createElement('div');
+  footer.className = 'tc-clamp-footer';
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.className = 'tc-ver-mas';
-  btn.textContent = 'Ver más ▾';
-  btn.addEventListener('click', (e)=>{ e.stopPropagation(); openViewMore(inner.innerHTML); });
-  inner.after(btn);
+  btn.innerHTML = 'Ver más <span aria-hidden="true">&rarr;</span>';
+  btn.addEventListener('click', (e)=>{ e.stopPropagation(); openViewMore(el); });
+  footer.appendChild(btn);
+  inner.after(footer);
 }
 function wireClamps(root){
   root.querySelectorAll('[data-ekey]').forEach(applyClamp);
   root.querySelectorAll('[data-group-key] [data-gi]').forEach(applyClamp);
   root.querySelectorAll('[data-group-key] [data-gfield]').forEach(applyClamp);
 }
-function openViewMore(html){
+
+/* ---- adjuntos: imagen/documento anclados a un campo ---- */
+function attachKeyFor(el){
+  if(el.dataset.ekey) return el.dataset.ekey;
+  const container = el.closest('[data-group-key]');
+  if(!container) return null;
+  if(el.dataset.gfield){
+    const itemEl = el.closest('[data-gi]');
+    return container.dataset.groupKey + '#' + itemEl.dataset.gi + '.' + el.dataset.gfield;
+  }
+  if(el.dataset.gi !== undefined) return container.dataset.groupKey + '#' + el.dataset.gi;
+  return null;
+}
+function cleanContentHtml(el){
+  const clone = el.cloneNode(true);
+  clone.querySelectorAll(':scope > .tc-clamp-footer, :scope > .tc-attach-badge, :scope > .tc-box-del').forEach(n=>n.remove());
+  const inner = clone.querySelector(':scope > .tc-eclamp-inner');
+  return inner ? inner.innerHTML : clone.innerHTML;
+}
+const PREVIEWABLE_INLINE_EXT = ['.pdf', '.txt'];
+function openAttachPreview(url, name, ext){
+  const modal = document.getElementById('attachPreview');
+  const body = modal.querySelector('.ap-body');
+  body.innerHTML = '';
+  if(!ext){
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = name || '';
+    body.appendChild(img);
+  } else if(PREVIEWABLE_INLINE_EXT.includes(ext)){
+    const ifr = document.createElement('iframe');
+    ifr.className = 'ap-frame';
+    ifr.src = url;
+    body.appendChild(ifr);
+  } else {
+    body.innerHTML = `<div class="ap-fallback">
+      <p>Este tipo de archivo (${escHtml(ext.replace('.',''))}) no se puede previsualizar directo en el navegador.</p>
+      <a href="${url}" target="_blank" rel="noopener">Abrir ${escHtml(name || '')} en pestaña nueva</a>
+    </div>`;
+  }
+  modal.classList.add('open');
+}
+const ICON_SVG_IMAGE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
+const ICON_SVG_DOC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/></svg>';
+function closeAttachPreview(){
+  const modal = document.getElementById('attachPreview');
+  modal.classList.remove('open');
+  modal.querySelector('.ap-body').innerHTML = '';
+}
+function applyAttachBadge(el){
+  const key = attachKeyFor(el);
+  let footer = el.querySelector(':scope > .tc-clamp-footer');
+  let badge = footer ? footer.querySelector(':scope > .tc-attach-badge') : null;
+  const rec = key ? OVERRIDES[key + '.attach'] : null;
+  const has = rec && (rec.image || rec.doc);
+  if(!has){
+    if(badge) badge.remove();
+    if(footer && !footer.querySelector(':scope > .tc-ver-mas') && !footer.querySelector(':scope > .tc-attach-badge')) footer.remove();
+    return;
+  }
+  if(!footer){
+    footer = document.createElement('div');
+    footer.className = 'tc-clamp-footer';
+    el.appendChild(footer);
+  }
+  if(!badge){
+    badge = document.createElement('span');
+    badge.className = 'tc-attach-badge';
+    footer.appendChild(badge);
+  }
+  badge.innerHTML = '';
+  if(rec.image){
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'tc-attach-icon';
+    btn.title = 'Ver imagen: ' + rec.image.name;
+    btn.innerHTML = ICON_SVG_IMAGE;
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      openAttachPreview(`/api/uploads/${rec.image.file}`, rec.image.name, null);
+    });
+    badge.appendChild(btn);
+  }
+  if(rec.doc){
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'tc-attach-icon';
+    btn.title = 'Ver documento: ' + rec.doc.name;
+    btn.innerHTML = ICON_SVG_DOC;
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      openAttachPreview(`/api/uploads/${rec.doc.file}`, rec.doc.name, path_extname(rec.doc.name));
+    });
+    badge.appendChild(btn);
+  }
+}
+function path_extname(name){
+  const i = (name || '').lastIndexOf('.');
+  return i === -1 ? '' : name.slice(i).toLowerCase();
+}
+function wireAttachBadges(root){
+  root.querySelectorAll('[data-ekey]').forEach(applyAttachBadge);
+  root.querySelectorAll('[data-group-key][data-group-kind="stat"] [data-gi]').forEach(applyAttachBadge);
+  root.querySelectorAll('[data-group-key] [data-gfield]').forEach(applyAttachBadge);
+}
+function renderAttachSection(modal, key, el){
+  const wrap = modal.querySelector('.vm-attach');
+  const rec = OVERRIDES[key + '.attach'] || {};
+  let html = '';
+  if(rec.image) html += `<div class="vm-media"><img src="/api/uploads/${rec.image.file}" alt="" data-preview-url="/api/uploads/${rec.image.file}" data-preview-name="${escHtml(rec.image.name)}"></div>`;
+  if(rec.doc) html += `<div class="vm-doc"><button type="button" class="vm-doc-open" data-preview-url="/api/uploads/${rec.doc.file}" data-preview-name="${escHtml(rec.doc.name)}" data-preview-ext="${escHtml(path_extname(rec.doc.name))}">📄 Ver ${escHtml(rec.doc.name)}</button></div>`;
+  if(document.body.classList.contains('editing-content')) html += attachControlsHtml(key);
+  wrap.innerHTML = html;
+  wrap.querySelectorAll('[data-preview-url]').forEach(node=>{
+    node.addEventListener('click', ()=> openAttachPreview(node.dataset.previewUrl, node.dataset.previewName, node.dataset.previewExt || null));
+  });
+  if(document.body.classList.contains('editing-content')){
+    wireAttachControls(wrap, key, ()=>{ renderAttachSection(modal, key, el); applyAttachBadge(el); });
+  }
+}
+function openViewMore(el){
+  const key = attachKeyFor(el);
   const modal = document.getElementById('vmModal');
-  modal.querySelector('.vm-body').innerHTML = html;
+  modal.querySelector('.vm-body').innerHTML = cleanContentHtml(el);
+  if(key) renderAttachSection(modal, key, el);
+  else modal.querySelector('.vm-attach').innerHTML = '';
   modal.classList.add('open');
 }
 function closeViewMore(){ document.getElementById('vmModal').classList.remove('open'); }
@@ -1047,6 +1385,13 @@ document.getElementById('vmModal').addEventListener('click', (e)=>{
   if(e.target.id === 'vmModal') closeViewMore();
 });
 document.querySelector('[data-vm-close]').addEventListener('click', closeViewMore);
+document.getElementById('attachPreview').addEventListener('click', (e)=>{
+  if(e.target.id === 'attachPreview') closeAttachPreview();
+});
+document.querySelector('[data-ap-close]').addEventListener('click', closeAttachPreview);
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape' && document.getElementById('attachPreview').classList.contains('open')) closeAttachPreview();
+});
 document.addEventListener('click', (e)=>{
   const btn = e.target.closest('[data-anexo-id]');
   if(btn) openAnexo(btn.dataset.anexoId);
@@ -1394,6 +1739,7 @@ function renderSection(name){
     wireObjetivoAccordion();
   }
   wireClamps($wrap);
+  wireAttachBadges($wrap);
   $wrap.scrollTop = 0;
 }
 function wireMmTabs(){
@@ -1403,6 +1749,7 @@ function wireMmTabs(){
     $tabs.querySelectorAll('.tc-subtab').forEach(b=> b.classList.toggle('active', b.dataset.tab===tab));
     $body.innerHTML = MM_TABS[tab]();
     wireClamps($body);
+    wireAttachBadges($body);
   }
   $tabs.querySelectorAll('.tc-subtab').forEach(b=>{
     b.addEventListener('click', ()=> show(b.dataset.tab));
@@ -1419,28 +1766,59 @@ $list.querySelectorAll('.side-nav-item').forEach(el=>{
 });
 
 const $editToggle = document.getElementById('editToggleBtn');
-const $editToggleIcon = $editToggle.querySelector('.tc-edit-toggle-icon');
-const $editToggleText = $editToggle.querySelector('.tc-edit-toggle-text');
-$editToggle.addEventListener('click', ()=>{
-  if(document.body.classList.contains('editing-content')){
-    document.body.classList.remove('editing-content');
-    $editToggle.classList.remove('active');
-    $editToggle.title = 'Editar contenido';
-    $editToggleIcon.textContent = '✎';
-    $editToggleText.textContent = 'Editar contenido';
+const $editKeyModal = document.getElementById('editKeyModal');
+const $editKeyInput = document.getElementById('editKeyInput');
+const $editKeyError = document.getElementById('editKeyError');
+function openEditKeyModal(){
+  $editKeyError.classList.remove('show');
+  $editKeyInput.value = '';
+  $editKeyModal.classList.add('open');
+  setTimeout(()=> $editKeyInput.focus(), 50);
+}
+function closeEditKeyModal(){
+  $editKeyModal.classList.remove('open');
+}
+function submitEditKey(){
+  if($editKeyInput.value !== EDIT_KEY_LOCAL){
+    $editKeyError.classList.add('show');
+    $editKeyInput.focus();
     return;
   }
-  const clave = prompt('Clave para editar contenido:');
-  if(clave === null) return;
-  if(clave !== EDIT_KEY_LOCAL){
-    alert('Clave incorrecta.');
-    return;
-  }
+  closeEditKeyModal();
   document.body.classList.add('editing-content');
   $editToggle.classList.add('active');
-  $editToggle.title = 'Salir del modo edición';
-  $editToggleIcon.textContent = '✓';
-  $editToggleText.textContent = 'Editando — click para salir';
+}
+$editToggle.addEventListener('click', openEditKeyModal);
+document.getElementById('editKeySubmit').addEventListener('click', submitEditKey);
+document.getElementById('editKeyCancel').addEventListener('click', closeEditKeyModal);
+document.querySelector('[data-ek-close]').addEventListener('click', closeEditKeyModal);
+$editKeyInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') submitEditKey(); });
+$editKeyModal.addEventListener('click', (e)=>{ if(e.target.id === 'editKeyModal') closeEditKeyModal(); });
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape' && $editKeyModal.classList.contains('open')) closeEditKeyModal();
+});
+
+/* si queda una caja en edición abierta, la resuelve (guarda o descarta) antes de salir del modo edición */
+async function resolveOpenEditors(mode){
+  const openEls = Array.from(document.querySelectorAll('.tc-ebox-active'));
+  for(const el of openEls){
+    if(mode === 'save' && typeof el._eboxSave === 'function') await el._eboxSave();
+    else if(mode === 'cancel' && typeof el._eboxCancel === 'function') el._eboxCancel();
+  }
+}
+function exitEditingMode(){
+  document.body.classList.remove('editing-content');
+  $editToggle.classList.remove('active');
+}
+document.getElementById('editSaveExitBtn').addEventListener('click', async (e)=>{
+  e.stopPropagation();
+  await resolveOpenEditors('save');
+  exitEditingMode();
+});
+document.getElementById('editCancelExitBtn').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  resolveOpenEditors('cancel');
+  exitEditingMode();
 });
 
 $wrap.addEventListener('click', (e)=>{
@@ -1472,6 +1850,7 @@ $wrap.addEventListener('click', (e)=>{
   if(e.target.closest('button, a')) return;
   const gfieldEl = e.target.closest('[data-group-key] [data-gfield]');
   if(gfieldEl){
+    if(gfieldEl.dataset.locked === '1') return;
     if(!gfieldEl.classList.contains('tc-ebox-active')) enterCardFieldEdit(gfieldEl);
     return;
   }

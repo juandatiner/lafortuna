@@ -33,6 +33,10 @@ navegador. Para que esos cambios sobrevivan a un redeploy en Railway:
 Sin volumen montado, el contenido igual se guarda (en `./data/content.json`
 dentro del contenedor) pero se pierde en cada redeploy.
 
+Las imágenes y documentos que se adjuntan a un campo se suben vía
+`/api/upload` y se guardan como archivos en `data/uploads/`, dentro del mismo
+Volume — no hace falta ningún Volume ni variable extra.
+
 ## Estructura
 
 - `index.html`, `anteproyecto.html`, `tesis.html` — páginas de la app.

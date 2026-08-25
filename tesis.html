@@ -45,8 +45,6 @@
 .tc-tag{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(12,122,120,.13);color:#0C7A78;flex-shrink:0}
 .tc-tag-explicativa{background:#E3A83B;color:#16211C}
 
-.tc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
-.tc-chip{background:rgba(255,255,255,.7);border:1px solid rgba(16,27,22,.1);border-radius:999px;padding:8px 15px;font-size:.82rem;font-weight:700;color:#16211C}
 
 /* big non-collapsible theory cards (marco teórico) */
 .tc-theory{border:1px solid rgba(16,27,22,.08);border-radius:18px;background:rgba(255,255,255,.65);padding:16px 20px;margin-bottom:12px;box-shadow:0 8px 22px rgba(16,27,22,.05)}
@@ -107,8 +105,8 @@
 .tc-facc-instrumento-icon{flex-shrink:0;width:36px;height:36px;border-radius:11px;background:#0C7A78;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(12,122,120,.35)}
 .tc-facc-instrumento-icon svg{width:18px;height:18px}
 .tc-facc-instrumento-label{display:block;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#0C7A78}
-.tc-instrumento-link{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border-radius:999px;background:#0E332C;color:#FFD37A;font-weight:800;font-size:.9rem;text-decoration:none;border:1px solid rgba(227,168,59,.5);box-shadow:0 12px 28px rgba(16,27,22,.28);cursor:pointer}
-.tc-instrumento-link:hover{background:#123c33;transform:translateY(-2px);box-shadow:0 16px 32px rgba(16,27,22,.34)}
+.tc-instrumento-link{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border-radius:999px;background:linear-gradient(135deg,#0FA6A2,#0C7A78);color:#fff;font-weight:800;font-size:.9rem;text-decoration:none;border:1px solid rgba(255,255,255,.3);box-shadow:0 12px 28px rgba(12,122,120,.35);cursor:pointer}
+.tc-instrumento-link:hover{background:linear-gradient(135deg,#12BAB5,#0e8f8c);transform:translateY(-2px);box-shadow:0 16px 32px rgba(12,122,120,.42)}
 .tc-instrumento-link svg{width:15px;height:15px;flex-shrink:0}
 .tc-instrumento-caption{margin-top:10px;font-size:.82rem;line-height:1.55;color:#3E4C43;max-width:680px}
 
@@ -125,20 +123,10 @@
 .tc-obs-post-head-name{font-size:.78rem;font-weight:800;color:#16211C}
 .tc-obs-post-head-role{font-size:.7rem;color:#9AA39C}
 .tc-obs-published-text{font-size:.88rem;line-height:1.6;color:#16211C;white-space:pre-wrap;margin-bottom:10px}
-.tc-obs-published-foot{display:flex;align-items:center;justify-content:space-between}
-.tc-obs-published-tag{font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#0C7A78}
+.tc-obs-published-foot{display:flex;align-items:center;justify-content:flex-end}
 .tc-obs-edit-btn{all:unset;box-sizing:border-box;font-size:.74rem;font-weight:700;color:#5C6A62;cursor:pointer;text-decoration:underline}
 .tc-facc-obs.is-published textarea,.tc-facc-obs.is-published .tc-obs-save{display:none}
 .tc-facc-obs.is-published .tc-obs-published{display:block}
-.tc-obs-context{margin-top:10px;border-top:1px solid rgba(16,27,22,.08);padding-top:2px}
-.tc-obs-context summary{list-style:none;cursor:pointer;font-size:.74rem;font-weight:700;color:#0C7A78;padding:8px 0;user-select:none}
-.tc-obs-context summary::-webkit-details-marker{display:none}
-.tc-obs-context summary::before{content:'Ver contexto ▾ ';}
-.tc-obs-context[open] summary::before{content:'Ocultar contexto ▴ ';}
-.tc-obs-context-body{display:flex;flex-direction:column;gap:8px;padding:4px 0 4px}
-.tc-obs-quote{background:rgba(246,243,236,.7);border-left:3px solid rgba(12,122,120,.4);border-radius:8px;padding:8px 10px}
-.tc-obs-quote label{display:block;font-size:8.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#5C6A62;margin-bottom:2px}
-.tc-obs-quote p{font-size:.76rem;line-height:1.5;color:#3E4C43;margin:0}
 
 .tc-pending{color:#9AA39C !important;font-style:italic}
 .tc-facc-name.tc-pending{color:#9AA39C !important;font-style:normal;font-weight:700}
@@ -194,6 +182,62 @@ table.anexo-table{width:100%;min-width:1180px;border-collapse:collapse;font-size
 .tc-phase-field label{display:block;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#0C7A78;margin-bottom:3px}
 .tc-phase-field p{font-size:.8rem;line-height:1.5;color:#5C6A62}
 .tc-phase-simple p{font-size:.84rem;line-height:1.55;color:#5C6A62}
+
+/* ===== Edición de contenido en vivo ===== */
+.tc-edit-toggle{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 10px;margin:0 14px 10px;border-radius:12px;background:rgba(255,255,255,.55);border:1px solid rgba(16,27,22,.12);font-weight:800;font-size:.72rem;color:#16211C;cursor:pointer;transition:background .2s ease}
+.tc-edit-toggle:hover{background:rgba(255,255,255,.9)}
+.tc-edit-toggle.active{background:#0E332C;color:#FFD37A;border-color:#0E332C}
+.side-nav.collapsed .tc-edit-toggle{width:30px;height:30px;padding:0;margin:0 auto 10px}
+.side-nav.collapsed .tc-edit-toggle-text{display:none}
+body.editing-content [data-ekey]{position:relative;cursor:pointer;outline:1.5px dashed rgba(12,122,120,.45);outline-offset:3px;border-radius:6px;transition:background .15s ease}
+body.editing-content [data-ekey]:hover{outline-color:#0C7A78;background:rgba(12,122,120,.07)}
+body.editing-content [data-ekey]:hover::after{content:'✎';position:absolute;top:-11px;right:-11px;width:20px;height:20px;border-radius:50%;background:#0E332C;color:#FFD37A;font-size:11px;line-height:20px;text-align:center;box-shadow:0 4px 10px rgba(16,27,22,.3);pointer-events:none}
+.tc-ebox{border:1.5px solid rgba(12,122,120,.55);border-radius:10px;padding:10px;background:#fff;outline:none !important}
+.tc-ebox textarea{width:100%;min-height:74px;border:1px solid rgba(16,27,22,.16);border-radius:8px;padding:8px 10px;font:inherit;font-size:.85rem;color:#16211C;resize:vertical;margin-bottom:8px;display:block}
+.tc-ebox textarea:focus{outline:2px solid rgba(12,122,120,.35);outline-offset:1px}
+.tc-ebox-actions{display:flex;gap:8px}
+.tc-ebox-save{all:unset;box-sizing:border-box;padding:6px 14px;border-radius:999px;background:#0E332C;color:#FFD37A;font-weight:800;font-size:.74rem;cursor:pointer}
+.tc-ebox-save:hover{background:#123c33}
+.tc-ebox-cancel{all:unset;box-sizing:border-box;padding:6px 14px;border-radius:999px;background:rgba(16,27,22,.08);color:#16211C;font-weight:700;font-size:.74rem;cursor:pointer}
+.tc-ebox-cancel:hover{background:rgba(16,27,22,.14)}
+.tc-esave-flash{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#0E332C;color:#FFD37A;padding:9px 18px;border-radius:999px;font-size:.8rem;font-weight:700;opacity:0;pointer-events:none;transition:opacity .3s ease;z-index:6000}
+.tc-esave-flash.show{opacity:1}
+
+/* grupos con + / papelera (ej. estado del arte) */
+.tc-stat{position:relative}
+body.editing-content [data-group-key] [data-gi]{position:relative;cursor:pointer;outline:1.5px dashed rgba(12,122,120,.45);outline-offset:3px;border-radius:6px}
+body.editing-content [data-group-key] [data-gi]:hover{outline-color:#0C7A78;background:rgba(12,122,120,.07)}
+body.editing-content [data-group-key] [data-gi]:hover::before{content:'✎';position:absolute;top:-11px;left:-11px;width:20px;height:20px;border-radius:50%;background:#0E332C;color:#FFD37A;font-size:11px;line-height:20px;text-align:center;box-shadow:0 4px 10px rgba(16,27,22,.3);pointer-events:none;z-index:2}
+.tc-box-del{display:none}
+.tc-box-add{display:none}
+body.editing-content .tc-box-del{display:flex;position:absolute;top:-9px;right:-9px;width:20px;height:20px;border-radius:50%;background:#fff;color:#D64545;border:2px solid #D64545;align-items:center;justify-content:center;font-size:13px;font-weight:900;line-height:1;padding:0;cursor:pointer;z-index:3}
+body.editing-content .tc-box-del:hover{background:#D64545;color:#fff}
+body.editing-content .tc-box-add{display:flex;align-items:center;justify-content:center;gap:5px;padding:9px 16px;border-radius:14px;border:1.5px dashed rgba(12,122,120,.5);background:rgba(12,122,120,.06);color:#0C7A78;font-weight:800;font-size:.8rem;cursor:pointer}
+body.editing-content .tc-box-add:hover{background:rgba(12,122,120,.12)}
+
+/* contenido largo: clamp + "ver más" */
+.tc-eclamp-inner{max-height:200px;overflow:hidden}
+.tc-ver-mas{all:unset;box-sizing:border-box;display:inline-block;margin-top:6px;font-size:.74rem;font-weight:800;color:#0C7A78;cursor:pointer}
+.tc-ver-mas:hover{text-decoration:underline}
+#vmModal{position:fixed;inset:0;z-index:5600;display:none;align-items:flex-start;justify-content:center;padding:8vh 4vw;background:rgba(10,17,14,.55);backdrop-filter:blur(3px)}
+#vmModal.open{display:flex}
+.vm-card{position:relative;max-width:640px;width:100%;max-height:80vh;overflow-y:auto;background:var(--shell-base,#F6F3EC);border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.35);padding:30px 32px}
+.vm-close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;background:#0E332C;color:#FFD37A;border:none;font-size:15px;font-weight:900;cursor:pointer}
+.vm-body{font-size:.9rem;line-height:1.7;color:#16211C}
+.vm-body ul{padding-left:18px;margin-top:6px}
+
+/* grupos con dos campos por item (título + descripción) */
+.tc-chipcard-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.tc-chipcard{position:relative;background:rgba(255,255,255,.7);border:1px solid rgba(16,27,22,.1);border-radius:14px;padding:10px 14px;min-width:160px;max-width:260px}
+.tc-chipcard-title{font-weight:800;font-size:.84rem;color:#16211C;margin-bottom:3px}
+.tc-chipcard-desc{font-size:.76rem;line-height:1.4;color:#5C6A62}
+body.editing-content .tc-chipcard{padding-top:14px}
+body.editing-content .tc-chipcard [data-gfield]{cursor:pointer;outline:1.5px dashed rgba(12,122,120,.4);outline-offset:2px;border-radius:5px}
+body.editing-content .tc-chipcard [data-gfield]:hover{outline-color:#0C7A78;background:rgba(12,122,120,.07)}
+
+/* preguntas del marco teórico como grupo editable */
+.tc-theory-qa{position:relative}
+body.editing-content .tc-theory-qa{padding-top:8px}
 </style>
 </head>
 <body class="shell-body">
@@ -202,7 +246,7 @@ table.anexo-table{width:100%;min-width:1180px;border-collapse:collapse;font-size
 
 <div class="app-shell">
 
-  <a class="collapse-strip chevron-flip" href="/anteproyecto" aria-label="Ir a Anteproyecto">
+  <a class="collapse-strip" href="/anteproyecto" aria-label="Ir a Anteproyecto">
     <span class="collapse-chevron">&#8250;</span>
     <span class="collapse-strip-label">Anteproyecto</span>
   </a>
@@ -219,6 +263,7 @@ table.anexo-table{width:100%;min-width:1180px;border-collapse:collapse;font-size
       </div>
       <a class="side-nav-home" href="/" title="Volver al inicio">&#8962;</a>
     </div>
+    <button type="button" class="tc-edit-toggle" id="editToggleBtn" title="Editar contenido"><span class="tc-edit-toggle-icon">✎</span><span class="tc-edit-toggle-text">Editar contenido</span></button>
     <div class="side-nav-list" id="tesisNavList"></div>
   </nav>
 
@@ -231,10 +276,281 @@ table.anexo-table{width:100%;min-width:1180px;border-collapse:collapse;font-size
   </div>
 </div>
 
+<div id="vmModal">
+  <div class="vm-card">
+    <button type="button" class="vm-close" data-vm-close title="Cerrar">&times;</button>
+    <div class="vm-body"></div>
+  </div>
+</div>
+
 <script>
 document.querySelectorAll('[data-nav-toggle]').forEach(btn=>{
   btn.addEventListener('click', ()=> btn.closest('.side-nav').classList.toggle('collapsed'));
 });
+
+/* ===================== CONTENIDO EDITABLE ===================== */
+
+const EDIT_KEY_LOCAL = '2026'; // mismo código que access-gate.js; sirve solo de filtro liviano, la clave real la valida el server
+let OVERRIDES = {};
+
+function escHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function nl2html(s){
+  if(!s) return '';
+  return escHtml(s).split(/\n{2,}/).map(p=>p.replace(/\n/g,'<br>')).join('<br><br>');
+}
+function stripTags(html){
+  const d = document.createElement('div');
+  d.innerHTML = html;
+  return d.textContent || '';
+}
+function edAttr(key, kind){ return `data-ekey="${key}" data-ekind="${kind||'text'}"`; }
+function EK(key, fallback){
+  const v = OVERRIDES[key];
+  return (v===undefined || v===null || v==='') ? fallback : nl2html(v);
+}
+function EKlist(key, fallbackArr){
+  const v = OVERRIDES[key];
+  return Array.isArray(v) ? v.map(escHtml) : fallbackArr;
+}
+
+async function loadOverrides(){
+  try{
+    const res = await fetch('/api/content');
+    if(res.ok) OVERRIDES = await res.json();
+  }catch(e){}
+}
+async function saveKey(key, value){
+  OVERRIDES[key] = value;
+  try{
+    const res = await fetch('/api/content', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Edit-Key':EDIT_KEY_LOCAL},
+      body: JSON.stringify({key, value})
+    });
+    if(!res.ok) throw new Error('save failed');
+    return true;
+  }catch(e){
+    alert('No se pudo guardar. Revisá la conexión e intentá de nuevo.');
+    return false;
+  }
+}
+
+function flashSaved(){
+  let el = document.getElementById('tcEsaveFlash');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'tcEsaveFlash';
+    el.className = 'tc-esave-flash';
+    el.textContent = 'Guardado ✓';
+    document.body.appendChild(el);
+  }
+  el.classList.add('show');
+  clearTimeout(flashSaved._t);
+  flashSaved._t = setTimeout(()=> el.classList.remove('show'), 1800);
+}
+
+/* ---- caja simple (texto o lista de largo fijo) ---- */
+function enterEdit(box){
+  const key = box.dataset.ekey;
+  const kind = box.dataset.ekind || 'text';
+  const original = box.innerHTML;
+  const contentRoot = box.querySelector(':scope > .tc-eclamp-inner') || box;
+  let currentVal;
+  if(kind === 'list'){
+    currentVal = Array.from(contentRoot.children).map(li=>li.textContent).join('\n');
+  } else {
+    currentVal = OVERRIDES[key] !== undefined ? String(OVERRIDES[key]) : (box.querySelector('.tc-pending') ? '' : stripTags(contentRoot.innerHTML));
+  }
+  box.classList.add('tc-ebox-active');
+  box.innerHTML = `<div class="tc-ebox">
+    <textarea>${escHtml(currentVal)}</textarea>
+    <div class="tc-ebox-actions">
+      <button type="button" class="tc-ebox-save">Guardar</button>
+      <button type="button" class="tc-ebox-cancel">Cancelar</button>
+    </div>
+  </div>`;
+  const ta = box.querySelector('textarea');
+  ta.focus();
+  box.querySelector('.tc-ebox-cancel').addEventListener('click', (e)=>{
+    e.stopPropagation();
+    box.classList.remove('tc-ebox-active');
+    box.innerHTML = original;
+  });
+  box.querySelector('.tc-ebox-save').addEventListener('click', async (e)=>{
+    e.stopPropagation();
+    const raw = ta.value;
+    const value = kind === 'list' ? raw.split('\n').map(s=>s.trim()).filter(Boolean) : raw.trim();
+    const ok = await saveKey(key, value);
+    box.classList.remove('tc-ebox-active');
+    if(!ok){ box.innerHTML = original; return; }
+    if(kind === 'list'){
+      box.innerHTML = value.length ? value.map(i=>`<li>${escHtml(i)}</li>`).join('') : `<li class="tc-pending">${PENDING}</li>`;
+    } else {
+      box.innerHTML = value ? nl2html(value) : `<span class="tc-pending">${PENDING}</span>`;
+    }
+    applyClamp(box);
+    flashSaved();
+  });
+}
+
+/* ---- grupo de cajas con + / papelera (largo variable, ej. estado del arte) ---- */
+const GROUP_DEFAULTS = {};
+function groupItems(key){
+  const v = OVERRIDES[key];
+  return Array.isArray(v) ? v.slice() : (GROUP_DEFAULTS[key] || []).slice();
+}
+
+/* ---- grupo tipo "stat": item = string html ---- */
+function statGroupInner(key){
+  const items = groupItems(key);
+  return items.map((html,i)=>`<div class="tc-stat" data-gi="${i}">${html}<button type="button" class="tc-box-del" title="Eliminar">&minus;</button></div>`).join('')
+    + `<button type="button" class="tc-box-add" data-add-group="${key}">+ Agregar</button>`;
+}
+function renderStatGroup(key){
+  return `<div class="tc-stat-row" data-group-key="${key}" data-group-kind="stat">${statGroupInner(key)}</div>`;
+}
+
+/* ---- grupo tipo "card": item = {title, desc} ---- */
+function chipGroupInner(key){
+  const items = groupItems(key);
+  return items.map((it,i)=>`<div class="tc-chipcard" data-gi="${i}">
+      <button type="button" class="tc-box-del" title="Eliminar">&minus;</button>
+      <div class="tc-chipcard-title" data-gfield="title">${escHtml(it.title||'')}</div>
+      <div class="tc-chipcard-desc" data-gfield="desc">${it.desc ? escHtml(it.desc) : `<span class="tc-pending">${PENDING}</span>`}</div>
+    </div>`).join('')
+    + `<button type="button" class="tc-box-add" data-add-group="${key}">+ Agregar</button>`;
+}
+function renderChipGroup(key){
+  return `<div class="tc-chipcard-row" data-group-key="${key}" data-group-kind="card">${chipGroupInner(key)}</div>`;
+}
+
+/* ---- grupo tipo "qa": item = {q, a} (preguntas del marco teórico) ---- */
+function qaGroupInner(key){
+  const items = groupItems(key);
+  return items.map((it,i)=>`<div class="tc-theory-qa" data-gi="${i}">
+      <button type="button" class="tc-box-del" title="Eliminar">&minus;</button>
+      <label data-gfield="q">${escHtml(it.q||'')}</label>
+      <p data-gfield="a">${it.a ? escHtml(it.a) : `<span class="tc-pending">${PENDING}</span>`}</p>
+    </div>`).join('')
+    + `<button type="button" class="tc-box-add" data-add-group="${key}">+ Agregar pregunta</button>`;
+}
+
+const GROUP_RENDERERS = { stat: statGroupInner, card: chipGroupInner, qa: qaGroupInner };
+const GROUP_NEW_ITEM = {
+  stat: () => 'Texto nuevo — hacé click para editarlo.',
+  card: () => ({ title:'Nuevo eje', desc:'' }),
+  qa: () => ({ q:'Nueva pregunta', a:'' })
+};
+function renderGroupInPlace(container){
+  const key = container.dataset.groupKey;
+  const kind = container.dataset.groupKind;
+  container.innerHTML = GROUP_RENDERERS[kind](key);
+  wireClamps(container);
+}
+
+/* edición de un item completo (grupo "stat": el item entero es un solo campo de texto) */
+function enterGroupItemEdit(itemEl){
+  const container = itemEl.closest('[data-group-key]');
+  const key = container.dataset.groupKey;
+  const idx = Number(itemEl.dataset.gi);
+  const original = itemEl.innerHTML;
+  const currentVal = groupItems(key)[idx] || '';
+  itemEl.classList.add('tc-ebox-active');
+  itemEl.innerHTML = `<div class="tc-ebox">
+    <textarea>${escHtml(stripTags(currentVal))}</textarea>
+    <div class="tc-ebox-actions">
+      <button type="button" class="tc-ebox-save">Guardar</button>
+      <button type="button" class="tc-ebox-cancel">Cancelar</button>
+    </div>
+  </div>`;
+  const ta = itemEl.querySelector('textarea');
+  ta.focus();
+  itemEl.querySelector('.tc-ebox-cancel').addEventListener('click', (e)=>{
+    e.stopPropagation();
+    itemEl.classList.remove('tc-ebox-active');
+    itemEl.innerHTML = original;
+  });
+  itemEl.querySelector('.tc-ebox-save').addEventListener('click', async (e)=>{
+    e.stopPropagation();
+    const items = groupItems(key);
+    items[idx] = nl2html(ta.value.trim());
+    const ok = await saveKey(key, items);
+    itemEl.classList.remove('tc-ebox-active');
+    if(!ok){ itemEl.innerHTML = original; return; }
+    renderGroupInPlace(container);
+    flashSaved();
+  });
+}
+
+/* edición de un campo suelto dentro de un item de grupo "card" / "qa" (título, descripción, pregunta...) */
+function enterCardFieldEdit(fieldEl){
+  const itemEl = fieldEl.closest('[data-gi]');
+  const container = fieldEl.closest('[data-group-key]');
+  const key = container.dataset.groupKey;
+  const idx = Number(itemEl.dataset.gi);
+  const field = fieldEl.dataset.gfield;
+  const original = fieldEl.innerHTML;
+  const items = groupItems(key);
+  const currentVal = (items[idx] && items[idx][field]) || '';
+  fieldEl.classList.add('tc-ebox-active');
+  fieldEl.innerHTML = `<div class="tc-ebox">
+    <textarea>${escHtml(currentVal)}</textarea>
+    <div class="tc-ebox-actions">
+      <button type="button" class="tc-ebox-save">Guardar</button>
+      <button type="button" class="tc-ebox-cancel">Cancelar</button>
+    </div>
+  </div>`;
+  const ta = fieldEl.querySelector('textarea');
+  ta.focus();
+  fieldEl.querySelector('.tc-ebox-cancel').addEventListener('click', (e)=>{
+    e.stopPropagation();
+    fieldEl.classList.remove('tc-ebox-active');
+    fieldEl.innerHTML = original;
+  });
+  fieldEl.querySelector('.tc-ebox-save').addEventListener('click', async (e)=>{
+    e.stopPropagation();
+    const freshItems = groupItems(key);
+    const base = freshItems[idx] || {};
+    freshItems[idx] = { ...base, [field]: ta.value.trim() };
+    const ok = await saveKey(key, freshItems);
+    fieldEl.classList.remove('tc-ebox-active');
+    if(!ok){ fieldEl.innerHTML = original; return; }
+    renderGroupInPlace(container);
+    flashSaved();
+  });
+}
+
+/* ---- contenido largo: clamp + overlay "ver más" ---- */
+const CLAMP_MAX = 200;
+function applyClamp(el){
+  if(el.classList.contains('tc-ebox-active')) return;
+  if(el.querySelector(':scope > .tc-eclamp-inner')) return;
+  if(el.scrollHeight <= CLAMP_MAX + 6) return;
+  const delBtn = el.querySelector(':scope > .tc-box-del');
+  const inner = document.createElement('div');
+  inner.className = 'tc-eclamp-inner';
+  Array.from(el.childNodes).forEach(n=>{ if(n !== delBtn) inner.appendChild(n); });
+  el.prepend(inner);
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'tc-ver-mas';
+  btn.textContent = 'Ver más ▾';
+  btn.addEventListener('click', (e)=>{ e.stopPropagation(); openViewMore(inner.innerHTML); });
+  inner.after(btn);
+}
+function wireClamps(root){
+  root.querySelectorAll('[data-ekey]').forEach(applyClamp);
+  root.querySelectorAll('[data-group-key] [data-gi]').forEach(applyClamp);
+  root.querySelectorAll('[data-group-key] [data-gfield]').forEach(applyClamp);
+}
+function openViewMore(html){
+  const modal = document.getElementById('vmModal');
+  modal.querySelector('.vm-body').innerHTML = html;
+  modal.classList.add('open');
+}
+function closeViewMore(){ document.getElementById('vmModal').classList.remove('open'); }
 
 /* ===================== DATA ===================== */
 
@@ -266,8 +582,17 @@ const MT_TABLE = [
   {t:'Gobernanza inteligente', queEs:'Gobernanza apoyada en datos, TIC y colaboración para decidir, coordinar y crear valor.', porQue:'Es la teoría central de la tesis y explica la propuesta de investigación.', como:'Se usa para articular actores, procesos, información y tecnología en el destino.', que:'Modelo de gobernanza inteligente para el turismo de bienestar del DTLF.', rol:'Explicativa'},
   {t:'Tecnologías de la información y la comunicación', queEs:'Recursos digitales para comunicar, procesar, compartir y gestionar información.', porQue:'Constituyen la base habilitadora de la gobernanza inteligente.', como:'Se analizan como soportes para coordinación, innovación y digitalización.', que:'Requerimientos tecnológicos del modelo propuesto.', rol:'Auxiliar'},
   {t:'Plataformas digitales', queEs:'Infraestructuras digitales que conectan actores, datos y servicios.', porQue:'Facilitan integración, interoperabilidad y coordinación del ecosistema.', como:'Se consideran como mecanismos de articulación e interacción entre actores.', que:'Lineamientos para flujos de información y conexión digital.', rol:'Auxiliar'},
-  {t:'Política pública de Costa Rica sobre turismo', queEs:'Marco institucional y normativo que orienta el desarrollo turístico del país.', porQue:'Alinea la tesis con prioridades nacionales y reglas del sector.', como:'Se revisa para identificar lineamientos, oportunidades y restricciones.', que:'Referentes normativos y de política para el modelo.', rol:'Auxiliar'}
+  {t:'Política pública de Costa Rica sobre turismo', queEs:'Marco institucional y normativo que orienta el desarrollo turístico del país.', porQue:'Alinea la tesis con prioridades nacionales y reglas del sector.', como:'Se revisa para identificar lineamientos, oportunidades y restricciones.', que:'Referentes normativos y de política para el modelo.', rol:'Auxiliar'},
+  {t:'Cifras y tendencias globales', queEs:'Evidencia sobre dinámica, comportamiento y proyección del turismo y el bienestar.', porQue:'Contextualiza la oportunidad y relevancia estratégica del estudio.', como:'Se utiliza para sustentar el diagnóstico externo y la prospectiva del sector.', que:'Argumentos de contexto y demanda para la investigación.', rol:'Auxiliar'}
 ];
+MT_TABLE.forEach((row,i)=>{
+  GROUP_DEFAULTS['mt' + (i+1) + '.fields'] = [
+    { q:'¿Qué es?', a:row.queEs },
+    { q:'¿Por qué?', a:row.porQue },
+    { q:'¿Cómo?', a:row.como },
+    { q:'Aporte', a:row.que }
+  ];
+});
 
 const OBJETIVO_GENERAL_TXT = 'Generar un modelo de gobernanza inteligente en turismo de bienestar orientado a fortalecer la sostenibilidad y competitividad del Destino Turístico de La Fortuna, Costa Rica 2030.';
 const PREGUNTA_GENERAL_TXT = '¿Cómo generar un modelo de gobernanza inteligente para las organizaciones del sector turismo de bienestar, sustentado en la integración de las TICs y las nuevas tecnologías digitales, orientado a fortalecer la sostenibilidad y la competitividad del ecosistema del Destino Turístico de La Fortuna?';
@@ -657,8 +982,7 @@ function renderAnexo(id){
       <p style="color:#9AA39C;font-style:italic;font-size:.9rem">Contenido en construcción.</p>
     `;
   }
-  let saved = {};
-  try{ saved = JSON.parse(localStorage.getItem('tesis_' + a.key) || '{}'); }catch(e){}
+  const saved = (OVERRIDES['tesis_' + a.key] && typeof OVERRIDES['tesis_' + a.key] === 'object') ? OVERRIDES['tesis_' + a.key] : {};
   const { rows, head } = ANEXO_RENDERERS[a.type](a, saved);
   return `
     <div class="anexo-eyebrow">${a.eyebrow}</div>
@@ -695,7 +1019,7 @@ function openAnexo(id){
   wireBrechaCompute();
   const saveBtn = document.querySelector(`[data-anexo-save="${id}"]`);
   if(!saveBtn) return;
-  saveBtn.addEventListener('click', ()=>{
+  saveBtn.addEventListener('click', async ()=>{
     const a = ANEXOS[id];
     const data = {};
     document.querySelectorAll('.anexo-table tr[data-vi]').forEach(row=>{
@@ -705,7 +1029,8 @@ function openAnexo(id){
       });
       data[row.dataset.vi] = obj;
     });
-    try{ localStorage.setItem('tesis_' + a.key, JSON.stringify(data)); }catch(e){}
+    const ok = await saveKey('tesis_' + a.key, data);
+    if(!ok) return;
     const flash = document.getElementById('anexoSaveFlash');
     flash.classList.add('show');
     setTimeout(()=> flash.classList.remove('show'), 1800);
@@ -718,6 +1043,10 @@ document.getElementById('anexoModal').addEventListener('click', (e)=>{
   if(e.target.id === 'anexoModal') closeAnexo();
 });
 document.querySelector('[data-anexo-close]').addEventListener('click', closeAnexo);
+document.getElementById('vmModal').addEventListener('click', (e)=>{
+  if(e.target.id === 'vmModal') closeViewMore();
+});
+document.querySelector('[data-vm-close]').addEventListener('click', closeViewMore);
 document.addEventListener('click', (e)=>{
   const btn = e.target.closest('[data-anexo-id]');
   if(btn) openAnexo(btn.dataset.anexoId);
@@ -725,48 +1054,40 @@ document.addEventListener('click', (e)=>{
 
 /* ===================== RENDER HELPERS ===================== */
 
-function card(num, title, body){
-  return `<div class="tc-card">${num!=null?`<div class="tc-card-num">${num}</div>`:''}<h4>${title}</h4><p>${body}</p></div>`;
+function card(key, num, title, body){
+  return `<div class="tc-card">${num!=null?`<div class="tc-card-num">${num}</div>`:''}<h4 ${edAttr(key+'.title')}>${EK(key+'.title', title)}</h4><p ${edAttr(key+'.body')}>${EK(key+'.body', body)}</p></div>`;
 }
-function cardList(num, title, items, core){
-  return `<div class="tc-card${core?' tc-card-core':''}">${num!=null?`<div class="tc-card-num">${num}</div>`:''}<h4>${title}</h4><ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
+function cardList(key, num, title, items, core){
+  const list = EKlist(key+'.items', items);
+  return `<div class="tc-card${core?' tc-card-core':''}">${num!=null?`<div class="tc-card-num">${num}</div>`:''}<h4 ${edAttr(key+'.title')}>${EK(key+'.title', title)}</h4><ul ${edAttr(key+'.items','list')}>${list.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
 }
-function stat(html){ return `<div class="tc-stat">${html}</div>`; }
 function tag(rol){ return `<span class="tc-tag${rol==='Explicativa'?' tc-tag-explicativa':''}">${rol}</span>`; }
-function chips(items){ return `<div class="tc-chips">${items.map(i=>`<span class="tc-chip">${i}</span>`).join('')}</div>`; }
 
 function renderMtTheories(){
   return MT_MINDMAP.map((m,i)=>{
     const row = MT_TABLE[i];
-    const fields = row
-      ? `<div class="tc-theory-fields">
-          <div><label>¿Qué es?</label><p>${row.queEs}</p></div>
-          <div><label>¿Por qué?</label><p>${row.porQue}</p></div>
-          <div><label>¿Cómo?</label><p>${row.como}</p></div>
-          <div><label>Aporte</label><p>${row.que}</p></div>
-        </div>`
-      : `<div class="tc-theory-fields"><div><label>Contenido</label><ul>${m.b.map(x=>`<li>${x}</li>`).join('')}</ul></div></div>`;
+    const key = 'mt' + m.n;
     return `<div class="tc-theory${m.core?' tc-theory-core':''}">
       <div class="tc-theory-head">
         <span class="tc-theory-num">${String(m.n).padStart(2,'0')}</span>
-        <span class="tc-theory-name">${m.t}</span>
-        ${row ? tag(row.rol) : ''}
+        <span class="tc-theory-name" ${edAttr(key+'.t')}>${EK(key+'.t', m.t)}</span>
+        ${tag(row.rol)}
       </div>
-      ${fields}
+      <div class="tc-theory-fields" data-group-key="${key}.fields" data-group-kind="qa">${qaGroupInner(key+'.fields')}</div>
     </div>`;
   }).join('');
 }
 
-function renderPhases(fases){
+function renderPhases(key, fases){
   return fases.map((f,i)=>`
     <div class="tc-phase">
       <div class="tc-phase-num">${i+1}</div>
       <div class="tc-phase-body">
-        <h4>${f.t}</h4>
+        <h4 ${edAttr(key+'.p'+i+'.t')}>${EK(key+'.p'+i+'.t', f.t)}</h4>
         <div class="tc-phase-grid">
-          <div class="tc-phase-field"><label>Propósito</label><p>${f.prop}</p></div>
-          <div class="tc-phase-field"><label>Método / instrumento</label><p>${f.met}</p></div>
-          <div class="tc-phase-field"><label>Resultado esperado</label><p>${f.res}</p></div>
+          <div class="tc-phase-field"><label>Propósito</label><p ${edAttr(key+'.p'+i+'.prop')}>${EK(key+'.p'+i+'.prop', f.prop)}</p></div>
+          <div class="tc-phase-field"><label>Método / instrumento</label><p ${edAttr(key+'.p'+i+'.met')}>${EK(key+'.p'+i+'.met', f.met)}</p></div>
+          <div class="tc-phase-field"><label>Resultado esperado</label><p ${edAttr(key+'.p'+i+'.res')}>${EK(key+'.p'+i+'.res', f.res)}</p></div>
         </div>
       </div>
     </div>`).join('');
@@ -776,16 +1097,16 @@ const PENDING = 'Pendiente de completar';
 function orPending(text){
   return text ? text : `<span class="tc-pending">${PENDING}</span>`;
 }
-function faccField(cls, label, text){
-  return `<div class="tc-facc-field ${cls}"><label>${label}</label><p>${orPending(text)}</p></div>`;
+function faccField(cls, key, label, text){
+  return `<div class="tc-facc-field ${cls}"><label>${label}</label><p ${edAttr(key)}>${orPending(EK(key, text))}</p></div>`;
 }
-function renderInstrumento(text){
+function renderInstrumento(key, text){
   if(!text){
-    return faccField('fc-instrumento-plain', 'Instrumento de síntesis', '');
+    return `<div class="tc-facc-field fc-instrumento-plain" ${edAttr(key+'.caption')}><label>Instrumento de síntesis</label><p>${orPending(EK(key+'.caption',''))}</p></div>`;
   }
   const m = text.match(/^Anexo\s+(\d+)\.([^:]+):?\s*(.*)$/);
   if(!m){
-    return faccField('fc-instrumento-plain', 'Instrumento de síntesis', text);
+    return `<div class="tc-facc-field fc-instrumento-plain" ${edAttr(key+'.caption')}><label>Instrumento de síntesis</label><p>${EK(key+'.caption', text)}</p></div>`;
   }
   const anexoId = 'anexo' + m[1];
   const hasAnexo = !!ANEXOS[anexoId];
@@ -798,23 +1119,13 @@ function renderInstrumento(text){
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 15 15 9"/><path d="M11 6.5 12.5 5A4 4 0 1 1 18 10.5L16.5 12"/><path d="M13 17.5 11.5 19A4 4 0 1 1 6 13.5L7.5 12"/></svg>
       Anexo ${m[1]}.${m[2]}${hasAnexo ? '' : ' (próximamente)'}
     </button>
-    ${m[3] ? `<p class="tc-instrumento-caption">${m[3]}</p>` : ''}
+    <p class="tc-instrumento-caption" ${edAttr(key+'.caption')}>${orPending(EK(key+'.caption', m[3]))}</p>
   </div>`;
-}
-function obsContext(name, o){
-  return `<details class="tc-obs-context">
-    <summary></summary>
-    <div class="tc-obs-context-body">
-      <div class="tc-obs-quote"><label>${name} específico</label><p>${orPending(o.statement)}</p></div>
-      <div class="tc-obs-quote"><label>Pregunta específica</label><p>${orPending(o.pregunta)}</p></div>
-      <div class="tc-obs-quote"><label>Pregunta general</label><p>${PREGUNTA_GENERAL_TXT}</p></div>
-      <div class="tc-obs-quote"><label>Objetivo general</label><p>${OBJETIVO_GENERAL_TXT}</p></div>
-    </div>
-  </details>`;
 }
 function renderFaseAccordion(objKey, fases, name, o){
   return `<div class="tc-facc-wrap">${fases.map((f,i)=>{
     const obsKey = `tesis_obs_${objKey}_f${i+1}`;
+    const fk = `${objKey}.f${i+1}`;
     const faseName = f.t ? `Fase ${i+1}. ${f.t}` : `Fase ${i+1}`;
     return `<div class="tc-facc-row" data-i="${i}">
       <div class="tc-facc-head">
@@ -824,19 +1135,19 @@ function renderFaseAccordion(objKey, fases, name, o){
       </div>
       <div class="tc-facc-body"><div class="tc-facc-body-in">
         <div class="tc-facc-pair">
-          ${faccField('', 'Propósito general', f.proposito)}
-          ${faccField('fc-objetivo', 'Objetivo de la fase', f.objetivoFase)}
+          ${faccField('', fk+'.proposito', 'Propósito general', f.proposito)}
+          ${faccField('fc-objetivo', fk+'.objetivoFase', 'Objetivo de la fase', f.objetivoFase)}
         </div>
         <div class="tc-facc-trio">
-          ${faccField('fc-vdir', 'Variables directas', f.varDirectas)}
-          ${faccField('fc-vind', 'Variables indirectas', f.varIndirectas)}
-          ${faccField('fc-vint', 'Variables intervinientes', f.varIntervinientes)}
+          ${faccField('fc-vdir', fk+'.varDirectas', 'Variables directas', f.varDirectas)}
+          ${faccField('fc-vind', fk+'.varIndirectas', 'Variables indirectas', f.varIndirectas)}
+          ${faccField('fc-vint', fk+'.varIntervinientes', 'Variables intervinientes', f.varIntervinientes)}
         </div>
         <div class="tc-facc-pair">
-          ${faccField('fc-resuelve', 'Qué se busca resolver', f.queResuelve)}
-          ${faccField('fc-resultado', 'Resultado específico de la fase', f.resultado)}
+          ${faccField('fc-resuelve', fk+'.queResuelve', 'Qué se busca resolver', f.queResuelve)}
+          ${faccField('fc-resultado', fk+'.resultado', 'Resultado específico de la fase', f.resultado)}
         </div>
-        ${renderInstrumento(f.instrumento)}
+        ${renderInstrumento(fk+'.instrumento', f.instrumento)}
         <div class="tc-facc-obs" data-obs-key="${obsKey}">
           <label>Observaciones</label>
           <textarea placeholder="Comentario o retroalimentación del director / evaluadores..."></textarea>
@@ -851,10 +1162,8 @@ function renderFaseAccordion(objKey, fases, name, o){
             </div>
             <div class="tc-obs-published-text"></div>
             <div class="tc-obs-published-foot">
-              <span class="tc-obs-published-tag">Publicado</span>
               <button type="button" class="tc-obs-edit-btn">Editar</button>
             </div>
-            ${obsContext(name, o)}
           </div>
         </div>
       </div></div>
@@ -865,20 +1174,23 @@ function renderFaseAccordion(objKey, fases, name, o){
 function renderObjetivo(name){
   const o = OBJ_DATA[name];
   const objKey = name.toLowerCase().replace(/\s+/g,'');
+  const subVal = EK(objKey+'.sub', o.sub);
+  const preguntaVal = EK(objKey+'.pregunta', o.pregunta);
+  const statementVal = EK(objKey+'.statement', o.statement);
   return `
     <div class="tc-eyebrow">${name}: proceso de investigación</div>
-    <div class="tc-title${o.sub?'':' tc-pending'}">${o.sub || name}</div>
+    <div class="tc-title${subVal?'':' tc-pending'}" ${edAttr(objKey+'.sub')}>${subVal || name}</div>
     <div class="tc-meta">
-      <div class="tc-meta-row"><label>Objetivo general</label><p>${OBJETIVO_GENERAL_TXT}</p></div>
-      <div class="tc-meta-row"><label>Pregunta general</label><p>${PREGUNTA_GENERAL_TXT}</p></div>
-      <div class="tc-meta-row"><label>Pregunta específica</label><p>${orPending(o.pregunta)}</p></div>
-      <div class="tc-meta-row"><label>${name} específico</label><p>${orPending(o.statement)}</p></div>
+      <div class="tc-meta-row"><label>Objetivo general</label><p ${edAttr('meta.objetivoGeneral')}>${EK('meta.objetivoGeneral', OBJETIVO_GENERAL_TXT)}</p></div>
+      <div class="tc-meta-row"><label>Pregunta general</label><p ${edAttr('meta.preguntaGeneral')}>${EK('meta.preguntaGeneral', PREGUNTA_GENERAL_TXT)}</p></div>
+      <div class="tc-meta-row"><label>Pregunta específica</label><p ${edAttr(objKey+'.pregunta')}>${orPending(preguntaVal)}</p></div>
+      <div class="tc-meta-row"><label>${name} específico</label><p ${edAttr(objKey+'.statement')}>${orPending(statementVal)}</p></div>
     </div>
     <div class="tc-section-label">Fases del proceso</div>
     ${renderFaseAccordion(objKey, o.fases, name, o)}
-    ${o.resultadosGenerales ? `<div class="tc-section-label">Resultados generales del objetivo</div>${cardList(null,'Resultados', o.resultadosGenerales)}` : ''}
-    ${o.extra ? `<div class="tc-section-label">${o.extra.t}</div>${cardList(null, o.extra.t, o.extra.b)}` : ''}
-    <div class="tc-callout"><b>Aporte de ${name.toLowerCase()}:</b> ${o.aporte}</div>
+    ${o.resultadosGenerales ? `<div class="tc-section-label">Resultados generales del objetivo</div>${cardList(objKey+'.resultados', null,'Resultados', o.resultadosGenerales)}` : ''}
+    ${o.extra ? `<div class="tc-section-label">${o.extra.t}</div>${cardList(objKey+'.extra', null, o.extra.t, o.extra.b)}` : ''}
+    <div class="tc-callout" ${edAttr(objKey+'.aporte')}><b>Aporte de ${name.toLowerCase()}:</b> ${EK(objKey+'.aporte', o.aporte)}</div>
   `;
 }
 function wireObjetivoAccordion(){
@@ -895,13 +1207,13 @@ function wireObjetivoAccordion(){
       publishedText.textContent = text;
       box.classList.add('is-published');
     }
-    let saved = null;
-    try{ saved = localStorage.getItem(key); }catch(e){}
+    const saved = typeof OVERRIDES[key] === 'string' ? OVERRIDES[key] : null;
     if(saved){ ta.value = saved; showPublished(saved); }
-    saveBtn.addEventListener('click', ()=>{
+    saveBtn.addEventListener('click', async ()=>{
       const val = ta.value.trim();
       if(!val) return;
-      try{ localStorage.setItem(key, val); }catch(e){}
+      const ok = await saveKey(key, val);
+      if(!ok) return;
       showPublished(val);
     });
     editBtn.addEventListener('click', ()=>{
@@ -913,74 +1225,82 @@ function wireObjetivoAccordion(){
 
 /* ===================== SECTION RENDERERS ===================== */
 
+GROUP_DEFAULTS['problema.stats'] = [
+  '<b>3.761</b> artículos identificados en la búsqueda inicial sobre gobernanza en turismo.',
+  'De <b>60</b> artículos promisorios sobre gobernanza en turismo inteligente, solo <b>18</b> se relacionan con bienestar y salud; apenas <b>5</b> se centran en bienestar.',
+  'La relación gobernanza inteligente–DTI–sostenibilidad se consolida desde <b>2016</b>; el concepto específico toma fuerza desde <b>2018</b> con solo <b>12</b> publicaciones.',
+  '<b>Conclusión:</b> predominan enfoques genéricos; persiste la carencia de modelos específicos para destinos turísticos de bienestar.'
+];
+
+GROUP_DEFAULTS['pregunta.ejes'] = ['Gobernanza','Madurez digital','Arquitectura','TIC y nuevas tecnologías','Sostenibilidad','Competitividad','Validación']
+  .map(title => ({ title, desc: '' }));
+
+GROUP_DEFAULTS['objgeneral.fortalecimiento'] = ['Gobierno local','Empresas turísticas','Comunidad','Academia']
+  .map(title => ({ title, desc: '' }));
+
 const CONTENT = {
   'Problema': () => `
     <div class="tc-eyebrow">Problema de investigación</div>
-    <div class="tc-title">Ausencia de un modelo de gobernanza inteligente en el DTLF</div>
-    <div class="tc-lead">El DTLF carece de un modelo de <b>gobernanza inteligente</b> para el turismo de bienestar que articule actores e integre TIC y nuevas tecnologías digitales. Esta carencia limita su competitividad, sostenibilidad y transición hacia un destino turístico inteligente al 2030, y además el estado del arte evidencia la ausencia de modelos específicos para destinos turísticos de bienestar.</div>
+    <div class="tc-title" ${edAttr('problema.title')}>${EK('problema.title','Ausencia de un modelo de gobernanza inteligente en el DTLF')}</div>
+    <div class="tc-lead" ${edAttr('problema.lead')}>${EK('problema.lead','El DTLF carece de un modelo de <b>gobernanza inteligente</b> para el turismo de bienestar que articule actores e integre TIC y nuevas tecnologías digitales. Esta carencia limita su competitividad, sostenibilidad y transición hacia un destino turístico inteligente al 2030, y además el estado del arte evidencia la ausencia de modelos específicos para destinos turísticos de bienestar.')}</div>
     <div class="tc-section-label">Seis ejes del problema</div>
     <div class="tc-grid">
-      ${card(1,'Gobernanza débil','El ICT diagnostica la gobernanza como el eje más débil del DTLF.')}
-      ${card(2,'Baja madurez digital','Las empresas y actores del ecosistema aún no incorporan plenamente las tecnologías requeridas por el turismo inteligente.')}
-      ${card(3,'Escasa coordinación','Persisten debilidades en integración, coordinación, cooperación y trabajo colaborativo entre actores.')}
-      ${card(4,'Brecha tecnológica','No se aprovecha todo el potencial de analítica de datos, IA, IoT, nube, realidad virtual y blockchain.')}
-      ${card(5,'Vulnerabilidad evidenciada','La pandemia del COVID-19 mostró carencias en innovación, respuesta coordinada y planes de contingencia.')}
-      ${card(6,'Impacto en el destino','La debilidad de la gobernanza inteligente afecta la sostenibilidad, la competitividad y el desarrollo del turismo de bienestar.')}
+      ${card('problema.c1',1,'Gobernanza débil','El ICT diagnostica la gobernanza como el eje más débil del DTLF.')}
+      ${card('problema.c2',2,'Baja madurez digital','Las empresas y actores del ecosistema aún no incorporan plenamente las tecnologías requeridas por el turismo inteligente.')}
+      ${card('problema.c3',3,'Escasa coordinación','Persisten debilidades en integración, coordinación, cooperación y trabajo colaborativo entre actores.')}
+      ${card('problema.c4',4,'Brecha tecnológica','No se aprovecha todo el potencial de analítica de datos, IA, IoT, nube, realidad virtual y blockchain.')}
+      ${card('problema.c5',5,'Vulnerabilidad evidenciada','La pandemia del COVID-19 mostró carencias en innovación, respuesta coordinada y planes de contingencia.')}
+      ${card('problema.c6',6,'Impacto en el destino','La debilidad de la gobernanza inteligente afecta la sostenibilidad, la competitividad y el desarrollo del turismo de bienestar.')}
     </div>
     <div class="tc-section-label">Sustento del estado del arte</div>
-    <div class="tc-stat-row">
-      ${stat('<b>3.761</b> artículos identificados en la búsqueda inicial sobre gobernanza en turismo.')}
-      ${stat('De <b>60</b> artículos promisorios sobre gobernanza en turismo inteligente, solo <b>18</b> se relacionan con bienestar y salud; apenas <b>5</b> se centran en bienestar.')}
-      ${stat('La relación gobernanza inteligente–DTI–sostenibilidad se consolida desde <b>2016</b>; el concepto específico toma fuerza desde <b>2018</b> con solo <b>12</b> publicaciones.')}
-      ${stat('<b>Conclusión:</b> predominan enfoques genéricos; persiste la carencia de modelos específicos para destinos turísticos de bienestar.')}
-    </div>
-    <div class="tc-callout"><b>Necesidad de investigación:</b> diseñar un modelo de gobernanza inteligente específico para el turismo de bienestar del DTLF, que fortalezca la coordinación, la transformación digital y el desarrollo sostenible.</div>
+    ${renderStatGroup('problema.stats')}
+    <div class="tc-callout" ${edAttr('problema.callout')}><b>Necesidad de investigación:</b> ${EK('problema.callout','diseñar un modelo de gobernanza inteligente específico para el turismo de bienestar del DTLF, que fortalezca la coordinación, la transformación digital y el desarrollo sostenible.')}</div>
   `,
 
   'Pregunta': () => `
     <div class="tc-eyebrow">Pregunta de investigación</div>
-    <div class="tc-title">Pregunta general y preguntas específicas</div>
-    <div class="tc-lead">¿Cómo generar un modelo de gobernanza inteligente para las organizaciones del sector turismo de bienestar, sustentado en la integración de las TICs y las nuevas tecnologías digitales, orientado a fortalecer la sostenibilidad y la competitividad del ecosistema del Destino Turístico de La Fortuna?</div>
+    <div class="tc-title" ${edAttr('pregunta.title')}>${EK('pregunta.title','Pregunta general y preguntas específicas')}</div>
+    <div class="tc-lead" ${edAttr('meta.preguntaGeneral')}>${EK('meta.preguntaGeneral', PREGUNTA_GENERAL_TXT)}</div>
     <div class="tc-section-label">Preguntas específicas</div>
     <div class="tc-grid">
-      ${card(1,'Pregunta específica 1','¿Cuál es la brecha existente entre el estado actual de la gobernanza y la madurez digital del DTI frente a los requerimientos de un destino turístico inteligente especializado en turismo bienestar?')}
-      ${card(2,'Pregunta específica 2','¿Qué componentes estructurales, relacionales y tecnológicos son determinantes para diseñar una arquitectura de gobernanza que responda a las necesidades futuras de los actores del ecosistema de bienestar?')}
-      ${card(3,'Pregunta específica 3','¿De qué manera se pueden integrar funcionalmente las TIC, las nuevas tecnologías digitales y los ecosistemas en los procesos de toma de decisiones y coordinación de la cadena de valor del turismo de bienestar?')}
-      ${card(4,'Pregunta específica 4','¿Cuál es la validez y viabilidad del modelo propuesto según la valoración de los actores estratégicos del DTI en términos de aceptación tecnológica y potencial de implementación?')}
+      ${card('pregunta.c1',1,'Pregunta específica 1','¿Cuál es la brecha existente entre el estado actual de la gobernanza y la madurez digital del DTI frente a los requerimientos de un destino turístico inteligente especializado en turismo bienestar?')}
+      ${card('pregunta.c2',2,'Pregunta específica 2','¿Qué componentes estructurales, relacionales y tecnológicos son determinantes para diseñar una arquitectura de gobernanza que responda a las necesidades futuras de los actores del ecosistema de bienestar?')}
+      ${card('pregunta.c3',3,'Pregunta específica 3','¿De qué manera se pueden integrar funcionalmente las TIC, las nuevas tecnologías digitales y los ecosistemas en los procesos de toma de decisiones y coordinación de la cadena de valor del turismo de bienestar?')}
+      ${card('pregunta.c4',4,'Pregunta específica 4','¿Cuál es la validez y viabilidad del modelo propuesto según la valoración de los actores estratégicos del DTI en términos de aceptación tecnológica y potencial de implementación?')}
     </div>
     <div class="tc-section-label">Ejes temáticos</div>
-    ${chips(['Gobernanza','Madurez digital','Arquitectura','TIC y nuevas tecnologías','Sostenibilidad','Competitividad','Validación'])}
+    ${renderChipGroup('pregunta.ejes')}
   `,
 
   'Objetivo general': () => `
     <div class="tc-eyebrow">Objetivo general</div>
-    <div class="tc-title">Modelo de gobernanza inteligente para el DTLF</div>
-    <div class="tc-lead">Generar un modelo de gobernanza inteligente en turismo de bienestar orientado a fortalecer la sostenibilidad y competitividad del Destino Turístico de La Fortuna, Costa Rica 2030.</div>
+    <div class="tc-title" ${edAttr('objgeneral.title')}>${EK('objgeneral.title','Modelo de gobernanza inteligente para el DTLF')}</div>
+    <div class="tc-lead" ${edAttr('meta.objetivoGeneral')}>${EK('meta.objetivoGeneral', OBJETIVO_GENERAL_TXT)}</div>
     <div class="tc-section-label">Componentes del objetivo</div>
     <div class="tc-grid">
-      ${card(1,'Turismo de bienestar','Sector y modalidad turística sobre la que se construye el modelo.')}
-      ${card(2,'Sostenibilidad','Dimensión que el modelo busca fortalecer en el destino.')}
-      ${card(3,'Competitividad','Segunda dimensión estratégica que orienta el modelo.')}
-      ${card(4,'Destino Turístico La Fortuna','Territorio y ecosistema donde se aplica el modelo.')}
-      ${card(5,'Horizonte 2030','Marco temporal de proyección del modelo propuesto.')}
+      ${card('objgeneral.c1',1,'Turismo de bienestar','Sector y modalidad turística sobre la que se construye el modelo.')}
+      ${card('objgeneral.c2',2,'Sostenibilidad','Dimensión que el modelo busca fortalecer en el destino.')}
+      ${card('objgeneral.c3',3,'Competitividad','Segunda dimensión estratégica que orienta el modelo.')}
+      ${card('objgeneral.c4',4,'Destino Turístico La Fortuna','Territorio y ecosistema donde se aplica el modelo.')}
+      ${card('objgeneral.c5',5,'Horizonte 2030','Marco temporal de proyección del modelo propuesto.')}
     </div>
     <div class="tc-section-label">Fortalecimiento del destino</div>
-    ${chips(['Gobierno local','Empresas turísticas','Comunidad','Academia'])}
+    ${renderChipGroup('objgeneral.fortalecimiento')}
   `,
 
   'Marco teórico': () => `
     <div class="tc-eyebrow">Marco teórico</div>
-    <div class="tc-title">Modelo de gobernanza inteligente en turismo de bienestar</div>
-    <div class="tc-lead">El marco teórico se organiza en <b>13 categorías</b> alrededor del núcleo <b>Gobernanza inteligente</b>, que actúa como teoría explicativa central; las demás categorías se emplean como teorías auxiliares que sustentan y contextualizan la propuesta.</div>
+    <div class="tc-title" ${edAttr('marcoteorico.title')}>${EK('marcoteorico.title','Modelo de gobernanza inteligente en turismo de bienestar')}</div>
+    <div class="tc-lead" ${edAttr('marcoteorico.lead')}>${EK('marcoteorico.lead','El marco teórico se organiza en <b>13 categorías</b> alrededor del núcleo <b>Gobernanza inteligente</b>, que actúa como teoría explicativa central; las demás categorías se emplean como teorías auxiliares que sustentan y contextualizan la propuesta.')}</div>
     <div class="tc-section-label">Categorías del marco teórico</div>
     ${renderMtTheories()}
-    <div class="tc-callout" style="margin-top:14px"><b>Nota:</b> la teoría explicativa definida para la tesis es la gobernanza inteligente; las demás se emplean como teorías auxiliares.</div>
+    <div class="tc-callout" style="margin-top:14px" ${edAttr('marcoteorico.callout')}><b>Nota:</b> ${EK('marcoteorico.callout','la teoría explicativa definida para la tesis es la gobernanza inteligente; las demás se emplean como teorías auxiliares.')}</div>
   `,
 
   'Marco metodológico': () => `
     <div class="tc-eyebrow">Marco metodológico</div>
-    <div class="tc-title">Filosofía, estrategia, métodos y proceso de investigación</div>
-    <div class="tc-lead"><b>Propósito metodológico:</b> comprender, diagnosticar, diseñar y validar un modelo de gobernanza inteligente para el DTLF, mediante una ruta metodológica mixta (cualitativa y cuantitativa).</div>
+    <div class="tc-title" ${edAttr('marcometodologico.title')}>${EK('marcometodologico.title','Filosofía, estrategia, métodos y proceso de investigación')}</div>
+    <div class="tc-lead" ${edAttr('marcometodologico.lead')}><b>Propósito metodológico:</b> ${EK('marcometodologico.lead','comprender, diagnosticar, diseñar y validar un modelo de gobernanza inteligente para el DTLF, mediante una ruta metodológica mixta (cualitativa y cuantitativa).')}</div>
     <div class="tc-subtabs" id="mmTabs">
       <button type="button" class="tc-subtab active" data-tab="filosofia"><span class="tc-subtab-num">01</span><span class="tc-subtab-label">Filosofía de la investigación</span></button>
       <button type="button" class="tc-subtab" data-tab="estrategia"><span class="tc-subtab-num">02</span><span class="tc-subtab-label">Estrategia de investigación</span></button>
@@ -992,60 +1312,60 @@ const CONTENT = {
 
 const MM_TABS = {
   filosofia: () => `
-    <p style="font-size:.86rem;color:#5C6A62;line-height:1.6;margin-bottom:18px;max-width:900px">Define la base ideológica del estudio: el enfoque, la naturaleza del fenómeno (ontología), los métodos para su comprensión (epistemología) y lo que debe hacer quien investiga (metodología).</p>
-    <div class="tc-callout" style="margin-bottom:20px">Ontología crítica con postura de <b>realismo crítico</b>; epistemológicamente <b>subjetivista</b>, compartida entre la teoría crítica y el constructivismo.</div>
+    <p style="font-size:.86rem;color:#5C6A62;line-height:1.6;margin-bottom:18px;max-width:900px" ${edAttr('mm.filosofia.intro')}>${EK('mm.filosofia.intro','Define la base ideológica del estudio: el enfoque, la naturaleza del fenómeno (ontología), los métodos para su comprensión (epistemología) y lo que debe hacer quien investiga (metodología).')}</p>
+    <div class="tc-callout" style="margin-bottom:20px" ${edAttr('mm.filosofia.callout')}>${EK('mm.filosofia.callout','Ontología crítica con postura de <b>realismo crítico</b>; epistemológicamente <b>subjetivista</b>, compartida entre la teoría crítica y el constructivismo.')}</div>
     <div class="tc-section-label">Postura filosófica</div>
     <div class="tc-grid">
-      ${card(null,'Ontología — ¿cuál es la naturaleza de la realidad?','Realismo crítico: existe una realidad objetiva en el ecosistema turístico que puede conocerse, pero nuestro conocimiento es siempre parcial, provisional y contextual.')}
-      ${card(null,'Epistemología — ¿cómo se puede conocer la realidad?','Subjetivista: el conocimiento se construye a partir de las percepciones, experiencias y valores de los actores. Teoría crítica y constructivismo: se construye colectivamente a través del diálogo, la reflexión crítica y la participación.')}
-      ${card(null,'Metodología — ¿qué debe hacer quien investiga?','Dialéctica transformativa: la investigación es un proceso participativo y reflexivo que transforma la realidad al generar conocimiento útil para mejorar la gobernanza, la sostenibilidad y la competitividad del destino.')}
+      ${card('mm.filosofia.c1',null,'Ontología — ¿cuál es la naturaleza de la realidad?','Realismo crítico: existe una realidad objetiva en el ecosistema turístico que puede conocerse, pero nuestro conocimiento es siempre parcial, provisional y contextual.')}
+      ${card('mm.filosofia.c2',null,'Epistemología — ¿cómo se puede conocer la realidad?','Subjetivista: el conocimiento se construye a partir de las percepciones, experiencias y valores de los actores. Teoría crítica y constructivismo: se construye colectivamente a través del diálogo, la reflexión crítica y la participación.')}
+      ${card('mm.filosofia.c3',null,'Metodología — ¿qué debe hacer quien investiga?','Dialéctica transformativa: la investigación es un proceso participativo y reflexivo que transforma la realidad al generar conocimiento útil para mejorar la gobernanza, la sostenibilidad y la competitividad del destino.')}
     </div>
     <div class="tc-section-label">Implicaciones de esta postura</div>
-    ${cardList(null,'Implicaciones', ['Reconoce la complejidad del fenómeno turístico.','Valora las perspectivas de múltiples actores.','Promueve la construcción colectiva de soluciones.','Busca generar cambios positivos y sostenibles en el ecosistema.'])}
+    ${cardList('mm.filosofia.implicaciones',null,'Implicaciones', ['Reconoce la complejidad del fenómeno turístico.','Valora las perspectivas de múltiples actores.','Promueve la construcción colectiva de soluciones.','Busca generar cambios positivos y sostenibles en el ecosistema.'])}
     <div class="tc-section-label">Principios que orientan la investigación</div>
-    ${cardList(null,'Principios', ['Participación activa de los actores.','Reflexión crítica y ética.','Rigor metodológico y transparencia.','Compromiso con la transformación social y la sostenibilidad.'])}
+    ${cardList('mm.filosofia.principios',null,'Principios', ['Participación activa de los actores.','Reflexión crítica y ética.','Rigor metodológico y transparencia.','Compromiso con la transformación social y la sostenibilidad.'])}
     <div class="tc-section-label">Propósito</div>
-    ${cardList(null,'Propósito', ['Comprender y transformar la realidad del ecosistema turístico de bienestar.','Generar conocimiento válido, relevante y útil.','Fortalecer la gobernanza, la sostenibilidad y la competitividad del destino.','Construir un modelo de gobernanza inteligente contextualizado y co-creado con los actores.'])}
+    ${cardList('mm.filosofia.proposito',null,'Propósito', ['Comprender y transformar la realidad del ecosistema turístico de bienestar.','Generar conocimiento válido, relevante y útil.','Fortalecer la gobernanza, la sostenibilidad y la competitividad del destino.','Construir un modelo de gobernanza inteligente contextualizado y co-creado con los actores.'])}
   `,
   estrategia: () => `
     <div class="tc-grid" style="margin-bottom:8px">
-      ${card(null,'Posición metodológica','Teoría crítica, orientación dialéctico-transformativa e Investigación Acción Participativa.')}
-      ${card(null,'Enfoque','Mixto con predominio cualitativo, alcance descriptivo-exploratorio y orientación prescriptiva/propositiva.')}
-      ${card(null,'Procedimiento','Secuencial y articulado con los objetivos específicos.')}
+      ${card('mm.estrategia.c1',null,'Posición metodológica','Teoría crítica, orientación dialéctico-transformativa e Investigación Acción Participativa.')}
+      ${card('mm.estrategia.c2',null,'Enfoque','Mixto con predominio cualitativo, alcance descriptivo-exploratorio y orientación prescriptiva/propositiva.')}
+      ${card('mm.estrategia.c3',null,'Procedimiento','Secuencial y articulado con los objetivos específicos.')}
     </div>
     <div class="tc-section-label">Fases estratégicas</div>
-    ${renderPhases([
+    ${renderPhases('mm.estrategia.fases', [
       {t:'Fase 1. Diagnóstico', prop:'Comprender la situación actual de gobernanza, madurez digital y brechas.', met:'Decisión 1 — validar diagnóstico.', res:'Base para identificar determinantes estratégicos.'},
       {t:'Fase 2. Determinantes y requisitos', prop:'Identificar determinantes estratégicos y requisitos funcionales del modelo.', met:'Decisión 2 — priorizar determinantes y requisitos.', res:'Insumos para diseñar la arquitectura del modelo.'},
       {t:'Fase 3. Arquitectura del modelo', prop:'Diseñar la arquitectura sociotécnica de alto nivel del modelo.', met:'Decisión 3 — aprobar arquitectura de alto nivel.', res:'Arquitectura lista para su validación.'},
       {t:'Fase 4. Validación y transferencia', prop:'Validar aplicabilidad y transferibilidad del modelo propuesto.', met:'Decisión 4 — validar modelo y lineamientos.', res:'Modelo de gobernanza inteligente validado.'}
     ])}
-    <div class="tc-callout">La arquitectura se entiende como una arquitectura conceptual y funcional de alto nivel, que integra componentes estructurales, relacionales y tecnológicos; roles, relaciones, flujos de información, mecanismos de coordinación y criterios de integración estratégica de TIC y tecnologías digitales emergentes.</div>
+    <div class="tc-callout" ${edAttr('mm.estrategia.callout')}>${EK('mm.estrategia.callout','La arquitectura se entiende como una arquitectura conceptual y funcional de alto nivel, que integra componentes estructurales, relacionales y tecnológicos; roles, relaciones, flujos de información, mecanismos de coordinación y criterios de integración estratégica de TIC y tecnologías digitales emergentes.')}</div>
     <div class="tc-section-label">Criterios transversales</div>
-    ${cardList(null,'Criterios', ['Participación multiactor.','Sostenibilidad.','Competitividad.','Trazabilidad metodológica.','Uso estratégico de TIC.','Capacidades habilitadoras: analítica predictiva y prospectiva (opcionales e integradas).'])}
+    ${cardList('mm.estrategia.criterios',null,'Criterios', ['Participación multiactor.','Sostenibilidad.','Competitividad.','Trazabilidad metodológica.','Uso estratégico de TIC.','Capacidades habilitadoras: analítica predictiva y prospectiva (opcionales e integradas).'])}
   `,
   metodos: () => `
-    <p style="font-size:.86rem;color:#5C6A62;line-height:1.6;margin-bottom:18px;max-width:900px">Ruta metodológica mixta (cualitativa y cuantitativa) que integra diagnóstico, análisis estratégico, diseño y validación para generar un modelo de Gobernanza Inteligente en Turismo de Bienestar para el DTLF. El proceso completo se organiza en 4 objetivos específicos — ver el detalle de cada uno en la lista de la izquierda del panel.</p>
+    <p style="font-size:.86rem;color:#5C6A62;line-height:1.6;margin-bottom:18px;max-width:900px" ${edAttr('mm.metodos.intro')}>${EK('mm.metodos.intro','Ruta metodológica mixta (cualitativa y cuantitativa) que integra diagnóstico, análisis estratégico, diseño y validación para generar un modelo de Gobernanza Inteligente en Turismo de Bienestar para el DTLF. El proceso completo se organiza en 4 objetivos específicos — ver el detalle de cada uno en la lista de la izquierda del panel.')}</p>
     <div class="tc-section-label">Variables del estudio</div>
     <div class="tc-grid">
-      ${card(null,'Variables directas','Elementos clave que responden directamente al objetivo de cada fase.')}
-      ${card(null,'Variables indirectas','Factores contextuales que influyen en el comportamiento o desempeño de las variables directas.')}
-      ${card(null,'Variables intervinientes','Elementos mediadores que pueden potenciar, limitar o modificar la relación entre variables directas y resultados.')}
+      ${card('mm.metodos.v1',null,'Variables directas','Elementos clave que responden directamente al objetivo de cada fase.')}
+      ${card('mm.metodos.v2',null,'Variables indirectas','Factores contextuales que influyen en el comportamiento o desempeño de las variables directas.')}
+      ${card('mm.metodos.v3',null,'Variables intervinientes','Elementos mediadores que pueden potenciar, limitar o modificar la relación entre variables directas y resultados.')}
     </div>
     <div class="tc-section-label">Métodos de investigación</div>
     <div class="tc-grid">
-      ${card(null,'Análisis documental','Revisión y análisis de marcos normativos, políticas, planes, informes, literatura académica y referentes internacionales.')}
-      ${card(null,'Trabajo de campo','Encuestas, entrevistas semiestructuradas, matrices de valoración, mapas de actores y ejercicios de validación participativa con informantes clave.')}
-      ${card(null,'Análisis integrado','Triangulación de información cualitativa y cuantitativa para el diagnóstico, definición de determinantes, requisitos, diseño y validación del modelo.')}
+      ${card('mm.metodos.m1',null,'Análisis documental','Revisión y análisis de marcos normativos, políticas, planes, informes, literatura académica y referentes internacionales.')}
+      ${card('mm.metodos.m2',null,'Trabajo de campo','Encuestas, entrevistas semiestructuradas, matrices de valoración, mapas de actores y ejercicios de validación participativa con informantes clave.')}
+      ${card('mm.metodos.m3',null,'Análisis integrado','Triangulación de información cualitativa y cuantitativa para el diagnóstico, definición de determinantes, requisitos, diseño y validación del modelo.')}
     </div>
     <div class="tc-section-label">Enfoque y garantías éticas</div>
-    ${cardList(null,'Enfoque y garantías', [
+    ${cardList('mm.metodos.enfoque',null,'Enfoque y garantías', [
       'Enfoque mixto (cualitativo y cuantitativo): combina comprensión profunda y medición objetiva para una visión integral del fenómeno.',
       'Rigor metodológico y trazabilidad: uso de instrumentos validados, matrices de trazabilidad y criterios claros en cada fase.',
       'Participación y transparencia: involucra activamente a los actores del ecosistema en todas las etapas del proceso.',
       'Garantías éticas: confidencialidad, consentimiento informado, uso responsable de la información y respeto a los participantes.'
     ])}
-    <div class="tc-callout"><b>Resultado final:</b> Modelo de Gobernanza Inteligente aplicable al Destino Turístico de La Fortuna, Costa Rica 2030.</div>
+    <div class="tc-callout" ${edAttr('mm.metodos.callout')}><b>Resultado final:</b> ${EK('mm.metodos.callout','Modelo de Gobernanza Inteligente aplicable al Destino Turístico de La Fortuna, Costa Rica 2030.')}</div>
   `
 };
 
@@ -1073,6 +1393,7 @@ function renderSection(name){
     $wrap.innerHTML = renderObjetivo(name);
     wireObjetivoAccordion();
   }
+  wireClamps($wrap);
   $wrap.scrollTop = 0;
 }
 function wireMmTabs(){
@@ -1081,6 +1402,7 @@ function wireMmTabs(){
   function show(tab){
     $tabs.querySelectorAll('.tc-subtab').forEach(b=> b.classList.toggle('active', b.dataset.tab===tab));
     $body.innerHTML = MM_TABS[tab]();
+    wireClamps($body);
   }
   $tabs.querySelectorAll('.tc-subtab').forEach(b=>{
     b.addEventListener('click', ()=> show(b.dataset.tab));
@@ -1096,8 +1418,77 @@ $list.querySelectorAll('.side-nav-item').forEach(el=>{
   });
 });
 
-$list.querySelector('.side-nav-item').classList.add('active');
-renderSection('Problema');
+const $editToggle = document.getElementById('editToggleBtn');
+const $editToggleIcon = $editToggle.querySelector('.tc-edit-toggle-icon');
+const $editToggleText = $editToggle.querySelector('.tc-edit-toggle-text');
+$editToggle.addEventListener('click', ()=>{
+  if(document.body.classList.contains('editing-content')){
+    document.body.classList.remove('editing-content');
+    $editToggle.classList.remove('active');
+    $editToggle.title = 'Editar contenido';
+    $editToggleIcon.textContent = '✎';
+    $editToggleText.textContent = 'Editar contenido';
+    return;
+  }
+  const clave = prompt('Clave para editar contenido:');
+  if(clave === null) return;
+  if(clave !== EDIT_KEY_LOCAL){
+    alert('Clave incorrecta.');
+    return;
+  }
+  document.body.classList.add('editing-content');
+  $editToggle.classList.add('active');
+  $editToggle.title = 'Salir del modo edición';
+  $editToggleIcon.textContent = '✓';
+  $editToggleText.textContent = 'Editando — click para salir';
+});
+
+$wrap.addEventListener('click', (e)=>{
+  if(!document.body.classList.contains('editing-content')) return;
+  const delBtn = e.target.closest('.tc-box-del');
+  if(delBtn){
+    e.stopPropagation();
+    const itemEl = delBtn.closest('[data-gi]');
+    const container = delBtn.closest('[data-group-key]');
+    const key = container.dataset.groupKey;
+    const items = groupItems(key);
+    items.splice(Number(itemEl.dataset.gi), 1);
+    saveKey(key, items).then(ok=>{ if(ok){ renderGroupInPlace(container); flashSaved(); } });
+    return;
+  }
+  const addBtn = e.target.closest('.tc-box-add');
+  if(addBtn){
+    e.stopPropagation();
+    const container = addBtn.closest('[data-group-key]');
+    const key = container.dataset.groupKey;
+    const kind = container.dataset.groupKind;
+    const items = groupItems(key);
+    items.push(GROUP_NEW_ITEM[kind]());
+    saveKey(key, items).then(ok=>{ if(ok){ renderGroupInPlace(container); flashSaved(); } });
+    return;
+  }
+  if(e.target.closest('.tc-ebox')) return;
+  if(e.target.closest('.tc-ver-mas')) return;
+  if(e.target.closest('button, a')) return;
+  const gfieldEl = e.target.closest('[data-group-key] [data-gfield]');
+  if(gfieldEl){
+    if(!gfieldEl.classList.contains('tc-ebox-active')) enterCardFieldEdit(gfieldEl);
+    return;
+  }
+  const groupItem = e.target.closest('[data-group-key] [data-gi]');
+  if(groupItem){
+    const kind = groupItem.closest('[data-group-key]').dataset.groupKind;
+    if(kind === 'stat' && !groupItem.classList.contains('tc-ebox-active')) enterGroupItemEdit(groupItem);
+    return;
+  }
+  const box = e.target.closest('[data-ekey]');
+  if(box && !box.classList.contains('tc-ebox-active')) enterEdit(box);
+});
+
+loadOverrides().then(()=>{
+  $list.querySelector('.side-nav-item').classList.add('active');
+  renderSection('Problema');
+});
 </script>
 
 </body>

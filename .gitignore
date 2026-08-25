@@ -4,3 +4,4 @@ node_modules/
 /b_*.png
 /clean*.png
 /s[0-9].png
+/data/

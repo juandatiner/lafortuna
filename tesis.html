@@ -215,6 +215,8 @@ body.editing-content [data-ekey]:hover::after{content:'✎';position:absolute;to
 .tc-rte-toolbar{position:sticky;top:-2px;z-index:2;display:flex;align-items:center;gap:3px;flex-wrap:wrap;background:#0E332C;border-radius:999px;padding:6px 9px;margin-bottom:8px;box-shadow:0 8px 20px rgba(14,51,44,.4)}
 .tc-rte-btn{all:unset;box-sizing:border-box;width:25px;height:25px;display:flex;align-items:center;justify-content:center;border-radius:7px;color:#FBF6EC;font-size:.78rem;cursor:pointer}
 .tc-rte-btn:hover{background:rgba(255,255,255,.16)}
+.tc-rte-btn.active{background:#FFD37A;color:#0E332C}
+.tc-rte-btn.active:hover{background:#FFD37A}
 .tc-rte-btn b,.tc-rte-btn i,.tc-rte-btn u,.tc-rte-btn s{pointer-events:none;font-family:inherit}
 .tc-rte-clear{width:auto;padding:0 9px;font-size:.68rem;font-weight:700;letter-spacing:.2px}
 .tc-rte-sep{width:1px;align-self:stretch;background:rgba(255,255,255,.2);margin:2px 3px}
@@ -415,7 +417,7 @@ function stripTags(html){
 }
 
 /* ===== editor de texto enriquecido (negrita, subrayado, color, resaltado...) ===== */
-const RTE_COLORS = ['#16211C','#0C7A78','#D64545','#E3A83B','#2E5AAC','#7A3E9D'];
+const RTE_COLORS = ['#FFFFFF','#16211C','#0C7A78','#D64545','#E3A83B','#2E5AAC','#7A3E9D','#1E7A34','#C2661E','#B23A6D','#0E7490','#6B4226','#5B6470'];
 const RICH_TAG_RE = /<(b|strong|i|em|u|s|strike|span|br)[ >/]/i;
 /* valores viejos (texto plano guardado antes de este editor) siguen escapándose + saltos de línea;
    valores nuevos (html ya saneado por sanitizeRichHtml) se inyectan directo */
@@ -490,6 +492,19 @@ function wireRte(scope){
   const editable = scope.querySelector('.tc-rte');
   if(!toolbar || !editable) return editable;
   try{ document.execCommand('defaultParagraphSeparator', false, 'br'); }catch(e){}
+  /* botones de negrita/cursiva/subrayado/tachado se marcan "activos" según el cursor:
+     volver a pulsarlos quita solo ese formato (no hace falta usar "Quitar formato") */
+  const toggleBtns = Array.from(toolbar.querySelectorAll('[data-cmd="bold"],[data-cmd="italic"],[data-cmd="underline"],[data-cmd="strikeThrough"]'));
+  function updateActiveState(){
+    toggleBtns.forEach(btn=>{
+      let on = false;
+      try{ on = document.queryCommandState(btn.dataset.cmd); }catch(e){}
+      btn.classList.toggle('active', on);
+    });
+  }
+  editable.addEventListener('keyup', updateActiveState);
+  editable.addEventListener('mouseup', updateActiveState);
+  editable.addEventListener('focus', updateActiveState);
   editable.addEventListener('paste', (e)=>{
     e.preventDefault();
     const text = (e.clipboardData || window.clipboardData).getData('text/plain');
@@ -502,6 +517,7 @@ function wireRte(scope){
       const cmd = btn.dataset.cmd;
       if(cmd === 'hilite') document.execCommand('hiliteColor', false, '#FCE98A');
       else document.execCommand(cmd);
+      updateActiveState();
     });
   });
   toolbar.querySelectorAll('.tc-rte-swatch').forEach(sw=>{

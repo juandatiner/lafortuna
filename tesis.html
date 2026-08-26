@@ -210,6 +210,18 @@ body.editing-content [data-ekey]:hover::after{content:'✎';position:absolute;to
 .tc-ebox-save:hover{background:#123c33}
 .tc-ebox-cancel{all:unset;box-sizing:border-box;padding:6px 14px;border-radius:999px;background:rgba(16,27,22,.08);color:#16211C;font-weight:700;font-size:.74rem;cursor:pointer}
 .tc-ebox-cancel:hover{background:rgba(16,27,22,.14)}
+
+/* barrita flotante de formato de texto (negrita, subrayado, color...) */
+.tc-rte-toolbar{position:sticky;top:-2px;z-index:2;display:flex;align-items:center;gap:3px;flex-wrap:wrap;background:#0E332C;border-radius:999px;padding:6px 9px;margin-bottom:8px;box-shadow:0 8px 20px rgba(14,51,44,.4)}
+.tc-rte-btn{all:unset;box-sizing:border-box;width:25px;height:25px;display:flex;align-items:center;justify-content:center;border-radius:7px;color:#FBF6EC;font-size:.78rem;cursor:pointer}
+.tc-rte-btn:hover{background:rgba(255,255,255,.16)}
+.tc-rte-btn b,.tc-rte-btn i,.tc-rte-btn u,.tc-rte-btn s{pointer-events:none;font-family:inherit}
+.tc-rte-clear{width:auto;padding:0 9px;font-size:.68rem;font-weight:700;letter-spacing:.2px}
+.tc-rte-sep{width:1px;align-self:stretch;background:rgba(255,255,255,.2);margin:2px 3px}
+.tc-rte-swatch{all:unset;box-sizing:border-box;width:17px;height:17px;border-radius:50%;border:2px solid rgba(255,255,255,.55);cursor:pointer}
+.tc-rte-swatch:hover{border-color:#fff;transform:scale(1.12)}
+.tc-rte{width:100%;min-height:74px;max-height:340px;overflow:auto;border:1px solid rgba(16,27,22,.16);border-radius:8px;padding:8px 10px;font:inherit;font-size:.85rem;line-height:1.5;color:#16211C;margin-bottom:8px;background:#fff}
+.tc-rte:focus{outline:2px solid rgba(12,122,120,.35);outline-offset:1px}
 .tc-esave-flash{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#0E332C;color:#FFD37A;padding:9px 18px;border-radius:999px;font-size:.8rem;font-weight:700;opacity:0;pointer-events:none;transition:opacity .3s ease;z-index:6000}
 .tc-esave-flash.show{opacity:1}
 
@@ -401,10 +413,110 @@ function stripTags(html){
   d.innerHTML = html;
   return d.textContent || '';
 }
+
+/* ===== editor de texto enriquecido (negrita, subrayado, color, resaltado...) ===== */
+const RTE_COLORS = ['#16211C','#0C7A78','#D64545','#E3A83B','#2E5AAC','#7A3E9D'];
+const RICH_TAG_RE = /<(b|strong|i|em|u|s|strike|span|br)[ >/]/i;
+/* valores viejos (texto plano guardado antes de este editor) siguen escapándose + saltos de línea;
+   valores nuevos (html ya saneado por sanitizeRichHtml) se inyectan directo */
+function renderStoredHtml(v){
+  if(!v) return '';
+  return RICH_TAG_RE.test(v) ? v : nl2html(v);
+}
+function sanitizeRichHtml(html){
+  const ALLOWED = { B:1, STRONG:1, I:1, EM:1, U:1, S:1, STRIKE:1, SPAN:1, BR:1 };
+  /* tags peligrosos: se eliminan enteros (con su contenido), nunca se "desenvuelven" */
+  const DENY = { SCRIPT:1, STYLE:1, IFRAME:1, OBJECT:1, EMBED:1, LINK:1, META:1, SVG:1, IMG:1, VIDEO:1, AUDIO:1, FORM:1, INPUT:1, BUTTON:1, SOURCE:1, TRACK:1 };
+  const root = document.createElement('div');
+  root.innerHTML = html;
+  (function clean(node){
+    Array.from(node.childNodes).forEach(child=>{
+      if(child.nodeType === 3) return;
+      if(child.nodeType !== 1){ node.removeChild(child); return; }
+      if(DENY[child.tagName]){ node.removeChild(child); return; }
+      /* Chrome usa <font color> (legado) para el color de texto: se convierte a <span style="color:..."> */
+      if(child.tagName === 'FONT'){
+        const span = document.createElement('span');
+        const color = child.style.color || child.getAttribute('color');
+        const bg = child.style.backgroundColor;
+        if(color) span.style.color = color;
+        if(bg) span.style.backgroundColor = bg;
+        while(child.firstChild) span.appendChild(child.firstChild);
+        node.replaceChild(span, child);
+        child = span;
+      }
+      const tag = child.tagName;
+      if(tag === 'DIV' || tag === 'P'){
+        node.insertBefore(document.createElement('br'), child);
+        while(child.firstChild) node.insertBefore(child.firstChild, child);
+        node.removeChild(child);
+        return;
+      }
+      if(!ALLOWED[tag]){
+        while(child.firstChild) node.insertBefore(child.firstChild, child);
+        node.removeChild(child);
+        return;
+      }
+      Array.from(child.attributes).forEach(attr=>{
+        if(tag === 'SPAN' && attr.name === 'style'){
+          const parts = [];
+          if(child.style.color) parts.push('color:'+child.style.color);
+          if(child.style.backgroundColor) parts.push('background-color:'+child.style.backgroundColor);
+          if(parts.length) child.setAttribute('style', parts.join(';')); else child.removeAttribute('style');
+        } else {
+          child.removeAttribute(attr.name);
+        }
+      });
+      clean(child);
+    });
+  })(root);
+  return root.innerHTML.trim().replace(/^(<br>)+/i,'').replace(/(<br>)+$/i,'');
+}
+function richToolbarHtml(){
+  return `<div class="tc-rte-toolbar">
+    <button type="button" class="tc-rte-btn" data-cmd="bold" title="Negrita"><b>B</b></button>
+    <button type="button" class="tc-rte-btn" data-cmd="italic" title="Cursiva"><i>I</i></button>
+    <button type="button" class="tc-rte-btn" data-cmd="underline" title="Subrayado"><u>S</u></button>
+    <button type="button" class="tc-rte-btn" data-cmd="strikeThrough" title="Tachado"><s>T</s></button>
+    <span class="tc-rte-sep"></span>
+    ${RTE_COLORS.map(c=>`<button type="button" class="tc-rte-swatch" data-color="${c}" style="background:${c}" title="Color de texto"></button>`).join('')}
+    <span class="tc-rte-sep"></span>
+    <button type="button" class="tc-rte-btn" data-cmd="hilite" title="Resaltar">🖍</button>
+    <button type="button" class="tc-rte-btn tc-rte-clear" data-cmd="removeFormat" title="Quitar formato">Quitar</button>
+  </div>`;
+}
+function wireRte(scope){
+  const toolbar = scope.querySelector('.tc-rte-toolbar');
+  const editable = scope.querySelector('.tc-rte');
+  if(!toolbar || !editable) return editable;
+  try{ document.execCommand('defaultParagraphSeparator', false, 'br'); }catch(e){}
+  editable.addEventListener('paste', (e)=>{
+    e.preventDefault();
+    const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+    document.execCommand('insertText', false, text);
+  });
+  toolbar.querySelectorAll('[data-cmd]').forEach(btn=>{
+    btn.addEventListener('mousedown', (e)=>{
+      e.preventDefault();
+      editable.focus();
+      const cmd = btn.dataset.cmd;
+      if(cmd === 'hilite') document.execCommand('hiliteColor', false, '#FCE98A');
+      else document.execCommand(cmd);
+    });
+  });
+  toolbar.querySelectorAll('.tc-rte-swatch').forEach(sw=>{
+    sw.addEventListener('mousedown', (e)=>{
+      e.preventDefault();
+      editable.focus();
+      document.execCommand('foreColor', false, sw.dataset.color);
+    });
+  });
+  return editable;
+}
 function edAttr(key, kind){ return `data-ekey="${key}" data-ekind="${kind||'text'}"`; }
 function EK(key, fallback){
   const v = OVERRIDES[key];
-  return (v===undefined || v===null || v==='') ? fallback : nl2html(v);
+  return (v===undefined || v===null || v==='') ? fallback : renderStoredHtml(v);
 }
 function EKlist(key, fallbackArr){
   const v = OVERRIDES[key];
@@ -540,47 +652,74 @@ function flashSaved(){
   flashSaved._t = setTimeout(()=> el.classList.remove('show'), 1800);
 }
 
-/* ---- caja simple (texto o lista de largo fijo) ---- */
+/* ---- caja simple (texto enriquecido o lista de largo fijo) ---- */
 function enterEdit(box){
   const key = box.dataset.ekey;
   const kind = box.dataset.ekind || 'text';
   const original = box.innerHTML;
   const contentRoot = box.querySelector(':scope > .tc-eclamp-inner') || box;
-  let currentVal;
-  if(kind === 'list'){
-    currentVal = Array.from(contentRoot.children).map(li=>li.textContent).join('\n');
-  } else {
-    currentVal = OVERRIDES[key] !== undefined ? String(OVERRIDES[key]) : (box.querySelector('.tc-pending') ? '' : stripTags(contentRoot.innerHTML));
-  }
   const allowAttach = !/\.(title|t)$/.test(key);
   box.classList.add('tc-ebox-active');
+  if(kind === 'list'){
+    const currentVal = Array.from(contentRoot.children).map(li=>li.textContent).join('\n');
+    box.innerHTML = `<div class="tc-ebox">
+      <textarea>${escHtml(currentVal)}</textarea>
+      <div class="tc-ebox-actions">
+        <button type="button" class="tc-ebox-save">Guardar</button>
+        <button type="button" class="tc-ebox-cancel">Cancelar</button>
+      </div>
+      ${allowAttach ? '<div class="tc-ebox-attach"></div>' : ''}
+    </div>`;
+    if(allowAttach) mountAttachControls(box.querySelector('.tc-ebox'), key);
+    const ta = box.querySelector('textarea');
+    ta.focus();
+    function doCancel(){
+      box.classList.remove('tc-ebox-active');
+      box.innerHTML = original;
+      applyAttachBadge(box);
+    }
+    async function doSave(){
+      const value = ta.value.split('\n').map(s=>s.trim()).filter(Boolean);
+      const ok = await saveKey(key, value);
+      box.classList.remove('tc-ebox-active');
+      if(!ok){ box.innerHTML = original; applyAttachBadge(box); return; }
+      box.innerHTML = value.length ? value.map(i=>`<li>${escHtml(i)}</li>`).join('') : `<li class="tc-pending">${PENDING}</li>`;
+      applyClamp(box);
+      applyAttachBadge(box);
+      flashSaved();
+    }
+    box._eboxCancel = doCancel;
+    box._eboxSave = doSave;
+    box.querySelector('.tc-ebox-cancel').addEventListener('click', (e)=>{ e.stopPropagation(); doCancel(); });
+    box.querySelector('.tc-ebox-save').addEventListener('click', (e)=>{ e.stopPropagation(); doSave(); });
+    return;
+  }
+  const seedHtml = box.querySelector('.tc-pending') ? '' : contentRoot.innerHTML;
   box.innerHTML = `<div class="tc-ebox">
-    <textarea>${escHtml(currentVal)}</textarea>
+    ${richToolbarHtml()}
+    <div class="tc-rte" contenteditable="true"></div>
     <div class="tc-ebox-actions">
       <button type="button" class="tc-ebox-save">Guardar</button>
       <button type="button" class="tc-ebox-cancel">Cancelar</button>
     </div>
     ${allowAttach ? '<div class="tc-ebox-attach"></div>' : ''}
   </div>`;
-  if(allowAttach) mountAttachControls(box.querySelector('.tc-ebox'), key);
-  const ta = box.querySelector('textarea');
-  ta.focus();
+  const eboxEl = box.querySelector('.tc-ebox');
+  if(allowAttach) mountAttachControls(eboxEl, key);
+  const editable = wireRte(eboxEl);
+  editable.innerHTML = seedHtml;
+  editable.focus();
   function doCancel(){
     box.classList.remove('tc-ebox-active');
     box.innerHTML = original;
     applyAttachBadge(box);
   }
   async function doSave(){
-    const raw = ta.value;
-    const value = kind === 'list' ? raw.split('\n').map(s=>s.trim()).filter(Boolean) : raw.trim();
+    const value = sanitizeRichHtml(editable.innerHTML);
     const ok = await saveKey(key, value);
     box.classList.remove('tc-ebox-active');
     if(!ok){ box.innerHTML = original; applyAttachBadge(box); return; }
-    if(kind === 'list'){
-      box.innerHTML = value.length ? value.map(i=>`<li>${escHtml(i)}</li>`).join('') : `<li class="tc-pending">${PENDING}</li>`;
-    } else {
-      box.innerHTML = value ? nl2html(value) : `<span class="tc-pending">${PENDING}</span>`;
-    }
+    box.innerHTML = value ? renderStoredHtml(value) : `<span class="tc-pending">${PENDING}</span>`;
     applyClamp(box);
     applyAttachBadge(box);
     flashSaved();
@@ -625,7 +764,7 @@ function chipGroupInner(key){
   return items.map((it,i)=>`<div class="tc-chipcard" data-gi="${i}">
       <button type="button" class="tc-box-del" title="Eliminar">&minus;</button>
       <div class="tc-chipcard-title" data-gfield="title">${escHtml(it.title||'')}</div>
-      <div class="tc-chipcard-desc" data-gfield="desc">${it.desc ? escHtml(it.desc) : `<span class="tc-pending">${PENDING}</span>`}</div>
+      <div class="tc-chipcard-desc" data-gfield="desc">${it.desc ? renderStoredHtml(it.desc) : `<span class="tc-pending">${PENDING}</span>`}</div>
     </div>`).join('')
     + `<button type="button" class="tc-box-add" data-add-group="${key}">+ Agregar</button>`;
 }
@@ -643,7 +782,7 @@ function qaGroupInner(key){
     return `<div class="tc-theory-qa" data-gi="${i}">
       ${locked ? '' : `<button type="button" class="tc-box-del" title="Eliminar">&minus;</button>`}
       <label data-gfield="q"${locked ? ' data-locked="1"' : ''}>${escHtml(it.q||'')}</label>
-      <p data-gfield="a">${it.a ? escHtml(it.a) : `<span class="tc-pending">${PENDING}</span>`}</p>
+      <p data-gfield="a">${it.a ? renderStoredHtml(it.a) : `<span class="tc-pending">${PENDING}</span>`}</p>
     </div>`;
   }).join('')
     + `<button type="button" class="tc-box-add" data-add-group="${key}">+ Agregar pregunta</button>`;
@@ -722,7 +861,8 @@ function enterGroupItemEdit(itemEl){
   itemEl.querySelector('.tc-ebox-save').addEventListener('click', (e)=>{ e.stopPropagation(); doSave(); });
 }
 
-/* edición de un campo suelto dentro de un item de grupo "card" / "qa" (título, descripción, pregunta...) */
+/* edición de un campo suelto dentro de un item de grupo "card" / "qa" (título, descripción, pregunta...)
+   los campos de texto largo (desc/a) usan el editor enriquecido; título/pregunta quedan como texto simple */
 function enterCardFieldEdit(fieldEl){
   const itemEl = fieldEl.closest('[data-gi]');
   const container = fieldEl.closest('[data-group-key]');
@@ -732,19 +872,34 @@ function enterCardFieldEdit(fieldEl){
   const original = fieldEl.innerHTML;
   const items = groupItems(container.dataset.groupKey);
   const currentVal = (items[idx] && items[idx][field]) || '';
-  const allowAttach = field !== 'q' && field !== 'title';
+  const useRte = field !== 'q' && field !== 'title';
   fieldEl.classList.add('tc-ebox-active');
-  fieldEl.innerHTML = `<div class="tc-ebox">
+  fieldEl.innerHTML = useRte ? `<div class="tc-ebox">
+    ${richToolbarHtml()}
+    <div class="tc-rte" contenteditable="true"></div>
+    <div class="tc-ebox-actions">
+      <button type="button" class="tc-ebox-save">Guardar</button>
+      <button type="button" class="tc-ebox-cancel">Cancelar</button>
+    </div>
+    <div class="tc-ebox-attach"></div>
+  </div>` : `<div class="tc-ebox">
     <textarea>${escHtml(currentVal)}</textarea>
     <div class="tc-ebox-actions">
       <button type="button" class="tc-ebox-save">Guardar</button>
       <button type="button" class="tc-ebox-cancel">Cancelar</button>
     </div>
-    ${allowAttach ? '<div class="tc-ebox-attach"></div>' : ''}
   </div>`;
-  if(allowAttach) mountAttachControls(fieldEl.querySelector('.tc-ebox'), key);
-  const ta = fieldEl.querySelector('textarea');
-  ta.focus();
+  const eboxEl = fieldEl.querySelector('.tc-ebox');
+  let editable = null, ta = null;
+  if(useRte){
+    mountAttachControls(eboxEl, key);
+    editable = wireRte(eboxEl);
+    editable.innerHTML = currentVal ? renderStoredHtml(currentVal) : '';
+    editable.focus();
+  } else {
+    ta = fieldEl.querySelector('textarea');
+    ta.focus();
+  }
   function doCancel(){
     fieldEl.classList.remove('tc-ebox-active');
     fieldEl.innerHTML = original;
@@ -753,7 +908,8 @@ function enterCardFieldEdit(fieldEl){
   async function doSave(){
     const freshItems = groupItems(container.dataset.groupKey);
     const base = freshItems[idx] || {};
-    freshItems[idx] = { ...base, [field]: ta.value.trim() };
+    const value = useRte ? sanitizeRichHtml(editable.innerHTML) : ta.value.trim();
+    freshItems[idx] = { ...base, [field]: value };
     const ok = await saveKey(container.dataset.groupKey, freshItems);
     fieldEl.classList.remove('tc-ebox-active');
     if(!ok){ fieldEl.innerHTML = original; applyAttachBadge(fieldEl); return; }

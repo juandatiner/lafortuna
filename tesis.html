@@ -248,11 +248,11 @@ body.editing-content .tc-box-add:hover{background:rgba(12,122,120,.12)}
 #attachPreview.open{display:flex}
 #attachPreview .ap-close{position:absolute;top:18px;right:22px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;border:none;font-size:18px;font-weight:900;cursor:pointer;z-index:2}
 #attachPreview .ap-close:hover{background:rgba(255,255,255,.22)}
+#attachPreview .ap-download{position:absolute;top:18px;right:66px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;text-decoration:none}
+#attachPreview .ap-download:hover{background:rgba(255,255,255,.22)}
+#attachPreview .ap-download svg{width:17px;height:17px}
 #attachPreview .ap-body{max-width:100%;max-height:100%;display:flex;align-items:center;justify-content:center}
 #attachPreview .ap-body img{max-width:100%;max-height:88vh;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6);object-fit:contain}
-#attachPreview .ap-frame{width:min(90vw,980px);height:88vh;border:none;border-radius:12px;background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.6)}
-#attachPreview .ap-fallback{background:#F6F3EC;border-radius:14px;padding:26px 30px;text-align:center;color:#16211C;max-width:420px}
-#attachPreview .ap-fallback a{color:#0C7A78;font-weight:800}
 
 /* ===== Modal de clave para entrar a edición ===== */
 #editKeyModal{position:fixed;inset:0;z-index:5700;display:none;align-items:center;justify-content:center;padding:6vh 4vw;background:rgba(10,17,14,.55);backdrop-filter:blur(3px)}
@@ -358,6 +358,7 @@ body.editing-content .tc-theory-qa [data-gfield][data-locked="1"]::after{content
 </div>
 
 <div id="attachPreview">
+  <a class="ap-download" id="apDownloadBtn" download title="Descargar imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
   <button type="button" class="ap-close" data-ap-close title="Cerrar">&times;</button>
   <div class="ap-body"></div>
 </div>
@@ -484,7 +485,7 @@ function attachControlsHtml(key){
   return `<div class="tc-ebox-attach">
     <div class="tc-attach-row">
       <label class="tc-attach-input">📷 ${rec.image ? 'Cambiar imagen' : 'Imagen'}<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-attach-kind="image"></label>
-      <label class="tc-attach-input">📄 ${rec.doc ? 'Cambiar documento' : 'Documento'}<input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" data-attach-kind="doc"></label>
+      <label class="tc-attach-input">📄 ${rec.doc ? 'Cambiar documento' : 'Documento'}<input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv" data-attach-kind="doc"></label>
     </div>
     ${rec.image ? `<div class="tc-attach-row">
       <button type="button" class="tc-attach-remove" data-attach-kind="image">Quitar imagen</button>
@@ -779,28 +780,26 @@ function cleanContentHtml(el){
   const inner = clone.querySelector(':scope > .tc-eclamp-inner');
   return inner ? inner.innerHTML : clone.innerHTML;
 }
-const PREVIEWABLE_INLINE_EXT = ['.pdf', '.txt'];
-function openAttachPreview(url, name, ext){
+function openAttachPreview(url, name){
   const modal = document.getElementById('attachPreview');
   const body = modal.querySelector('.ap-body');
   body.innerHTML = '';
-  if(!ext){
-    const img = document.createElement('img');
-    img.src = url;
-    img.alt = name || '';
-    body.appendChild(img);
-  } else if(PREVIEWABLE_INLINE_EXT.includes(ext)){
-    const ifr = document.createElement('iframe');
-    ifr.className = 'ap-frame';
-    ifr.src = url;
-    body.appendChild(ifr);
-  } else {
-    body.innerHTML = `<div class="ap-fallback">
-      <p>Este tipo de archivo (${escHtml(ext.replace('.',''))}) no se puede previsualizar directo en el navegador.</p>
-      <a href="${url}" target="_blank" rel="noopener">Abrir ${escHtml(name || '')} en pestaña nueva</a>
-    </div>`;
-  }
   modal.classList.add('open');
+  const img = document.createElement('img');
+  img.src = url;
+  img.alt = name || '';
+  body.appendChild(img);
+  const dl = document.getElementById('apDownloadBtn');
+  dl.href = url;
+  dl.download = name || '';
+}
+function downloadAttach(url, name){
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name || '';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
 }
 const ICON_SVG_IMAGE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
 const ICON_SVG_DOC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/></svg>';
@@ -839,7 +838,7 @@ function applyAttachBadge(el){
     btn.innerHTML = ICON_SVG_IMAGE;
     btn.addEventListener('click', (e)=>{
       e.stopPropagation();
-      openAttachPreview(`/api/uploads/${rec.image.file}`, rec.image.name, null);
+      openAttachPreview(`/api/uploads/${rec.image.file}`, rec.image.name);
     });
     badge.appendChild(btn);
   }
@@ -847,18 +846,14 @@ function applyAttachBadge(el){
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'tc-attach-icon';
-    btn.title = 'Ver documento: ' + rec.doc.name;
+    btn.title = 'Descargar documento: ' + rec.doc.name;
     btn.innerHTML = ICON_SVG_DOC;
     btn.addEventListener('click', (e)=>{
       e.stopPropagation();
-      openAttachPreview(`/api/uploads/${rec.doc.file}`, rec.doc.name, path_extname(rec.doc.name));
+      downloadAttach(`/api/uploads/${rec.doc.file}`, rec.doc.name);
     });
     badge.appendChild(btn);
   }
-}
-function path_extname(name){
-  const i = (name || '').lastIndexOf('.');
-  return i === -1 ? '' : name.slice(i).toLowerCase();
 }
 function wireAttachBadges(root){
   root.querySelectorAll('[data-ekey]').forEach(applyAttachBadge);
@@ -870,11 +865,14 @@ function renderAttachSection(modal, key, el){
   const rec = OVERRIDES[key + '.attach'] || {};
   let html = '';
   if(rec.image) html += `<div class="vm-media"><img src="/api/uploads/${rec.image.file}" alt="" data-preview-url="/api/uploads/${rec.image.file}" data-preview-name="${escHtml(rec.image.name)}"></div>`;
-  if(rec.doc) html += `<div class="vm-doc"><button type="button" class="vm-doc-open" data-preview-url="/api/uploads/${rec.doc.file}" data-preview-name="${escHtml(rec.doc.name)}" data-preview-ext="${escHtml(path_extname(rec.doc.name))}">📄 Ver ${escHtml(rec.doc.name)}</button></div>`;
+  if(rec.doc) html += `<div class="vm-doc"><button type="button" class="vm-doc-open" data-download-url="/api/uploads/${rec.doc.file}" data-download-name="${escHtml(rec.doc.name)}">⬇️ Descargar ${escHtml(rec.doc.name)}</button></div>`;
   if(document.body.classList.contains('editing-content')) html += attachControlsHtml(key);
   wrap.innerHTML = html;
   wrap.querySelectorAll('[data-preview-url]').forEach(node=>{
-    node.addEventListener('click', ()=> openAttachPreview(node.dataset.previewUrl, node.dataset.previewName, node.dataset.previewExt || null));
+    node.addEventListener('click', ()=> openAttachPreview(node.dataset.previewUrl, node.dataset.previewName));
+  });
+  wrap.querySelectorAll('[data-download-url]').forEach(node=>{
+    node.addEventListener('click', ()=> downloadAttach(node.dataset.downloadUrl, node.dataset.downloadName));
   });
   if(document.body.classList.contains('editing-content')){
     wireAttachControls(wrap, key, ()=>{ renderAttachSection(modal, key, el); applyAttachBadge(el); });

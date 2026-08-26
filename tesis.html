@@ -47,12 +47,12 @@
 
 
 /* big non-collapsible theory cards (marco teórico) */
-.tc-theory{border:1px solid rgba(16,27,22,.08);border-radius:18px;background:rgba(255,255,255,.65);padding:16px 20px;margin-bottom:12px;box-shadow:0 8px 22px rgba(16,27,22,.05)}
+.tc-theory{position:relative;border:1px solid rgba(16,27,22,.08);border-radius:18px;background:rgba(255,255,255,.65);padding:16px 20px;margin-bottom:12px;box-shadow:0 8px 22px rgba(16,27,22,.05)}
 .tc-theory.tc-theory-core{border-color:rgba(227,168,59,.5);background:rgba(255,247,225,.75)}
 .tc-theory-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
 .tc-theory-num{font-family:'Playfair Display',serif;font-weight:900;color:#E3A83B;font-size:.95rem;width:24px;flex-shrink:0}
 .tc-theory-name{flex:1;font-weight:800;font-size:1rem;color:#16211C}
-.tc-theory-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.tc-theory-fields{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .tc-theory-fields label{display:block;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#0C7A78;margin-bottom:3px}
 .tc-theory-fields p{font-size:.82rem;line-height:1.5;color:#3E4C43}
 .tc-theory-fields ul{margin:0;padding-left:16px;font-size:.82rem;line-height:1.55;color:#3E4C43}
@@ -593,9 +593,20 @@ function enterEdit(box){
 
 /* ---- grupo de cajas con + / papelera (largo variable, ej. estado del arte) ---- */
 const GROUP_DEFAULTS = {};
+/* categorías nuevas del marco teórico (agregadas por el usuario) arrancan con las mismas
+   4 preguntas base que las categorías fijas, bloqueadas igual que el resto */
+const QA_BASE_DEFAULT = [
+  { q:'¿Qué es?', a:'' },
+  { q:'¿Por qué?', a:'' },
+  { q:'¿Cómo?', a:'' },
+  { q:'Aporte', a:'' }
+];
 function groupItems(key){
   const v = OVERRIDES[key];
-  return Array.isArray(v) ? v.slice() : (GROUP_DEFAULTS[key] || []).slice();
+  if(Array.isArray(v)) return v.slice();
+  if(GROUP_DEFAULTS[key]) return GROUP_DEFAULTS[key].slice();
+  if(/^mtx\d+\.fields$/.test(key)) return QA_BASE_DEFAULT.map(it=>({...it}));
+  return [];
 }
 
 /* ---- grupo tipo "stat": item = string html ---- */
@@ -638,11 +649,31 @@ function qaGroupInner(key){
     + `<button type="button" class="tc-box-add" data-add-group="${key}">+ Agregar pregunta</button>`;
 }
 
-const GROUP_RENDERERS = { stat: statGroupInner, card: chipGroupInner, qa: qaGroupInner };
+/* ---- grupo tipo "theory": categorías extra del marco teórico agregadas por el usuario.
+   las categorías fijas (mt1..mt13) no viven en este grupo y nunca se pueden borrar. */
+function theoryExtraGroupInner(key){
+  const items = groupItems(key);
+  return items.map((it,i)=>{
+    const fieldsKey = 'mtx' + it.id + '.fields';
+    return `<div class="tc-theory" data-gi="${i}">
+      <button type="button" class="tc-box-del" title="Eliminar">&minus;</button>
+      <div class="tc-theory-head">
+        <span class="tc-theory-num">${String(MT_MINDMAP.length + i + 1).padStart(2,'0')}</span>
+        <span class="tc-theory-name" data-gfield="title">${escHtml(it.title||'')}</span>
+        ${tag('Auxiliar')}
+      </div>
+      <div class="tc-theory-fields" data-group-key="${fieldsKey}" data-group-kind="qa">${qaGroupInner(fieldsKey)}</div>
+    </div>`;
+  }).join('')
+    + `<button type="button" class="tc-box-add" data-add-group="${key}">+ Agregar categoría</button>`;
+}
+
+const GROUP_RENDERERS = { stat: statGroupInner, card: chipGroupInner, qa: qaGroupInner, theory: theoryExtraGroupInner };
 const GROUP_NEW_ITEM = {
   stat: () => 'Texto nuevo — hacé click para editarlo.',
   card: () => ({ title:'Nuevo eje', desc:'' }),
-  qa: () => ({ q:'Nueva pregunta', a:'' })
+  qa: () => ({ q:'Nueva pregunta', a:'' }),
+  theory: () => ({ id: Date.now(), title:'Nueva categoría' })
 };
 function renderGroupInPlace(container){
   const key = container.dataset.groupKey;
@@ -1421,6 +1452,10 @@ function renderMtTheories(){
   }).join('');
 }
 
+function renderExtraTheories(){
+  return `<div data-group-key="marcoteorico.extra" data-group-kind="theory">${theoryExtraGroupInner('marcoteorico.extra')}</div>`;
+}
+
 function renderPhases(key, fases){
   return fases.map((f,i)=>`
     <div class="tc-phase">
@@ -1637,6 +1672,7 @@ const CONTENT = {
     <div class="tc-lead" ${edAttr('marcoteorico.lead')}>${EK('marcoteorico.lead','El marco teórico se organiza en <b>13 categorías</b> alrededor del núcleo <b>Gobernanza inteligente</b>, que actúa como teoría explicativa central; las demás categorías se emplean como teorías auxiliares que sustentan y contextualizan la propuesta.')}</div>
     <div class="tc-section-label">Categorías del marco teórico</div>
     ${renderMtTheories()}
+    ${renderExtraTheories()}
     <div class="tc-callout" style="margin-top:14px" ${edAttr('marcoteorico.callout')}><b>Nota:</b> ${EK('marcoteorico.callout','la teoría explicativa definida para la tesis es la gobernanza inteligente; las demás se emplean como teorías auxiliares.')}</div>
   `,
 

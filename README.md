@@ -33,6 +33,25 @@ navegador. Para que esos cambios sobrevivan a un redeploy en Railway:
 Sin volumen montado, el contenido igual se guarda (en `./data/content.json`
 dentro del contenedor) pero se pierde en cada redeploy.
 
+### Respaldo del contenido editado
+
+`data/` no se versiona, así que lo que se edita desde la página vive sólo en el
+servidor. Para tener una copia fuera de ahí:
+
+```bash
+# bajar el contenido del sitio publicado a backups/
+npm run backup -- https://TU-SITIO --tag antes-del-deploy
+
+# devolverlo al sitio si se perdió
+EDIT_KEY=tuclave npm run restore -- https://TU-SITIO backups/2026-10-03_1430
+```
+
+El respaldo trae los textos (`content.json`) y los adjuntos (`uploads/`), y se
+versiona en git. Ver `backups/README.md`.
+
+**Conviene correr `npm run backup` antes de cada deploy** mientras no haya
+certeza de que el Volume está montado.
+
 Las imágenes y documentos que se adjuntan a un campo se suben vía
 `/api/upload` y se guardan como archivos en `data/uploads/`, dentro del mismo
 Volume — no hace falta ningún Volume ni variable extra.

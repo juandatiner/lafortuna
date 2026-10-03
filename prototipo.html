@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prototipo — Gobernanza Inteligente DTLF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shell.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+.topbar{display:flex;align-items:center;gap:8px}
+.brand{display:flex;align-items:center;gap:6px;background:#FFFFFF;padding:5px 10px;border-radius:999px;box-shadow:0 4px 14px rgba(5,15,13,.09);font-weight:800;color:#0E332C;font-size:11px;letter-spacing:.2px}
+.brand-dot{width:6px;height:6px;border-radius:50%;background:#B9820C;flex-shrink:0}
+
+/* ===== Content system (hereda el lenguaje visual de tesis.html) ===== */
+.tc-wrap{position:absolute;inset:0;overflow-y:auto;padding:44px 56px 72px;background:
+  radial-gradient(circle at 30% 0%, rgba(227,168,59,.10) 0%, transparent 44%),
+  var(--shell-base,#F6F3EC)}
+.tc-eyebrow{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#B9820C;margin-bottom:10px}
+.tc-title{font-family:'Playfair Display',serif;font-weight:800;font-size:1.9rem;color:#16211C;margin-bottom:16px;max-width:900px;letter-spacing:-.3px}
+.tc-lead{background:linear-gradient(160deg,#0E332C 0%,#123c33 100%);color:#FBF6EC;border-radius:18px;padding:22px 26px;font-size:1rem;line-height:1.65;margin-bottom:26px;max-width:1040px;box-shadow:0 14px 34px rgba(16,27,22,.18)}
+.tc-lead b{color:#FFD37A}
+.tc-section-label{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#16211C;margin:30px 0 12px;display:flex;align-items:center;gap:8px}
+.tc-section-label:first-of-type{margin-top:0}
+.tc-section-label::after{content:'';flex:1;height:1px;background:rgba(16,27,22,.12)}
+
+.tc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-bottom:8px}
+.tc-card{background:rgba(255,255,255,.7);border:1px solid rgba(16,27,22,.08);border-radius:16px;padding:15px 17px;box-shadow:0 8px 22px rgba(16,27,22,.05)}
+.tc-card.tc-card-core{border-color:rgba(227,168,59,.55);background:rgba(255,247,225,.72)}
+.tc-card-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#0E332C;color:#FFD37A;font-weight:800;font-size:11px;margin-bottom:9px}
+.tc-card h4{font-size:.92rem;font-weight:800;color:#16211C;margin-bottom:6px;line-height:1.3}
+.tc-card p{font-size:.82rem;line-height:1.55;color:#5C6A62}
+.tc-card ul{margin:0;padding-left:16px;font-size:.8rem;line-height:1.6;color:#5C6A62}
+.tc-card ul li::marker{color:#B9820C}
+
+.tc-callout{background:rgba(227,168,59,.14);border:1px solid rgba(227,168,59,.42);border-radius:16px;padding:16px 20px;font-size:.88rem;line-height:1.6;color:#3E4C43;margin:18px 0;max-width:1040px}
+.tc-callout b{color:#7E5A0A}
+.tc-callout.tc-callout-warn{background:rgba(193,70,31,.09);border-color:rgba(193,70,31,.35)}
+.tc-callout.tc-callout-warn b{color:#A63A18}
+
+.tc-subtabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:26px;max-width:1040px}
+.tc-subtab{all:unset;box-sizing:border-box;display:flex;flex-direction:column;gap:4px;padding:14px 18px;border-radius:16px;border:1px solid rgba(16,27,22,.1);background:rgba(255,255,255,.55);cursor:pointer;transition:background .2s ease,transform .2s ease,box-shadow .2s ease}
+.tc-subtab:hover{background:rgba(255,255,255,.9)}
+.tc-subtab .tc-subtab-num{font-family:'Playfair Display',serif;font-weight:900;font-size:.78rem;color:#B9820C}
+.tc-subtab .tc-subtab-label{font-weight:800;font-size:.86rem;color:#16211C;line-height:1.25}
+.tc-subtab.active{background:#0E332C;border-color:#0E332C;box-shadow:0 12px 28px rgba(16,27,22,.22);transform:translateY(-2px)}
+.tc-subtab.active .tc-subtab-num{color:#FFD37A}
+.tc-subtab.active .tc-subtab-label{color:#FBF6EC}
+
+.tc-pending{color:#9AA39C;font-style:italic}
+
+/* ===== Prototipo: componentes propios ===== */
+.pt-stage{background:rgba(255,255,255,.62);border:1px solid rgba(16,27,22,.09);border-radius:20px;padding:20px 22px 16px;box-shadow:0 12px 32px rgba(16,27,22,.07);margin-bottom:18px;overflow-x:auto}
+.pt-stage svg{display:block;width:100%;min-width:900px;height:auto;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+.pt-stage-cap{margin-top:12px;font-size:.78rem;line-height:1.55;color:#5C6A62;border-top:1px solid rgba(16,27,22,.08);padding-top:11px}
+.pt-stage-cap b{color:#16211C}
+.pt-hint{font-size:.74rem;font-weight:700;color:#B9820C;letter-spacing:.3px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.pt-hint::before{content:'';width:7px;height:7px;border-radius:50%;background:#E3A83B;flex-shrink:0}
+
+.pt-layer{cursor:pointer}
+.pt-layer .pt-layer-bg{transition:filter .2s ease}
+.pt-layer:hover .pt-layer-bg{filter:brightness(.97)}
+.pt-layer.is-sel .pt-layer-bg{stroke-width:2.4}
+
+.pt-detail{background:#fff;border-radius:18px;border:1px solid rgba(16,27,22,.1);box-shadow:0 14px 34px rgba(16,27,22,.09);padding:20px 24px;margin-bottom:20px;border-left:6px solid #B9820C}
+.pt-detail-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+.pt-detail-num{font-family:'Playfair Display',serif;font-weight:900;font-size:1.1rem;color:#B9820C}
+.pt-detail-head h4{font-size:1.02rem;font-weight:800;color:#16211C}
+.pt-detail > p{font-size:.86rem;line-height:1.6;color:#5C6A62;margin-bottom:14px;max-width:880px}
+.pt-detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.pt-mod{background:rgba(246,243,236,.75);border:1px solid rgba(16,27,22,.08);border-radius:13px;padding:12px 14px}
+.pt-mod h5{font-size:.82rem;font-weight:800;color:#16211C;margin-bottom:5px}
+.pt-mod p{font-size:.76rem;line-height:1.5;color:#5C6A62}
+
+/* tabla genérica */
+.pt-tablewrap{overflow-x:auto;border:1px solid rgba(16,27,22,.12);border-radius:14px;background:#fff;box-shadow:0 10px 26px rgba(16,27,22,.06);margin-bottom:18px}
+table.pt-table{width:100%;min-width:760px;border-collapse:collapse;font-size:.8rem}
+.pt-table th{background:#0E332C;color:#FBF6EC;font-weight:800;font-size:.7rem;letter-spacing:.4px;text-transform:uppercase;padding:11px 13px;text-align:left;vertical-align:middle}
+.pt-table td{border-top:1px solid rgba(16,27,22,.09);padding:10px 13px;vertical-align:top;color:#3E4C43;line-height:1.5}
+.pt-table tbody tr:nth-child(even) td{background:rgba(246,243,236,.55)}
+.pt-table td.pt-rowhead{font-weight:800;color:#16211C;white-space:nowrap}
+.pt-table td.pt-c{text-align:center;font-weight:800}
+.pt-yes,.pt-table td.pt-yes{color:#1F6B51}
+.pt-part,.pt-table td.pt-part{color:#B9820C}
+.pt-no,.pt-table td.pt-no{color:#C2C9C2}
+.pt-table td.pt-miss{color:#A63A18}
+
+/* reglas de gobernanza */
+.pt-rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:12px;margin-bottom:8px}
+.pt-rule{background:#fff;border:1px solid rgba(16,27,22,.09);border-left:5px solid #B9820C;border-radius:15px;padding:15px 17px;box-shadow:0 8px 22px rgba(16,27,22,.05)}
+.pt-rule-code{display:inline-block;font-family:'Playfair Display',serif;font-weight:900;font-size:.78rem;color:#B9820C;letter-spacing:.5px;margin-bottom:6px}
+.pt-rule h5{font-size:.88rem;font-weight:800;color:#16211C;margin-bottom:6px;line-height:1.3}
+.pt-rule p{font-size:.79rem;line-height:1.55;color:#5C6A62}
+.pt-rule-tag{display:inline-block;margin-top:9px;font-size:.66rem;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#0A5F5D;background:rgba(12,122,120,.12);border-radius:999px;padding:3px 9px}
+
+/* entidades del modelo de datos */
+.pt-domains{display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:14px;margin-bottom:8px}
+.pt-domain{border-radius:18px;padding:16px 17px;border:1px solid rgba(16,27,22,.1);background:rgba(255,255,255,.6)}
+.pt-domain.pt-dom-d{background:rgba(255,247,225,.72);border-color:rgba(227,168,59,.5)}
+.pt-domain-head{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.pt-domain-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+.pt-domain-head h4{font-size:.86rem;font-weight:800;color:#16211C}
+.pt-ent{background:#fff;border:1px solid rgba(16,27,22,.1);border-radius:12px;margin-bottom:9px;overflow:hidden;box-shadow:0 5px 14px rgba(16,27,22,.05)}
+.pt-ent:last-child{margin-bottom:0}
+.pt-ent-name{padding:8px 12px;font-weight:800;font-size:.8rem;color:#FBF6EC;letter-spacing:.2px}
+.pt-ent-fields{list-style:none;margin:0;padding:8px 12px 10px;font-size:.73rem;line-height:1.75;color:#3E4C43}
+.pt-ent-fields li{display:flex;gap:7px}
+.pt-k{flex-shrink:0;width:26px;font-weight:800;font-size:.62rem;letter-spacing:.3px;padding-top:2px}
+.pt-k-pk{color:#B9820C}
+.pt-k-fk{color:#0C7A78}
+.pt-k-at{color:#C9CFC9}
+.pt-dom-a .pt-ent-name{background:#0E332C}
+.pt-dom-b .pt-ent-name{background:#0C7A78}
+.pt-dom-c .pt-ent-name{background:#2E8567}
+.pt-dom-d .pt-ent-name{background:#8E6309}
+
+/* chips */
+.pt-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.pt-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.8);border:1px solid rgba(16,27,22,.12);border-radius:999px;padding:6px 13px;font-size:.76rem;font-weight:700;color:#3E4C43}
+.pt-chip b{color:#16211C}
+.pt-chip-on{background:#0E332C;border-color:#0E332C;color:#FBF6EC}
+.pt-chip-off{opacity:.5;text-decoration:line-through}
+
+/* estado / leyenda */
+.pt-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.pt-badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 12px;font-size:.7rem;font-weight:800;letter-spacing:.3px}
+.pt-badge::before{content:'';width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.pt-badge-prop{background:rgba(12,122,120,.12);color:#0A5F5D}
+.pt-badge-prop::before{background:#0C7A78}
+.pt-badge-src{background:rgba(14,51,44,.1);color:#0E332C}
+.pt-badge-src::before{background:#0E332C}
+.pt-badge-pend{background:rgba(92,106,98,.12);color:#5C6A62}
+.pt-badge-pend::before{background:#9AA39C}
+.pt-badge-out{background:rgba(193,70,31,.1);color:#A63A18}
+.pt-badge-out::before{background:#C1461F}
+
+/* figura de referencia */
+.pt-figure{border-radius:18px;overflow:hidden;border:1px solid rgba(16,27,22,.12);box-shadow:0 14px 34px rgba(16,27,22,.1);cursor:zoom-in;margin-bottom:8px;max-width:1040px;background:#fff}
+.pt-figure img{display:block;width:100%;height:auto}
+.pt-figcap{font-size:.76rem;color:#5C6A62;line-height:1.5;margin-bottom:22px;max-width:1040px}
+
+#ptLightbox{position:fixed;inset:0;z-index:6000;display:none;align-items:center;justify-content:center;padding:4vh 4vw;background:rgba(10,17,14,.84);backdrop-filter:blur(4px);cursor:zoom-out}
+#ptLightbox.open{display:flex}
+#ptLightbox img{max-width:100%;max-height:92vh;border-radius:12px;box-shadow:0 40px 100px rgba(0,0,0,.5)}
+.pt-lb-close{position:absolute;top:20px;right:22px;width:36px;height:36px;border-radius:50%;background:#0E332C;color:#FFD37A;border:none;font-size:17px;font-weight:900;cursor:pointer}
+
+/* flujo: pasos en texto */
+.pt-steps{counter-reset:ptstep;display:grid;gap:10px;margin-bottom:8px}
+.pt-step{display:flex;gap:14px;background:rgba(255,255,255,.65);border:1px solid rgba(16,27,22,.08);border-radius:15px;padding:14px 16px}
+.pt-step-n{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:#0E332C;color:#FFD37A;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12.5px}
+.pt-step-b{flex:1;min-width:0}
+.pt-step-b h5{font-size:.87rem;font-weight:800;color:#16211C;margin-bottom:4px}
+.pt-step-b p{font-size:.79rem;line-height:1.55;color:#5C6A62}
+.pt-step-who{display:inline-block;margin-top:7px;font-size:.66rem;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#0A5F5D;background:rgba(12,122,120,.12);border-radius:999px;padding:3px 9px}
+
+.pt-src{font-size:.76rem;line-height:1.7;color:#5C6A62;max-width:1040px}
+.pt-src a{color:#0A5F5D;font-weight:700}
+.pt-src li{margin-bottom:4px}
+.pt-src ul{padding-left:18px}
+
+@media (max-width:900px){
+  .tc-wrap{padding:30px 22px 60px}
+  .tc-title{font-size:1.5rem}
+}
+</style>
+</head>
+<body class="shell-body">
+
+<script src="access-gate.js"></script>
+
+<div class="app-shell">
+
+  <a class="collapse-strip accent-teal" href="/tesis" aria-label="Ir a Tesis">
+    <span class="collapse-chevron">&#8249;</span>
+    <span class="collapse-strip-label">Tesis</span>
+  </a>
+
+  <div class="panel-main">
+    <div class="tc-wrap" id="tcWrap"></div>
+  </div>
+
+  <nav class="side-nav side-nav-right accent-gold" id="protoSideNav">
+    <div class="side-nav-header">
+      <button type="button" class="side-nav-collapse-btn" data-nav-toggle title="Contraer / expandir lista">&#8250;</button>
+      <div class="topbar">
+        <div class="brand"><span class="brand-dot"></span> Prototipo · modelo</div>
+      </div>
+      <a class="side-nav-home" href="/" title="Volver al inicio">&#8962;</a>
+    </div>
+    <div class="side-nav-list" id="protoNavList"></div>
+  </nav>
+
+</div>
+
+<div id="ptLightbox">
+  <button type="button" class="pt-lb-close" title="Cerrar">&times;</button>
+  <img src="" alt="">
+</div>
+
+<script>
+document.querySelectorAll('[data-nav-toggle]').forEach(btn=>{
+  btn.addEventListener('click', ()=> btn.closest('.side-nav').classList.toggle('collapsed'));
+});
+
+/* =========================================================================
+   PALETA / HELPERS SVG
+   ========================================================================= */
+const C = {
+  ink:'#16211C', inkSoft:'#5C6A62', base:'#F6F3EC',
+  deep:'#0E332C', teal:'#0C7A78', tealDark:'#0A5F5D',
+  gold:'#E3A83B', goldDark:'#B9820C', goldDeep:'#7E5A0A',
+  green:'#2E8567', greenDark:'#1F6B51',
+  clay:'#C1461F', cream:'#FBF6EC'
+};
+
+/* texto SVG partido en líneas, centrado en (cx, cyFirst) */
+function svgLines(lines, cx, cy, lh, cls){
+  return lines.map((t,i)=>
+    '<text x="'+cx+'" y="'+(cy + i*lh)+'" text-anchor="middle" class="'+(cls||'')+'">'+t+'</text>'
+  ).join('');
+}
+function arrow(x1,y1,x2,y2,color,dashed){
+  return '<path d="M'+x1+' '+y1+' L'+x2+' '+y2+'" stroke="'+color+'" stroke-width="1.6" fill="none" marker-end="url(#ptArrow)"'+(dashed?' stroke-dasharray="5 4"':'')+'/>';
+}
+
+/* =========================================================================
+   DATOS DE LA ARQUITECTURA
+   ========================================================================= */
+
+/* --- Capas de la vista de alto nivel --- */
+const CAPAS = [
+  {
+    n:1, name:['Actores', 'y accesos'], tone:'deep',
+    title:'Actores y accesos',
+    desc:'Punto de entrada del modelo. Cada actor del ecosistema entra con un rol que define qué publica, qué consulta y con qué nivel de agregación. No es un sistema de clientes: es un sistema de actores, y la diferencia es la que separa un marketplace de un modelo de gobernanza.',
+    mods:[
+      {t:'Cliente / visitante', d:'Explora el destino, reserva y publica su experiencia. Es fuente de información, no solo consumidor.'},
+      {t:'Proveedor turístico', d:'Se inscribe, publica su portafolio de oferta y gestiona reservas. Obligado a la ficha mínima del destino.'},
+      {t:'Regulador', d:'Cámara de comercio y agentes reguladores. Publica normativa y consulta el consolidado del destino y por sitio.'},
+      {t:'Gobierno (ICT)', d:'Opera el nodo central. Consulta el consolidado del destino e integra indicadores a escala nacional.'},
+      {t:'Academia', d:'Universidades, institutos de investigación y estudiantes. Accede a microdatos anonimizados y devuelve estudios.'},
+      {t:'Administrador del nodo', d:'Gestiona actores, fuentes, reglas de intercambio y calidad del dato. Rol técnico, no decisorio.'}
+    ]
+  },
+  {
+    n:2, name:['Servicios','del destino'], tone:'teal',
+    title:'Servicios del destino',
+    desc:'La capa visible y transaccional: lo que el visitante y el proveedor usan a diario. Es la parte que el prototipo de e-Xiua ya resolvió razonablemente y la que menos aporta a la tesis, pero sin ella el modelo no genera el dato que la gobernanza necesita.',
+    mods:[
+      {t:'Catálogo de oferta', d:'Portafolio de servicios de bienestar por proveedor, con ficha mínima normalizada del destino.'},
+      {t:'Reservas', d:'Disponibilidad, reserva y estado. Genera la señal de demanda real del destino.'},
+      {t:'Experiencias', d:'Relato y valoración del visitante tras la visita, en la plataforma o traído desde redes sociales.'},
+      {t:'Observatorio público', d:'Condiciones del destino en tiempo real: clima, índice UV, actividad del Arenal, eventos y noticias.'}
+    ]
+  },
+  {
+    n:3, name:['Gobernanza'], tone:'gold', core:true,
+    title:'Gobernanza',
+    desc:'El eje del modelo y el aporte propio de la tesis. Gobernanza, aquí, no es un discurso: es un conjunto explícito de reglas de intercambio entre actores, una normativa vinculada a ellas y un cuadro de indicadores del destino. Es la capa que todo flujo debe atravesar, y la que no existe en ninguno de los antecedentes revisados.',
+    mods:[
+      {t:'Reglas de intercambio', d:'Quién publica qué, para quién, con qué granularidad y con qué periodicidad. La gobernanza operacionalizada.'},
+      {t:'Normativa y cumplimiento', d:'Marco normativo vigente emitido por reguladores, vinculado a las reglas que lo hacen exigible.'},
+      {t:'Indicadores del destino', d:'Cuadro de indicadores de destino turístico inteligente, calculados sobre el dato consolidado.'},
+      {t:'Coordinación institucional', d:'Espacios, acuerdos y compromisos de aporte entre actores. Resuelve la falta de mecanismos colaborativos.'}
+    ]
+  },
+  {
+    n:4, name:['Semántica e','interoperabilidad'], tone:'green',
+    title:'Semántica e interoperabilidad',
+    desc:'La condición técnica que hace posible la gobernanza. Mientras cada actor describa la realidad con su propio vocabulario, el consolidado no existe. Esta capa define un vocabulario común del destino y lo expone como contrato de intercambio hacia el nodo central.',
+    mods:[
+      {t:'Vocabulario común', d:'Definición compartida de las entidades del destino: actor, oferta, experiencia, observación, indicador.'},
+      {t:'API del nodo', d:'Contrato único de publicación y consulta. Ningún actor escribe fuera de él.'},
+      {t:'Conector al nodo central', d:'Publicación hacia el ICT y retorno del consolidado nacional. Hace al destino parte de una red, no una isla.'}
+    ]
+  },
+  {
+    n:5, name:['Datos','y fuentes'], tone:'soft',
+    title:'Datos y fuentes',
+    desc:'El sustrato. Combina tres orígenes muy distintos: fuentes institucionales con periodicidad propia, escucha de redes sociales con consentimiento, y aportes directos de los actores del ecosistema. Cada uno entra con su ficha de procedencia, licencia y frecuencia.',
+    mods:[
+      {t:'Ingesta institucional', d:'IMN, OVSICORI-UNA, ICT y fuentes meteorológicas. Series de observación del destino.'},
+      {t:'Escucha en redes', d:'Recuperación y normalización de experiencias publicadas fuera de la plataforma, previo consentimiento.'},
+      {t:'Aportes de actores', d:'Lo que cada actor se compromete a publicar según las reglas de intercambio.'},
+      {t:'Persistencia y series', d:'Almacenamiento del dato maestro y de las series temporales que alimentan los indicadores.'}
+    ]
+  }
+];
+
+const TONE = {
+  deep:{band:'rgba(14,51,44,.07)', bandStroke:'rgba(14,51,44,.22)', chip:'#0E332C', chipStroke:'#0E332C', chipText:'#FBF6EC', num:'#0E332C'},
+  teal:{band:'rgba(12,122,120,.08)', bandStroke:'rgba(12,122,120,.3)', chip:'rgba(12,122,120,.14)', chipStroke:'#0C7A78', chipText:'#0A5F5D', num:'#0C7A78'},
+  gold:{band:'rgba(227,168,59,.18)', bandStroke:'#D39B1F', chip:'#FFFFFF', chipStroke:'#B9820C', chipText:'#7E5A0A', num:'#B9820C'},
+  green:{band:'rgba(46,133,103,.09)', bandStroke:'rgba(46,133,103,.34)', chip:'rgba(46,133,103,.14)', chipStroke:'#2E8567', chipText:'#1F6B51', num:'#2E8567'},
+  soft:{band:'rgba(92,106,98,.09)', bandStroke:'rgba(16,27,22,.2)', chip:'#FFFFFF', chipStroke:'rgba(16,27,22,.24)', chipText:'#3E4C43', num:'#5C6A62'}
+};
+
+/* parte un título de chip en 1-2 líneas */
+function chipLines(t){
+  if(t.length <= 17) return [t];
+  const words = t.split(' ');
+  let a = '', b = '';
+  for(const w of words){
+    if((a + ' ' + w).trim().length <= Math.ceil(t.length/2) + 3 && !b) a = (a + ' ' + w).trim();
+    else b = (b + ' ' + w).trim();
+  }
+  return b ? [a, b] : [a];
+}
+
+function svgAltoNivel(){
+  const BX = 30, BW = 1020, BH = 96, GAP = 18;
+  let out = '';
+  CAPAS.forEach((c, i)=>{
+    const y = 30 + i*(BH+GAP);
+    const t = TONE[c.tone];
+    const n = c.mods.length;
+    const avail = 832, cx0 = 206;
+    const gap = n >= 6 ? 14 : 20;
+    const cw = (avail - gap*(n-1)) / n;
+
+    let chips = '';
+    c.mods.forEach((m, j)=>{
+      const x = cx0 + j*(cw+gap);
+      const lines = chipLines(m.t);
+      const cy = y + 20 + (56 - (lines.length-1)*13)/2 + 4;
+      chips += '<g>'
+        + '<rect x="'+x+'" y="'+(y+20)+'" width="'+cw.toFixed(1)+'" height="56" rx="12" fill="'+t.chip+'" stroke="'+t.chipStroke+'" stroke-width="1.2"/>'
+        + svgLines(lines, x + cw/2, cy, 13, 'pt-chiptx').replace(/<text /g, '<text fill="'+t.chipText+'" ')
+        + '</g>';
+    });
+
+    out += '<g class="pt-layer" data-capa="'+c.n+'">'
+      + '<rect class="pt-layer-bg" x="'+BX+'" y="'+y+'" width="'+BW+'" height="'+BH+'" rx="18" fill="'+t.band+'" stroke="'+t.bandStroke+'" stroke-width="'+(c.core?2.2:1.2)+'"/>'
+      + '<text x="52" y="'+(y+34)+'" class="pt-ln" fill="'+t.num+'">0'+c.n+'</text>'
+      + c.name.map((l,k)=>'<text x="52" y="'+(y+56+k*15)+'" class="pt-lname">'+l+'</text>').join('')
+      + (c.core ? '<text x="52" y="'+(y+88)+'" class="pt-lcore">EJE DE LA TESIS</text>' : '')
+      + '<line x1="190" y1="'+(y+16)+'" x2="190" y2="'+(y+BH-16)+'" stroke="rgba(16,27,22,.14)" stroke-width="1"/>'
+      + chips
+      + '</g>';
+  });
+
+  /* rail transversal */
+  out += '<rect x="1066" y="30" width="104" height="552" rx="18" fill="rgba(14,51,44,.05)" stroke="rgba(14,51,44,.2)" stroke-width="1.2" stroke-dasharray="6 5"/>'
+    + '<line x1="1078" y1="306" x2="1158" y2="306" stroke="rgba(14,51,44,.18)" stroke-width="1"/>'
+    + '<text transform="translate(1118,170) rotate(-90)" text-anchor="middle" class="pt-rail">Identidad y roles</text>'
+    + '<text transform="translate(1118,444) rotate(-90)" text-anchor="middle" class="pt-rail">Trazabilidad y auditoría</text>';
+
+  return '<svg viewBox="0 0 1200 620" role="img" aria-label="Arquitectura de alto nivel en cinco capas">'
+    + '<style>'
+      + '.pt-ln{font-family:"Playfair Display",serif;font-weight:900;font-size:21px}'
+      + '.pt-lname{font-size:12px;font-weight:800;fill:#16211C}'
+      + '.pt-lcore{font-size:8.5px;font-weight:800;letter-spacing:.8px;fill:#B9820C}'
+      + '.pt-chiptx{font-size:11.5px;font-weight:700}'
+      + '.pt-rail{font-size:11.5px;font-weight:800;letter-spacing:1px;fill:#0E332C}'
+    + '</style>'
+    + out + '</svg>';
+}
+
+/* --- Topología de nodos --- */
+function svgNodos(){
+  const box = (x,y,w,h,fill,stroke,sw,dash)=>
+    '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="22" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'"'+(dash?' stroke-dasharray="7 5"':'')+'/>';
+  const chip = (x,y,w,h,txt,fill,stroke,tx)=>{
+    const lines = chipLines(txt);
+    const cy = y + (h - (lines.length-1)*12)/2 + 4;
+    return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="10" fill="'+fill+'" stroke="'+stroke+'" stroke-width="1.1"/>'
+      + svgLines(lines, x+w/2, cy, 12, '').replace(/<text /g,'<text fill="'+tx+'" font-size="10.5" font-weight="700" ');
+  };
+
+  let s = '';
+
+  /* fuentes externas */
+  s += box(24,70,210,300,'rgba(92,106,98,.07)','rgba(16,27,22,.22)',1.2,true);
+  s += '<text x="129" y="98" text-anchor="middle" class="pt-h2">Fuentes externas</text>';
+  ['IMN Costa Rica','OVSICORI · UNA','ICT · eventos y noticias','Meteorología','Redes sociales'].forEach((f,i)=>{
+    s += chip(44,118+i*48,170,40,f,'#FFFFFF','rgba(16,27,22,.2)','#3E4C43');
+  });
+
+  /* nodo local */
+  s += box(300,40,380,440,'rgba(12,122,120,.07)','#0C7A78',2);
+  s += '<text x="320" y="74" class="pt-h1" fill="'+C.tealDark+'">Nodo local · DTLF La Fortuna</text>';
+  s += '<text x="320" y="95" class="pt-sub">Módulos propios del destino</text>';
+  const mods = ['Catálogo de oferta','Reservas','Experiencias','Observatorio','Indicadores locales','Registro de actores','Normativa local','Ingesta y escucha'];
+  mods.forEach((m,i)=>{
+    const col = i % 2, row = Math.floor(i/2);
+    s += chip(320 + col*184, 112 + row*62, 164, 52, m, '#FFFFFF','rgba(12,122,120,.45)','#0A5F5D');
+  });
+  s += '<line x1="320" y1="368" x2="668" y2="368" stroke="rgba(12,122,120,.3)" stroke-width="1"/>';
+  s += '<text x="320" y="386" class="pt-sub">Accesos por rol</text>';
+  ['Cliente','Proveedor','Regulador','Gobierno','Academia','Admin'].forEach((r,i)=>{
+    const col = i % 3, row = Math.floor(i/3);
+    s += chip(320 + col*120, 396 + row*40, 108, 32, r, 'rgba(12,122,120,.12)','rgba(12,122,120,.4)','#0A5F5D');
+  });
+
+  /* nodo central */
+  s += box(770,40,400,220,'rgba(14,51,44,.08)','#0E332C',2);
+  s += '<text x="790" y="74" class="pt-h1" fill="'+C.deep+'">Nodo central · ICT</text>';
+  s += '<text x="790" y="95" class="pt-sub">Módulos comunes de la red</text>';
+  ['Vocabulario común','Consolidado nacional','Indicadores DTI','Directorio de destinos'].forEach((m,i)=>{
+    const col = i % 2, row = Math.floor(i/2);
+    s += chip(790 + col*195, 112 + row*56, 175, 46, m, '#FFFFFF','rgba(14,51,44,.35)','#0E332C');
+  });
+
+  /* otros destinos */
+  s += box(770,300,400,180,'rgba(92,106,98,.06)','rgba(16,27,22,.25)',1.4,true);
+  s += '<text x="790" y="334" class="pt-h1" fill="'+C.inkSoft+'">Otros destinos de la red</text>';
+  s += '<text x="790" y="355" class="pt-sub">mismo vocabulario, nodo propio</text>';
+  ['Destino B','Destino C','Destino D'].forEach((d,i)=>{
+    s += chip(790 + i*125, 372, 112, 38, d, 'rgba(255,255,255,.7)','rgba(16,27,22,.2)','#5C6A62');
+  });
+  s += '<text x="790" y="446" class="pt-note">La transferibilidad del modelo (objetivo 4)</text>';
+  s += '<text x="790" y="462" class="pt-note">se sostiene en este vocabulario compartido.</text>';
+
+  /* flechas */
+  s += arrow(236,220,296,220,C.inkSoft);
+  s += arrow(684,120,766,120,C.tealDark);
+  s += arrow(766,200,684,200,C.deep);
+  s += '<text x="725" y="112" text-anchor="middle" class="pt-note">publica</text>';
+  s += '<text x="725" y="220" text-anchor="middle" class="pt-note">retorna</text>';
+  s += arrow(970,296,970,264,C.inkSoft,true);
+
+  return '<svg viewBox="0 0 1200 510" role="img" aria-label="Topología de nodos del modelo">'
+    + '<defs><marker id="ptArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs>'
+    + '<style>'
+      + '.pt-h1{font-size:14px;font-weight:800}'
+      + '.pt-h2{font-size:12px;font-weight:800;fill:#3E4C43;letter-spacing:.4px}'
+      + '.pt-sub{font-size:10.5px;font-weight:700;fill:#5C6A62}'
+      + '.pt-note{font-size:10px;font-weight:700;fill:#5C6A62}'
+      + 'path[marker-end]{color:#5C6A62}'
+    + '</style>'
+    + s + '</svg>';
+}
+
+/* --- Flujo funcional (swimlanes) --- */
+const FLUJO_LANES = [
+  {t:'Proveedor', c:C.teal},
+  {t:'Cliente / visitante', c:C.green},
+  {t:'Nodo local DTLF', c:C.goldDark},
+  {t:'Regulador y Gobierno', c:C.deep}
+];
+const FLUJO_PASOS = [
+  {lane:0, t:['Se inscribe y publica','su portafolio']},
+  {lane:2, t:['Valida contra el','vocabulario y las reglas']},
+  {lane:1, t:['Explora el destino','y compara oferta']},
+  {lane:1, t:['Reserva']},
+  {lane:1, t:['Publica su experiencia','(app o red social)']},
+  {lane:2, t:['Normaliza, anonimiza','y consolida']},
+  {lane:3, t:['Consulta el consolidado','del destino y por sitio']}
+];
+
+function svgFlujo(){
+  const LX = 20, LW = 150, SX0 = 180, SW = 132, SGAP = 18;
+  const laneY = i => 46 + i*92, LH = 80;
+  let s = '';
+
+  FLUJO_LANES.forEach((l,i)=>{
+    const y = laneY(i);
+    s += '<rect x="'+LX+'" y="'+y+'" width="1200" height="'+LH+'" rx="14" fill="'+(i%2?'rgba(246,243,236,.75)':'rgba(255,255,255,.6)')+'" stroke="rgba(16,27,22,.08)"/>';
+    s += '<rect x="'+LX+'" y="'+y+'" width="5" height="'+LH+'" rx="2.5" fill="'+l.c+'"/>';
+    s += '<text x="'+(LX+18)+'" y="'+(y+LH/2+4)+'" class="pt-lane">'+l.t+'</text>';
+  });
+
+  const cxOf = i => SX0 + i*(SW+SGAP);
+  FLUJO_PASOS.forEach((p,i)=>{
+    const x = cxOf(i), y = laneY(p.lane) + 13;
+    const col = FLUJO_LANES[p.lane].c;
+    const cy = y + (54 - (p.t.length-1)*12)/2 + 4;
+    s += '<rect x="'+x+'" y="'+y+'" width="'+SW+'" height="54" rx="12" fill="#FFFFFF" stroke="'+col+'" stroke-width="1.4"/>';
+    s += '<circle cx="'+(x+12)+'" cy="'+(y-2)+'" r="10" fill="'+col+'"/>';
+    s += '<text x="'+(x+12)+'" y="'+(y+2)+'" text-anchor="middle" font-size="10" font-weight="800" fill="#FFFFFF">'+(i+1)+'</text>';
+    s += svgLines(p.t, x+SW/2, cy, 12, '').replace(/<text /g,'<text fill="#2C3A34" font-size="9.8" font-weight="700" ');
+  });
+
+  FLUJO_PASOS.forEach((p,i)=>{
+    if(i === FLUJO_PASOS.length-1) return;
+    const nx = FLUJO_PASOS[i+1];
+    const x1 = cxOf(i)+SW, x2 = cxOf(i+1);
+    const y1 = laneY(p.lane)+40, y2 = laneY(nx.lane)+40;
+    const mid = x1 + (x2-x1)/2;
+    const d = (y1===y2)
+      ? 'M'+x1+' '+y1+' H'+(x2-4)
+      : 'M'+x1+' '+y1+' H'+mid+' V'+y2+' H'+(x2-4);
+    s += '<path d="'+d+'" stroke="rgba(16,27,22,.35)" stroke-width="1.5" fill="none" marker-end="url(#ptArrow)"/>';
+  });
+
+  return '<svg viewBox="0 0 1240 440" role="img" aria-label="Flujo funcional del prototipo por carriles de actor">'
+    + '<defs><marker id="ptArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="rgba(16,27,22,.35)"/></marker></defs>'
+    + '<style>.pt-lane{font-size:11.5px;font-weight:800;fill:#16211C}</style>'
+    + s + '</svg>';
+}
+
+/* --- Anillos de actores ---
+   Cada nodo se coloca por ángulo sobre la elipse intermedia de su anillo, de modo
+   que nunca cruce el borde del anillo al que pertenece. */
+const RING_GEO = {
+  /* elipses dibujadas */
+  draw:{ intl:[580,282], nac:[462,228], int:[330,162] },
+  /* elipses de colocación (banda media de cada anillo) */
+  band:{ intl:[524,256], nac:[398,196], int:[238,112] }
+};
+const ACTORES_MAP = {
+  int:[
+    {a:-90,  w:190, t:'Proveedores de servicios turísticos', on:true},
+    {a:-145, w:170, t:'Cámaras de comercio local',          on:true},
+    {a:-35,  w:160, t:'Investigadores en turismo',          on:true},
+    {a:168,  w:150, t:'Mentores y asesores'},
+    {a:12,   w:165, t:'Proveedores complementarios'},
+    {a:118,  w:150, t:'Mercaderistas y promotores'},
+    {a:62,   w:140, t:'Estudiantes de turismo',             on:true}
+  ],
+  nac:[
+    {a:-90,  w:180, t:'Gobierno · ICT y Ministerios',       on:true},
+    {a:-125, w:175, t:'Talento humano y asociaciones'},
+    {a:-55,  w:170, t:'Organizaciones no gubernamentales'},
+    {a:-158, w:150, t:'Universidades aliadas',              on:true, r:1.12},
+    {a:-22,  w:150, t:'Agentes reguladores',                on:true, r:1.12},
+    {a:180,  w:160, t:'Instituciones de investigación'},
+    {a:0,    w:150, t:'Sector privado · banca'},
+    {a:128,  w:150, t:'Líderes y legisladores',                       r:1.10},
+    {a:52,   w:170, t:'Clientes directos e indirectos',     on:true,  r:1.10}
+  ],
+  intl:[
+    {a:-72,  w:200, t:'Aliados académicos internacionales'},
+    {a:-108, w:170, t:'Redes de turismo global'},
+    {a:28,   w:150, t:'UNWTO · GWI'},
+    {a:152,  w:160, t:'Asociaciones científicas'},
+    {a:90,   w:190, t:'Competidores internacionales'}
+  ]
+};
+
+function svgActores(){
+  const cx = 610, cy = 300;
+  const ring = (k,fill,stroke,dash)=>{
+    const [rx,ry] = RING_GEO.draw[k];
+    return '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="1.4"'+(dash?' stroke-dasharray="7 6"':'')+'/>';
+  };
+  const node = (x,y,w,t,on)=>{
+    const lines = chipLines(t);
+    const h = lines.length > 1 ? 44 : 32;
+    const ty = y - (lines.length-1)*6 + 4;
+    return '<rect x="'+(x-w/2)+'" y="'+(y-h/2)+'" width="'+w+'" height="'+h+'" rx="9" fill="'+(on?'#0E332C':'rgba(255,255,255,.9)')+'" stroke="'+(on?'#0E332C':'rgba(16,27,22,.18)')+'" stroke-width="1.1"/>'
+      + svgLines(lines, x, ty, 12, '').replace(/<text /g,'<text fill="'+(on?'#FBF6EC':'#3E4C43')+'" font-size="9.8" font-weight="'+(on?'800':'700')+'" ');
+  };
+
+  let s = '';
+  s += ring('intl','rgba(92,106,98,.07)','rgba(16,27,22,.2)',true);
+  s += ring('nac','rgba(12,122,120,.09)','rgba(12,122,120,.32)');
+  s += ring('int','rgba(46,133,103,.14)','rgba(46,133,103,.45)');
+
+  s += '<text x="'+cx+'" y="'+(cy-8)+'" text-anchor="middle" class="pt-core1">Ecosistema de turismo de bienestar</text>';
+  s += '<text x="'+cx+'" y="'+(cy+14)+'" text-anchor="middle" class="pt-core2">Destino Turístico de La Fortuna</text>';
+
+  ['intl','nac','int'].forEach(k=>{
+    const [rx,ry] = RING_GEO.band[k];
+    ACTORES_MAP[k].forEach(n=>{
+      const a = n.a * Math.PI / 180, m = n.r || 1;
+      s += node(cx + rx*m*Math.cos(a), cy + ry*m*Math.sin(a), n.w, n.t, n.on);
+    });
+  });
+
+  /* leyenda de anillos, en una fila bajo las elipses */
+  const leg = [
+    [28,   'rgba(46,133,103,.4)','#2E8567','Actores internos'],
+    [250,  'rgba(12,122,120,.28)','#0C7A78','Actores externos nacionales'],
+    [560,  'rgba(92,106,98,.22)','rgba(16,27,22,.3)','Actores externos internacionales']
+  ];
+  leg.forEach(l=>{
+    s += '<rect x="'+l[0]+'" y="598" width="13" height="13" rx="3.5" fill="'+l[1]+'" stroke="'+l[2]+'" stroke-width="1.2"/>';
+    s += '<text x="'+(l[0]+22)+'" y="609" class="pt-ringlab">'+l[3]+'</text>';
+  });
+  s += '<text x="28" y="636" class="pt-ringnote">Resaltados en verde oscuro: actores con rol activo en el prototipo.</text>';
+
+  return '<svg viewBox="0 0 1220 650" role="img" aria-label="Mapa de actores del ecosistema en tres anillos">'
+    + '<style>'
+      + '.pt-core1{font-size:13px;font-weight:800;fill:#16211C}'
+      + '.pt-core2{font-size:12px;font-weight:700;fill:#1F6B51}'
+      + '.pt-ringlab{font-size:10.5px;font-weight:800;fill:#3E4C43;letter-spacing:.3px}'
+      + '.pt-ringnote{font-size:10px;font-weight:600;fill:#5C6A62}'
+    + '</style>'
+    + s + '</svg>';
+}
+
+/* =========================================================================
+   MODELO DE DATOS (vista de bajo nivel)
+   ========================================================================= */
+const DOMINIOS = [
+  { cls:'pt-dom-a', color:'#0E332C', t:'Núcleo del destino', ents:[
+    {n:'Destino', f:[['PK','id'],['','nombre, código ISO'],['','geometría, cantón'],['','nodo (local / central)']]},
+    {n:'Actor', f:[['PK','id'],['FK','destino_id'],['','hélice: gobierno · academia · empresa · sociedad civil · cliente'],['','anillo: interno · nacional · internacional'],['','rol_sistema']]},
+    {n:'Organizacion', f:[['PK','id'],['FK','actor_id'],['','razón social, cédula jurídica'],['','sector, cámara de afiliación']]}
+  ]},
+  { cls:'pt-dom-b', color:'#0C7A78', t:'Oferta y demanda', ents:[
+    {n:'Proveedor', f:[['PK','id'],['FK','organizacion_id'],['','categoría: termales · spa · lodge · tour'],['','ubicación, capacidad']]},
+    {n:'OfertaServicio', f:[['PK','id'],['FK','proveedor_id'],['','ámbito de bienestar (UNWTO)'],['','precio, temporada, aforo'],['','certificaciones']]},
+    {n:'Cliente', f:[['PK','id'],['FK','actor_id'],['','nacionalidad, segmento'],['','preferencias declaradas'],['','consentimiento de uso']]},
+    {n:'Reserva', f:[['PK','id'],['FK','oferta_id'],['FK','cliente_id'],['','fecha, estado, canal']]}
+  ]},
+  { cls:'pt-dom-c', color:'#2E8567', t:'Conocimiento del destino', ents:[
+    {n:'FuenteDatos', f:[['PK','id'],['','institución, tipo'],['','periodicidad, licencia'],['','última sincronización']]},
+    {n:'Observacion', f:[['PK','id'],['FK','fuente_id'],['FK','destino_id'],['','variable, valor, unidad'],['','marca de tiempo, geo']]},
+    {n:'Experiencia', f:[['PK','id'],['FK','cliente_id'],['FK','oferta_id'],['','relato, valoración'],['','origen: app · red social'],['','sentimiento, consentimiento']]},
+    {n:'Indicador', f:[['PK','id'],['FK','destino_id'],['','código y dimensión DTI'],['','fórmula, meta, valor'],['','periodo de cálculo']]}
+  ]},
+  { cls:'pt-dom-d', color:'#8E6309', t:'Gobernanza del dato', ents:[
+    {n:'Normativa', f:[['PK','id'],['FK','emisor_actor_id'],['','ámbito, vigencia'],['','documento de respaldo']]},
+    {n:'ReglaIntercambio', f:[['PK','id'],['FK','normativa_id'],['','actor que publica'],['','actor que consulta'],['','entidad, granularidad'],['','periodicidad, obligatoriedad']]},
+    {n:'Auditoria', f:[['PK','id'],['FK','actor_id'],['','acción, entidad afectada'],['','marca de tiempo']]}
+  ]}
+];
+
+const RELACIONES = [
+  ['Destino','1 — n','Actor','Un destino agrupa a todos los actores de su ecosistema.'],
+  ['Actor','1 — 1','Organizacion','Especialización del actor cuando es persona jurídica.'],
+  ['Organizacion','1 — 1','Proveedor','Especialización cuando la organización oferta servicios turísticos.'],
+  ['Proveedor','1 — n','OfertaServicio','El portafolio que el proveedor publica y mantiene.'],
+  ['OfertaServicio','1 — n','Reserva','Demanda efectiva sobre cada servicio.'],
+  ['Cliente','1 — n','Reserva','Trazabilidad de la demanda por perfil y nacionalidad.'],
+  ['Cliente','1 — n','Experiencia','Relato posterior a la visita, dentro o fuera de la plataforma.'],
+  ['OfertaServicio','1 — n','Experiencia','Permite leer la experiencia por sitio y no solo por destino.'],
+  ['FuenteDatos','1 — n','Observacion','Toda observación conserva su procedencia y licencia.'],
+  ['Observacion','n — 1','Indicador','Las series alimentan el cálculo de indicadores del destino.'],
+  ['Experiencia','n — 1','Indicador','La percepción del visitante entra al cuadro de indicadores.'],
+  ['Actor','1 — n','Normativa','Solo el actor con rol regulador emite normativa.'],
+  ['Normativa','1 — n','ReglaIntercambio','La regla es el mecanismo que hace exigible la norma.'],
+  ['ReglaIntercambio','n — n','Actor','Define quién publica y quién consulta cada entidad.'],
+  ['Actor','1 — n','Auditoria','Toda consulta al consolidado queda registrada.']
+];
+
+/* =========================================================================
+   REGLAS DE GOBERNANZA + MATRIZ DE PERMISOS
+   ========================================================================= */
+const REGLAS = [
+  {c:'R1', t:'Ficha mínima obligatoria', d:'Todo proveedor inscrito publica una ficha mínima normalizada de su oferta. Sin ella no aparece en el catálogo del destino.', tag:'Proveedor'},
+  {c:'R2', t:'Reciprocidad del dato', d:'Quien consulta el consolidado del destino aporta al menos una fuente o serie. El acceso no es gratuito en información, solo en dinero.', tag:'Todos los actores'},
+  {c:'R3', t:'Granularidad por rol', d:'El regulador ve agregados por sitio; el gobierno ve agregados del destino; la academia ve microdatos anonimizados; nadie ve datos personales del visitante.', tag:'Privacidad'},
+  {c:'R4', t:'Trazabilidad de la consulta', d:'Toda consulta al consolidado queda auditada con actor, acción y marca de tiempo. La auditoría es consultable por el regulador.', tag:'Auditoría'},
+  {c:'R5', t:'Vocabulario único', d:'Ningún actor publica fuera del vocabulario común del destino. Lo que no se puede expresar en el modelo semántico, no entra al consolidado.', tag:'Interoperabilidad'},
+  {c:'R6', t:'Periodicidad declarada', d:'Cada fuente declara su periodicidad y cada indicador su ventana de cálculo. Un dato fuera de ventana se marca como vencido, no se oculta.', tag:'Calidad del dato'},
+  {c:'R7', t:'Consentimiento explícito', d:'La experiencia del visitante se incorpora al consolidado solo con consentimiento explícito, revocable, y siempre disociada de su identidad.', tag:'Cliente'},
+  {c:'R8', t:'Compromiso de aporte', d:'La participación en los espacios de coordinación institucional exige un compromiso de aporte de información verificable y vigente.', tag:'Coordinación'}
+];
+
+const ROLES = ['Cliente','Proveedor','Regulador','Gobierno (ICT)','Academia','Admin. del nodo'];
+const PERMISOS = [
+  ['Publicar oferta',            'no','yes','no','no','no','part'],
+  ['Reservar',                   'yes','no','no','no','no','no'],
+  ['Publicar experiencia',       'yes','no','no','no','no','no'],
+  ['Emitir normativa',           'no','no','yes','part','no','no'],
+  ['Definir reglas de intercambio','no','no','part','yes','no','part'],
+  ['Ver consolidado por sitio',  'no','part','yes','yes','no','yes'],
+  ['Ver consolidado del destino','part','part','yes','yes','yes','yes'],
+  ['Ver microdatos anonimizados','no','no','part','part','yes','yes'],
+  ['Ver datos personales',       'no','no','no','no','no','no'],
+  ['Gestionar fuentes y calidad','no','no','no','no','no','yes'],
+  ['Consultar auditoría',        'no','no','yes','part','no','yes']
+];
+const PERM_SYM = {yes:['●','pt-yes'], part:['◐','pt-part'], no:['—','pt-no']};
+
+/* =========================================================================
+   SECCIONES
+   ========================================================================= */
+const CONTENT = {};
+
+CONTENT['Presentación'] = ()=> `
+  <div class="tc-eyebrow">ICAP · Doctorado en Gestión Pública · Prototipo</div>
+  <h1 class="tc-title">Un prototipo pequeño, funcional y didáctico del modelo de gobernanza inteligente</h1>
+  <div class="tc-lead">
+    Este espacio no es una aplicación turística. Es la <b>traducción operativa del modelo de gobernanza</b> al que apunta la tesis:
+    muestra qué actores entran, qué reglas rigen el intercambio de información entre ellos, cómo se estructura la arquitectura que
+    lo soporta y qué debe poder hacerse en pantalla para que el modelo sea demostrable. Está organizado siguiendo los
+    <b>tres primeros objetivos específicos</b> de la investigación, y cierra con el prototipo funcional que los articula.
+  </div>
+
+  <div class="pt-legend">
+    <span class="pt-badge pt-badge-src">Tomado del anteproyecto</span>
+    <span class="pt-badge pt-badge-prop">Propuesta de arquitectura</span>
+    <span class="pt-badge pt-badge-pend">Pendiente de datos</span>
+    <span class="pt-badge pt-badge-out">Fuera de alcance</span>
+  </div>
+
+  <div class="tc-section-label">Cómo está organizado</div>
+  <div class="tc-grid">
+    ${card(null,'Parte 1 · Diagnóstico','Responde al objetivo específico 1. Caracteriza el destino y el estado de la gobernanza y la madurez digital de sus actores. Hoy es un cascarón: la estructura está, los datos no.')}
+    ${card(null,'Parte 2 · Modelo de gobernanza','Responde al objetivo específico 2. Describe los determinantes estratégicos y los requisitos funcionales, con enlaces hacia los componentes de la arquitectura que los realizan.')}
+    ${card(null,'Parte 3 · Arquitectura','Responde al objetivo específico 3 y es el eje del ejercicio. Vista de alto nivel, topología de nodos, modelo de datos de bajo nivel y reglas de gobernanza.')}
+    ${card(null,'Parte 4 · Prototipo funcional','El recorrido demostrable: inscripción del proveedor, exploración y reserva del visitante, publicación de la experiencia y consulta del consolidado por regulador y gobierno.')}
+  </div>
+
+  <div class="tc-section-label">Decisiones de alcance</div>
+  <div class="tc-grid">
+    ${cardList(null,'Dentro del alcance',[
+      'Seis vistas de actor con permisos diferenciados.',
+      'Reglas explícitas de intercambio de información entre actores.',
+      'Modelo de datos común del destino (vocabulario compartido).',
+      'Consolidación de información hacia regulador y gobierno.',
+      'Incorporación de la experiencia del visitante, incluida la publicada en redes.'
+    ], true)}
+    ${cardList(null,'Fuera del alcance',[
+      'Sistema de generación y optimización de rutas turísticas: queda enunciado en el modelo como caso de uso, sin implementación.',
+      'Validación del modelo (objetivo específico 4): se aborda en una etapa posterior.',
+      'Motor de búsqueda de información turística en su forma actual: se reemplaza por fuentes declaradas con procedencia.'
+    ])}
+  </div>
+
+  <div class="tc-callout">
+    <b>Criterio de diseño.</b> Todo lo que aparece marcado como propuesta de arquitectura es decisión técnica revisable.
+    Lo que aparece como pendiente de datos no se rellena con cifras inventadas: se deja visible el vacío, porque el diagnóstico
+    todavía no se ha levantado.
+  </div>
+`;
+
+CONTENT['Mapa de actores'] = ()=> `
+  <div class="tc-eyebrow">Base del modelo</div>
+  <h1 class="tc-title">Quién entra al modelo, y con qué derecho a hablar</h1>
+  <div class="tc-lead">
+    El ecosistema del DTLF se organiza en tres anillos. El prototipo no da acceso a todos por igual: concede vista y voz a los
+    actores que <b>aportan información al destino</b>. De los tres anillos se destila un conjunto reducido de
+    <b>seis roles operativos</b>, que son los que el sistema implementa.
+  </div>
+
+  <div class="pt-stage">
+    ${svgActores()}
+    <div class="pt-stage-cap"><b>Lectura.</b> Anillo interno: actores internos del ecosistema del destino. Anillo intermedio: actores externos nacionales. Anillo externo: actores externos internacionales. Reconstruido a partir de la figura de coordinación entre actores del anteproyecto.</div>
+  </div>
+
+  <div class="tc-section-label">Figura de origen</div>
+  <div class="pt-figure" data-lb="assets/motivo3.jpg">
+    <img src="assets/motivo3.jpg" alt="Actores del ecosistema de turismo de bienestar de la Zona Norte de Costa Rica">
+  </div>
+  <p class="pt-figcap">Figura del anteproyecto · motivación 3, «La coordinación entre actores». Clic para ampliar.</p>
+
+  <div class="tc-section-label">De los anillos a seis roles operativos</div>
+  <div class="pt-tablewrap">
+    <table class="pt-table">
+      <thead><tr><th style="width:160px">Rol en el prototipo</th><th>Actores que agrupa</th><th>Qué aporta al destino</th><th>Qué consulta</th></tr></thead>
+      <tbody>
+        <tr><td class="pt-rowhead">Cliente / visitante</td><td>Clientes directos e indirectos</td><td>Experiencia, valoración, nacionalidad y perfil de consumo</td><td>Oferta del destino, condiciones ambientales, su propio historial</td></tr>
+        <tr><td class="pt-rowhead">Proveedor</td><td>Proveedores de servicios turísticos de la región, proveedores complementarios, encadenamientos productivos</td><td>Portafolio de oferta, disponibilidad, desempeño de reservas</td><td>Su propio desempeño y el agregado del destino</td></tr>
+        <tr><td class="pt-rowhead">Regulador</td><td>Asociaciones y cámaras de comercio local, agentes reguladores</td><td>Normativa vigente, reglas de intercambio, verificación de cumplimiento</td><td>Consolidado del destino y desagregado por sitio</td></tr>
+        <tr><td class="pt-rowhead">Gobierno</td><td>ICT y ministerios, líderes y legisladores nacionales</td><td>Marco de política pública, indicadores de la red nacional</td><td>Consolidado del destino, comparación entre destinos de la red</td></tr>
+        <tr><td class="pt-rowhead">Academia</td><td>Universidades aliadas, instituciones de investigación, investigadores y estudiantes de turismo</td><td>Estudios, validación metodológica, lectura crítica de indicadores</td><td>Microdatos anonimizados y series históricas</td></tr>
+        <tr><td class="pt-rowhead">Administrador del nodo</td><td>Operación técnica del nodo local</td><td>Alta de actores y fuentes, control de calidad del dato</td><td>Todo, excepto datos personales del visitante</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tc-callout">
+    <b>Por qué seis y no tres.</b> Un sistema con solo visitante, proveedor y administrador es un marketplace: el dato fluye hacia
+    la transacción y muere ahí. La gobernanza aparece cuando entran el regulador, el gobierno y la academia, porque son los que
+    convierten el dato transaccional en decisión pública, norma y conocimiento.
+  </div>
+`;
+
+CONTENT['Parte 1 · Diagnóstico'] = ()=> `
+  <div class="tc-eyebrow">Objetivo específico 1</div>
+  <h1 class="tc-title">Diagnóstico del Destino Turístico de La Fortuna</h1>
+  <div class="tc-lead">
+    Diagnosticar la configuración actual de la gobernanza y el nivel de madurez digital de los actores del turismo de bienestar
+    en el DTLF, contrastando la realidad local con el marco de política pública de Costa Rica y los referentes globales de
+    destinos turísticos inteligentes.
+  </div>
+
+  <div class="tc-callout tc-callout-warn">
+    <b>Estado actual: sin datos levantados.</b> Esta parte está estructurada pero vacía. Se deja deliberadamente así en lugar de
+    rellenarla con cifras ilustrativas, porque el valor del diagnóstico depende de que sus fuentes sean verificables. Lo que sigue
+    es el esqueleto de lo que debe colgar aquí y de dónde saldrá cada pieza.
+  </div>
+
+  <div class="tc-section-label">Dimensiones del diagnóstico</div>
+  <div class="tc-grid">
+    ${card('01','Configuración de la gobernanza','Mecanismos de coordinación existentes entre actores, su formalidad, su periodicidad y su capacidad real de decisión sobre el destino.')}
+    ${card('02','Madurez digital de los actores','Nivel de incorporación de TIC y tecnologías digitales por tipo de actor, y brecha entre los que producen datos y los que solo los consumen.')}
+    ${card('03','Contraste con la política pública','Lectura de la realidad local frente al marco normativo y los planes de turismo de Costa Rica.')}
+    ${card('04','Contraste con referentes DTI','Comparación con destinos turísticos inteligentes de referencia, en particular el modelo de plataforma de destino de España.')}
+  </div>
+
+  <div class="tc-section-label">Información que colgará aquí</div>
+  <div class="tc-grid">
+    ${cardList(null,'Derivada del diagnóstico propio',[
+      'Mapa de actores con su nivel de incidencia real.',
+      'Matriz de madurez digital por tipo de actor.',
+      'Inventario de mecanismos de coordinación vigentes.',
+      'Brechas entre situación actual y situación deseada.'
+    ], true)}
+    ${cardList(null,'Traída de fuentes externas',[
+      'Cifras sectoriales del Instituto Costarricense de Turismo.',
+      'Condiciones del destino en tiempo real: clima, índice UV, actividad del Volcán Arenal.',
+      'Eventos y noticias del destino.',
+      'Referencias internacionales de turismo de bienestar.'
+    ])}
+  </div>
+
+  <div class="tc-section-label">Fuentes vivas ya identificadas</div>
+  <div class="pt-tablewrap">
+    <table class="pt-table">
+      <thead><tr><th style="width:190px">Fuente</th><th style="width:150px">Institución</th><th>Qué aporta</th><th style="width:120px">Periodicidad</th></tr></thead>
+      <tbody>
+        <tr><td class="pt-rowhead">Condiciones meteorológicas</td><td>IMN Costa Rica</td><td>Serie climática del destino y pronóstico extendido, insumo de idoneidad para actividades al aire libre</td><td>Diaria</td></tr>
+        <tr><td class="pt-rowhead">Índice UV</td><td>Fuente meteorológica</td><td>Recomendaciones de exposición solar para actividades de bienestar</td><td>Diaria</td></tr>
+        <tr><td class="pt-rowhead">Actividad volcánica</td><td>OVSICORI · UNA</td><td>Estado del Volcán Arenal, condicionante directo de la oferta del destino</td><td>Continua</td></tr>
+        <tr><td class="pt-rowhead">Eventos y noticias</td><td>ICT</td><td>Agenda del destino y contexto sectorial</td><td>Variable</td></tr>
+        <tr><td class="pt-rowhead">Estadística sectorial</td><td>ICT</td><td>Visitación, procedencia y comportamiento del sector <span class="tc-pending">— por integrar</span></td><td>Mensual / anual</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tc-callout">
+    <b>Decisión.</b> Estas cuatro primeras fuentes ya fueron identificadas y conectadas en el antecedente revisado. Se conservan
+    como punto de partida del observatorio del destino, con una diferencia: aquí cada fuente declara su procedencia, su licencia y
+    su periodicidad, y esa declaración forma parte del modelo de datos.
+  </div>
+`;
+
+CONTENT['Parte 2 · Modelo'] = ()=> `
+  <div class="tc-eyebrow">Objetivo específico 2</div>
+  <h1 class="tc-title">El modelo de gobernanza inteligente</h1>
+  <div class="tc-lead">
+    Definir los determinantes estratégicos y los requisitos funcionales del modelo, a partir del análisis estratégico del sector y
+    de la visión de los actores clave del ecosistema. Esta parte es descriptiva, pero cada requisito funcional
+    <b>enlaza con el componente de la arquitectura que lo realiza</b>: es la bisagra entre el objetivo 2 y el objetivo 3.
+  </div>
+
+  <div class="tc-section-label">Qué se entiende aquí por gobernanza</div>
+  <div class="tc-callout">
+    <b>Gobernanza:</b> el conjunto de reglas que permiten que el sector funcione de manera coherente, efectiva y competitiva.
+    En un modelo <b>inteligente</b>, esas reglas no son solo acuerdos: están inscritas en la plataforma como condiciones
+    verificables de publicación, consulta y agregación de la información del destino.
+  </div>
+
+  <div class="tc-section-label">Determinantes estratégicos por hélice</div>
+  <div class="tc-grid">
+    ${cardList(null,'Gobierno',[
+      'Capacidad de integrar el destino a una red nacional de destinos inteligentes.',
+      'Disponibilidad de información consolidada y comparable para la decisión pública.',
+      '<span class="tc-pending">Determinantes específicos pendientes del trabajo de campo.</span>'
+    ])}
+    ${cardList(null,'Empresa',[
+      'Visibilidad de la oferta en condiciones equitativas dentro del destino.',
+      'Retorno de información agregada que mejore su posicionamiento.',
+      '<span class="tc-pending">Determinantes específicos pendientes del trabajo de campo.</span>'
+    ])}
+    ${cardList(null,'Academia',[
+      'Acceso a microdatos del destino para investigación aplicada.',
+      'Participación en la validación metodológica de los indicadores.',
+      '<span class="tc-pending">Determinantes específicos pendientes del trabajo de campo.</span>'
+    ])}
+    ${cardList(null,'Sociedad civil',[
+      'Capacidad reguladora y de representación del tejido empresarial local.',
+      'Transparencia sobre lo que ocurre en el destino, por sitio y en conjunto.',
+      '<span class="tc-pending">Determinantes específicos pendientes del trabajo de campo.</span>'
+    ])}
+  </div>
+
+  <div class="tc-section-label">Requisitos funcionales y su realización en la arquitectura</div>
+  <div class="pt-tablewrap">
+    <table class="pt-table">
+      <thead><tr><th style="width:60px">Cód.</th><th style="width:300px">Requisito funcional</th><th style="width:230px">Componente que lo realiza</th><th>Capa</th></tr></thead>
+      <tbody>
+        <tr><td class="pt-rowhead">RF1</td><td>Todo actor del ecosistema accede con un rol que determina qué publica y qué consulta</td><td>Identidad y roles</td><td>Transversal</td></tr>
+        <tr><td class="pt-rowhead">RF2</td><td>El proveedor se inscribe y publica su portafolio de oferta bajo una ficha normalizada</td><td>Catálogo de oferta</td><td>02 · Servicios del destino</td></tr>
+        <tr><td class="pt-rowhead">RF3</td><td>El visitante explora el destino, compara proveedores y reserva</td><td>Reservas</td><td>02 · Servicios del destino</td></tr>
+        <tr><td class="pt-rowhead">RF4</td><td>El visitante comparte su experiencia y esa experiencia puede recuperarse desde redes sociales</td><td>Experiencias · Escucha en redes</td><td>02 y 05</td></tr>
+        <tr><td class="pt-rowhead">RF5</td><td>El intercambio de información entre actores se rige por reglas explícitas y verificables</td><td>Reglas de intercambio</td><td>03 · Gobernanza</td></tr>
+        <tr><td class="pt-rowhead">RF6</td><td>El regulador publica normativa y verifica su cumplimiento sobre el dato del destino</td><td>Normativa y cumplimiento</td><td>03 · Gobernanza</td></tr>
+        <tr><td class="pt-rowhead">RF7</td><td>El destino calcula y publica un cuadro de indicadores comparable</td><td>Indicadores del destino</td><td>03 · Gobernanza</td></tr>
+        <tr><td class="pt-rowhead">RF8</td><td>Todos los actores describen la realidad con el mismo vocabulario</td><td>Vocabulario común · API del nodo</td><td>04 · Semántica</td></tr>
+        <tr><td class="pt-rowhead">RF9</td><td>El destino publica hacia el nodo central y recibe el consolidado nacional</td><td>Conector al nodo central</td><td>04 · Semántica</td></tr>
+        <tr><td class="pt-rowhead">RF10</td><td>Las condiciones del destino se incorporan desde fuentes institucionales con procedencia declarada</td><td>Ingesta institucional</td><td>05 · Datos y fuentes</td></tr>
+        <tr><td class="pt-rowhead">RF11</td><td>Toda consulta al consolidado queda registrada y es auditable</td><td>Trazabilidad y auditoría</td><td>Transversal</td></tr>
+        <tr><td class="pt-rowhead">RF12</td><td>El modelo es aplicable a otro destino sin rehacerlo</td><td>Vocabulario común · nodos pares</td><td>04 · Semántica</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tc-callout">
+    <b>Caso de uso enunciado, no implementado.</b> La generación y optimización de rutas turísticas dentro del destino se reconoce
+    como caso de uso del modelo y se deja declarada en la arquitectura, pero queda fuera del prototipo funcional.
+  </div>
+`;
+
+CONTENT['Parte 3 · Arquitectura'] = ()=> `
+  <div class="tc-eyebrow">Objetivo específico 3 · eje del ejercicio</div>
+  <h1 class="tc-title">Arquitectura del modelo</h1>
+  <div class="tc-lead">
+    Establecer los componentes de la arquitectura del modelo de gobernanza inteligente, integrando los mecanismos de coordinación
+    institucional, los flujos de información y las soluciones tecnológicas necesarias para la gestión de datos y la co-creación de
+    valor. Se presenta en <b>cuatro vistas complementarias</b>: qué capas tiene, cómo se conecta con la red nacional, qué datos
+    sostiene y bajo qué reglas opera.
+  </div>
+  <div class="tc-subtabs" id="arqTabs">
+    <button type="button" class="tc-subtab active" data-tab="alto"><span class="tc-subtab-num">3.1</span><span class="tc-subtab-label">Vista de alto nivel</span></button>
+    <button type="button" class="tc-subtab" data-tab="nodos"><span class="tc-subtab-num">3.2</span><span class="tc-subtab-label">Topología de nodos</span></button>
+    <button type="button" class="tc-subtab" data-tab="bajo"><span class="tc-subtab-num">3.3</span><span class="tc-subtab-label">Vista de bajo nivel</span></button>
+    <button type="button" class="tc-subtab" data-tab="reglas"><span class="tc-subtab-num">3.4</span><span class="tc-subtab-label">Reglas de gobernanza</span></button>
+  </div>
+  <div id="arqBody"></div>
+`;
+
+const ARQ_TABS = {};
+
+ARQ_TABS.alto = ()=> `
+  <div class="tc-section-label">Cinco capas, una transversal</div>
+  <div class="pt-hint">Clic en cualquier capa para ver sus componentes.</div>
+  <div class="pt-stage">
+    ${svgAltoNivel()}
+    <div class="pt-stage-cap"><b>Lectura.</b> El flujo de información sube desde las fuentes (capa 05) hasta los actores (capa 01) y vuelve a bajar. Toda la información cruza obligatoriamente la capa de gobernanza, que es donde se decide quién ve qué y con qué nivel de agregación. Identidad y trazabilidad atraviesan las cinco capas.</div>
+  </div>
+  <div id="capaDetail"></div>
+
+  <div class="tc-section-label">Por qué esta separación</div>
+  <div class="tc-grid">
+    ${card(null,'La gobernanza no es un módulo','Es una capa. Si fuera un módulo más, podría rodearse. Al ser la capa que todo flujo atraviesa, ninguna consulta ni publicación ocurre fuera de las reglas del destino.')}
+    ${card(null,'La semántica precede a la consolidación','Sin vocabulario común no hay consolidado posible, solo yuxtaposición de bases de datos. Esta es la lección directa del referente español.')}
+    ${card(null,'Los servicios generan el dato','La capa transaccional no es el fin del modelo, pero sin ella no hay señal de demanda real que gobernar.')}
+    ${card(null,'La fuente conserva su procedencia','Un dato sin institución, licencia y periodicidad declaradas no entra al consolidado. Es un requisito de gobernanza, no de ingeniería.')}
+  </div>
+`;
+
+ARQ_TABS.nodos = ()=> `
+  <div class="tc-section-label">El destino como nodo de una red</div>
+  <div class="pt-stage">
+    ${svgNodos()}
+    <div class="pt-stage-cap"><b>Lectura.</b> El DTLF opera un nodo local con sus módulos propios. El ICT opera el nodo central con los módulos comunes de la red. El intercambio entre ambos se rige por el vocabulario común: el nodo local publica y recibe de vuelta el consolidado nacional. Otros destinos replican el mismo patrón con su propio nodo.</div>
+  </div>
+
+  <div class="tc-section-label">Qué vive en cada nodo</div>
+  <div class="tc-grid">
+    ${cardList(null,'Nodo local · DTLF',[
+      'Catálogo de oferta y reservas del destino.',
+      'Experiencias de los visitantes del destino.',
+      'Observatorio con las fuentes propias del destino.',
+      'Registro de actores y normativa local.',
+      'Indicadores calculados sobre el dato local.'
+    ], true)}
+    ${cardList(null,'Nodo central · ICT',[
+      'Definición y versionado del vocabulario común.',
+      'Consolidado nacional de todos los destinos de la red.',
+      'Cuadro de indicadores de destino turístico inteligente.',
+      'Directorio de destinos y de sus nodos.'
+    ])}
+  </div>
+
+  <div class="tc-section-label">Qué se toma del referente español</div>
+  <div class="pt-tablewrap">
+    <table class="pt-table">
+      <thead><tr><th style="width:280px">Plataforma Inteligente de Destinos · España</th><th style="width:280px">Modelo DTLF</th><th>Qué resuelve en la tesis</th></tr></thead>
+      <tbody>
+        <tr><td class="pt-rowhead">Nodo central operado por SEGITTUR</td><td>Nodo central operado por el ICT</td><td>Da al gobierno la vista consolidada que hoy no tiene de ningún destino</td></tr>
+        <tr><td class="pt-rowhead">Nodo local por destino</td><td>Nodo local del DTLF</td><td>Preserva la autonomía del destino sobre su propio dato</td></tr>
+        <tr><td class="pt-rowhead">Base semántica común</td><td>Vocabulario común del destino</td><td>Convierte la interoperabilidad en una condición verificable, no en una intención</td></tr>
+        <tr><td class="pt-rowhead">Módulos comunes y módulos propios</td><td>Reglas compartidas y autonomía local</td><td>Resuelve la tensión entre estandarización nacional y especificidad del destino</td></tr>
+        <tr><td class="pt-rowhead">Interoperabilidad público-privada</td><td>Reglas de intercambio entre actores</td><td>Es la gobernanza misma, expresada como contrato de datos</td></tr>
+        <tr><td class="pt-rowhead">Servicio de inteligencia turística</td><td>Indicadores del destino</td><td>Convierte el dato consolidado en insumo de decisión</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tc-callout">
+    <b>Dónde se separa del referente.</b> La plataforma española resuelve con excelencia la interoperabilidad técnica entre
+    destinos, pero el actor que publica es fundamentalmente el gestor público del destino. El modelo DTLF extiende el contrato de
+    datos a los seis roles del ecosistema, incluida la academia y la sociedad civil organizada, y hace del aporte de información
+    una condición de acceso. Esa extensión es el aporte propio.
+  </div>
+`;
+
+ARQ_TABS.bajo = ()=> `
+  <div class="tc-section-label">Modelo de datos del destino</div>
+  <p class="pt-figcap" style="margin-bottom:16px">
+    Catorce entidades agrupadas en cuatro dominios. El dominio de gobernanza del dato es el que no existe en ningún antecedente
+    revisado y el que permite que las reglas del modelo sean ejecutables y no solo declarativas.
+    <b style="color:#B9820C">PK</b> clave primaria · <b style="color:#0C7A78">FK</b> clave foránea.
+  </p>
+  <div class="pt-domains">
+    ${DOMINIOS.map(d=>`
+      <div class="pt-domain ${d.cls}">
+        <div class="pt-domain-head"><span class="pt-domain-dot" style="background:${d.color}"></span><h4>${d.t}</h4></div>
+        ${d.ents.map(e=>`
+          <div class="pt-ent">
+            <div class="pt-ent-name">${e.n}</div>
+            <ul class="pt-ent-fields">
+              ${e.f.map(f=>`<li><span class="pt-k ${f[0]==='PK'?'pt-k-pk':(f[0]==='FK'?'pt-k-fk':'pt-k-at')}">${f[0]||'·'}</span><span>${f[1]}</span></li>`).join('')}
+            </ul>
+          </div>`).join('')}
+      </div>`).join('')}
+  </div>
+
+  <div class="tc-section-label">Relaciones principales</div>
+  <div class="pt-tablewrap">
+    <table class="pt-table">
+      <thead><tr><th style="width:170px">Origen</th><th style="width:90px">Cardinalidad</th><th style="width:170px">Destino</th><th>Significado en el modelo</th></tr></thead>
+      <tbody>
+        ${RELACIONES.map(r=>`<tr><td class="pt-rowhead">${r[0]}</td><td class="pt-c">${r[1]}</td><td class="pt-rowhead">${r[2]}</td><td>${r[3]}</td></tr>`).join('')}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tc-section-label">Decisiones de modelado que sostienen la gobernanza</div>
+  <div class="tc-grid">
+    ${card(null,'Actor es la entidad central, no Usuario','Un usuario es quien se autentica. Un actor es quien tiene posición en el ecosistema: hélice, anillo y rol. Modelar actores en vez de usuarios es lo que permite que las reglas se escriban en términos del ecosistema y no de la aplicación.')}
+    ${card(null,'ReglaIntercambio es una tabla, no código','Si las reglas viven en el código, cambiarlas exige un desarrollo. Al vivir como datos, el regulador puede modificarlas y el cambio queda auditado. La gobernanza se vuelve administrable por quien la ejerce.')}
+    ${card(null,'Experiencia guarda su origen','Distinguir si el relato vino de la plataforma o de una red social, y con qué consentimiento, es lo que permite consolidarlo sin exponer a la persona.')}
+    ${card(null,'FuenteDatos es una entidad, no una constante','Declarar institución, licencia y periodicidad convierte la procedencia en parte del dato. Un indicador puede entonces decir de qué fuentes depende y desde cuándo está vencido.')}
+  </div>
+`;
+
+ARQ_TABS.reglas = ()=> `
+  <div class="tc-section-label">Reglas de intercambio</div>
+  <p class="pt-figcap" style="margin-bottom:16px">
+    Cada regla es una fila de <b>ReglaIntercambio</b>, vinculada a la normativa que la respalda y verificable sobre el dato.
+    Esta es la forma concreta que toma la gobernanza en el modelo.
+  </p>
+  <div class="pt-rules">
+    ${REGLAS.map(r=>`
+      <div class="pt-rule">
+        <span class="pt-rule-code">${r.c}</span>
+        <h5>${r.t}</h5>
+        <p>${r.d}</p>
+        <span class="pt-rule-tag">${r.tag}</span>
+      </div>`).join('')}
+  </div>
+
+  <div class="tc-section-label">Matriz de permisos por rol</div>
+  <div class="pt-tablewrap">
+    <table class="pt-table">
+      <thead><tr><th style="width:240px">Operación</th>${ROLES.map(r=>`<th style="text-align:center">${r}</th>`).join('')}</tr></thead>
+      <tbody>
+        ${PERMISOS.map(p=>`<tr><td class="pt-rowhead">${p[0]}</td>${p.slice(1).map(v=>`<td class="pt-c ${PERM_SYM[v][1]}">${PERM_SYM[v][0]}</td>`).join('')}</tr>`).join('')}
+      </tbody>
+    </table>
+  </div>
+  <p class="pt-figcap">
+    <b class="pt-yes">●</b> permitido &nbsp;·&nbsp; <b class="pt-part">◐</b> permitido con restricción de alcance o agregación &nbsp;·&nbsp; <b style="color:#9AA39C">—</b> no permitido
+  </p>
+
+  <div class="tc-callout">
+    <b>La fila que define el modelo.</b> «Ver datos personales» está en no para los seis roles, incluido el administrador del nodo.
+    Un modelo de gobernanza que necesita exponer a la persona para funcionar no es un modelo de gobernanza: es vigilancia. Toda la
+    capacidad analítica del destino se construye sobre agregados y microdatos anonimizados.
+  </div>
+`;
+
+CONTENT['Parte 4 · Prototipo funcional'] = ()=> `
+  <div class="tc-eyebrow">El recorrido demostrable</div>
+  <h1 class="tc-title">Prototipo funcional, pequeño pero completo</h1>
+  <div class="tc-lead">
+    El prototipo no pretende cubrir todas las funciones de una plataforma turística. Pretende demostrar <b>un ciclo completo</b>:
+    que un proveedor publique, que un visitante reserve y relate, que el nodo consolide, y que el regulador y el gobierno vean el
+    resultado agregado sin ver nunca a la persona. Si ese ciclo se recorre entero, el modelo queda demostrado.
+  </div>
+
+  <div class="pt-stage">
+    ${svgFlujo()}
+    <div class="pt-stage-cap"><b>Lectura.</b> Siete pasos, cuatro carriles de actor. Los pasos 2 y 6 son los que hacen la diferencia frente a un marketplace: validación contra el vocabulario y las reglas en la entrada, y normalización, anonimización y consolidación en la salida.</div>
+  </div>
+
+  <div class="tc-section-label">Los siete pasos en detalle</div>
+  <div class="pt-steps">
+    ${step(1,'Proveedor','El proveedor se inscribe y publica su portafolio','Alta del proveedor como actor del ecosistema y carga de su oferta de servicios de bienestar bajo la ficha mínima normalizada del destino: ámbito de bienestar, ubicación, aforo, temporada y certificaciones.')}
+    ${step(2,'Nodo local','El nodo valida contra el vocabulario y las reglas','La oferta se contrasta con el vocabulario común. Si no se puede expresar en el modelo semántico, no se publica. Se verifica además el cumplimiento de la normativa vigente del destino.')}
+    ${step(3,'Cliente','El visitante explora el destino y compara','Entrada por destino y no por proveedor: el visitante ve primero La Fortuna, después los sitios del destino, y dentro de cada sitio la oferta disponible y las condiciones del momento.')}
+    ${step(4,'Cliente','El visitante reserva','La reserva genera la señal de demanda real que el destino necesita para sus indicadores, sin exponer la identidad del visitante más allá del proveedor que presta el servicio.')}
+    ${step(5,'Cliente','El visitante publica su experiencia','Relato y valoración tras la visita. Puede escribirse en la plataforma o recuperarse desde una red social donde el visitante ya la compartió, siempre con consentimiento explícito y revocable.')}
+    ${step(6,'Nodo local','El nodo normaliza, anonimiza y consolida','Las experiencias, reservas y observaciones ambientales se normalizan al vocabulario común, se disocian de la identidad y se agregan por sitio y por destino. Aquí se calculan los indicadores.')}
+    ${step(7,'Regulador y Gobierno','Se consulta el consolidado','La cámara de comercio ve lo que ocurre en el destino de manera consolidada y también desagregada por sitio. El ICT ve el destino completo y lo compara con el resto de la red. Toda consulta queda auditada.')}
+  </div>
+
+  <div class="tc-section-label">Qué debe verse en pantalla por rol</div>
+  <div class="tc-grid">
+    ${cardList(null,'Vista de proveedor',['Alta y perfil del proveedor.','Carga y edición del portafolio de oferta.','Reservas recibidas y su estado.','Su desempeño frente al agregado del destino.'], true)}
+    ${cardList(null,'Vista de visitante',['Destino y sus sitios.','Oferta por sitio, con condiciones del momento.','Reserva y su historial.','Publicación de la experiencia y gestión del consentimiento.'])}
+    ${cardList(null,'Vista de regulador',['Normativa vigente y su publicación.','Consolidado del destino.','Desagregado por sitio.','Registro de auditoría de consultas.'])}
+    ${cardList(null,'Vista de gobierno (ICT)',['Consolidado del destino.','Cuadro de indicadores de destino inteligente.','Comparación con otros destinos de la red.','Procedencia y vigencia de cada fuente.'])}
+    ${cardList(null,'Vista de academia',['Microdatos anonimizados y series históricas.','Descarga con licencia declarada.','Aporte de estudios al destino.'])}
+    ${cardList(null,'Vista de administrador',['Alta de actores y asignación de roles.','Gestión de fuentes y calidad del dato.','Administración de reglas de intercambio.'])}
+  </div>
+
+  <div class="tc-callout tc-callout-warn">
+    <b>Fuera del prototipo.</b> La generación y optimización de rutas turísticas queda enunciada en el modelo como caso de uso del
+    destino, pero no se implementa. La decisión es deliberada: es el componente más costoso del antecedente revisado y el que menos
+    aporta a la demostración de la gobernanza.
+  </div>
+`;
+
+CONTENT['Referente · PID España'] = ()=> `
+  <div class="tc-eyebrow">Referente internacional</div>
+  <h1 class="tc-title">Plataforma Inteligente de Destinos · España</h1>
+  <div class="tc-lead">
+    La PID es la plataforma de la Red de Destinos Turísticos Inteligentes de España, impulsada por SEGITTUR. Es el referente más
+    cercano a lo que persigue esta tesis, con una diferencia importante de alcance: resuelve con precisión la interoperabilidad
+    entre destinos, pero <b>no extiende el contrato de datos a todo el ecosistema de actores</b>. Ahí está el espacio del aporte propio.
+  </div>
+
+  <div class="tc-section-label">Lo que la PID resuelve</div>
+  <div class="tc-grid">
+    ${card(null,'Arquitectura de nodos','Un nodo central ofrece servicios comunes a todos los destinos de la red; cada destino opera su propio nodo y se conecta al central. La captación, almacenamiento, procesamiento y análisis del dato ocurre de forma centralizada para la decisión.')}
+    ${card(null,'Base semántica','La plataforma integra un vocabulario semántico en sus sistemas. Esa base es la que permite construir capas digitales interoperables de información turística entre los distintos agentes del ecosistema.')}
+    ${card(null,'Módulos comunes y propios','La plataforma se integra con módulos comunes —gestor de contenidos semántico, aplicación para turistas y ciudadanos, servicio de inteligencia turística— y módulos propios de cada destino.')}
+    ${card(null,'Interoperabilidad público-privada','El objetivo declarado es la interoperabilidad de los servicios turísticos públicos y privados y su interconexión con el nodo central, incluidas las adaptaciones que cada destino deba hacer.')}
+  </div>
+
+  <div class="tc-section-label">Lo que esta tesis añade</div>
+  <div class="tc-grid">
+    ${card(null,'El contrato de datos alcanza a seis roles','No solo al gestor público del destino. El proveedor, el regulador, la academia y el visitante tienen obligaciones y derechos explícitos de publicación y consulta.', true)}
+    ${card(null,'El aporte es condición de acceso','La regla de reciprocidad convierte la participación en el consolidado en algo que se gana aportando, no en un servicio que se recibe.')}
+    ${card(null,'Las reglas son administrables','Viven como datos vinculados a la normativa que las respalda, no como código. El regulador puede ejercerlas sin depender de un desarrollo.')}
+    ${card(null,'El destino es de bienestar','Las entidades del modelo incorporan los ámbitos del turismo de bienestar, no solo las categorías genéricas de oferta turística.')}
+  </div>
+
+  <div class="tc-section-label">Fuentes consultadas</div>
+  <div class="pt-src">
+    <ul>
+      <li><a href="https://www.segittur.es/en/plataforma-inteligente/" target="_blank" rel="noopener">SEGITTUR — Plataforma Inteligente de Destinos (PID)</a></li>
+      <li><a href="https://www.segittur.es/blog/destinos-turisticos-inteligentes/segittur-ya-dispone-de-base-semantica-para-la-plataforma-inteligente-de-destinos/" target="_blank" rel="noopener">SEGITTUR — «SEGITTUR ya dispone de base semántica para la Plataforma Inteligente de Destinos»</a></li>
+      <li><a href="https://www.segittur.es/ayudas-next-generation/ayudas-para-el-despliegue-de-plataformas-tecnologicas-y-soluciones-digitales-en-los-destinos-de-la-red-de-destinos-turisticos-inteligentes/" target="_blank" rel="noopener">SEGITTUR — Ayudas para el despliegue de plataformas tecnológicas en los destinos de la Red DTI</a></li>
+      <li><a href="https://www.mintur.gob.es/PortalAyudas/plataformas-tecnologicas-RDTI/Solicitudes/Convocatoria%202024/Gu%C3%ADas/Ejemplos_proyectos_convocatoria_2023_PID.pdf" target="_blank" rel="noopener">Ministerio de Industria y Turismo — Ejemplos de proyectos de la convocatoria PID (PDF)</a></li>
+      <li><a href="https://www.youtube.com/watch?v=6RznyRa5bKk" target="_blank" rel="noopener">SEGITTUR — Smart Talk: «Plataforma Inteligente de Destinos» (video)</a> <span class="tc-pending">— contenido del video pendiente de incorporar</span></li>
+    </ul>
+  </div>
+`;
+
+CONTENT['Lectura de e-Xiua'] = ()=> `
+  <div class="tc-eyebrow">Antecedente revisado</div>
+  <h1 class="tc-title">e-Xiua: qué sirve, qué falta y por qué</h1>
+  <div class="tc-lead">
+    e-Xiua es un trabajo previo sobre el mismo destino: un «Sistema de Gobernanza Inteligente para el Ecosistema de Turismo de
+    Bienestar» en La Fortuna, Costa Rica. Se revisó y se ejecutó su frontend. El diagnóstico es claro:
+    <b>resuelve bien la capa transaccional y no construye la capa de gobernanza</b>. Lo que aporta es su inventario de fuentes
+    costarricenses y su observatorio ambiental.
+  </div>
+
+  <div class="tc-section-label">Qué es, en términos técnicos</div>
+  <div class="tc-grid">
+    ${card(null,'Dieciséis repositorios','Frontend en Angular 19 y quince servicios de respaldo en Java y Python: autenticación, proveedores, preferencias, tareas, reseñas, eventos, mensajería, cola de mensajes, base de datos, analítica y optimización de rutas.')}
+    ${card(null,'Tres roles','Visitante, proveedor y administrador. No existe el regulador, ni el gobierno, ni la academia, ni la sociedad civil organizada.')}
+    ${card(null,'Observatorio ambiental','Clima, índice UV, actividad del Volcán Arenal vía OVSICORI-UNA, eventos y noticias del ICT. Público, sin autenticación.')}
+    ${card(null,'Optimizador de rutas','El componente más pesado del conjunto: generación de rutas con aprendizaje por refuerzo multiobjetivo. Queda explícitamente fuera del alcance de este prototipo.')}
+  </div>
+
+  <div class="tc-section-label">Qué se conserva</div>
+  <div class="tc-grid">
+    ${cardList(null,'Aprovechable',[
+      'El inventario de fuentes institucionales costarricenses ya identificadas y conectadas.',
+      'La idea del observatorio del destino como información pública y permanente.',
+      'La entrada por destino y por sitio, antes que por proveedor.',
+      'La evidencia de que las condiciones ambientales son determinantes de la oferta en este destino.'
+    ], true)}
+    ${cardList(null,'No aprovechable',[
+      'La arquitectura de dieciséis servicios: sobredimensionada para un prototipo demostrativo.',
+      'El motor de búsqueda de información turística, que no entrega resultados consistentes.',
+      'El optimizador de rutas, por costo y por aporte marginal a la gobernanza.',
+      'El modelo de tres roles, insuficiente para representar el ecosistema.'
+    ])}
+  </div>
+
+  <div class="tc-section-label">Brecha frente al modelo propuesto</div>
+  <div class="pt-tablewrap">
+    <table class="pt-table">
+      <thead><tr><th style="width:330px">Elemento requerido por el modelo</th><th style="width:150px">En e-Xiua</th><th>Consecuencia</th></tr></thead>
+      <tbody>
+        <tr><td class="pt-rowhead">Seis roles del ecosistema</td><td class="pt-c pt-part">Tres</td><td>Sin regulador ni gobierno, el dato no llega a la decisión pública</td></tr>
+        <tr><td class="pt-rowhead">Capa de gobernanza</td><td class="pt-c pt-miss">Ausente</td><td>No hay reglas de intercambio, normativa vinculada ni indicadores del destino</td></tr>
+        <tr><td class="pt-rowhead">Vocabulario semántico común</td><td class="pt-c pt-miss">Ausente</td><td>Cada servicio define sus propias estructuras; el consolidado no es posible</td></tr>
+        <tr><td class="pt-rowhead">Conexión a un nodo central</td><td class="pt-c pt-miss">Ausente</td><td>El destino queda como isla, sin transferibilidad ni comparación</td></tr>
+        <tr><td class="pt-rowhead">Diagnóstico del destino</td><td class="pt-c pt-miss">Ausente</td><td>Hay métricas de uso de la aplicación, no caracterización del sector</td></tr>
+        <tr><td class="pt-rowhead">Consolidación de experiencias desde redes</td><td class="pt-c pt-miss">Ausente</td><td>Se pierde el relato del visitante publicado fuera de la plataforma</td></tr>
+        <tr><td class="pt-rowhead">Procedencia declarada de las fuentes</td><td class="pt-c pt-part">Parcial</td><td>Las fuentes están conectadas pero no modeladas como entidad con licencia y periodicidad</td></tr>
+        <tr><td class="pt-rowhead">Catálogo de oferta y reservas</td><td class="pt-c pt-yes">Presente</td><td>Base transaccional resuelta y reutilizable conceptualmente</td></tr>
+        <tr><td class="pt-rowhead">Observatorio de condiciones del destino</td><td class="pt-c pt-yes">Presente</td><td>El aporte más valioso del antecedente</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tc-callout">
+    <b>Conclusión de la revisión.</b> e-Xiua es un marketplace turístico competente con un observatorio ambiental bien resuelto.
+    No es un modelo de gobernanza, y la distancia entre ambas cosas no es de desarrollo pendiente sino de concepción: falta la capa
+    que convierte el dato transaccional en información gobernada. Esa capa es, precisamente, el objeto de esta tesis.
+  </div>
+`;
+
+/* =========================================================================
+   HELPERS DE RENDER
+   ========================================================================= */
+function card(num, title, body, core){
+  return '<div class="tc-card'+(core?' tc-card-core':'')+'">'
+    + (num!=null?'<div class="tc-card-num">'+num+'</div>':'')
+    + '<h4>'+title+'</h4><p>'+body+'</p></div>';
+}
+function cardList(num, title, items, core){
+  return '<div class="tc-card'+(core?' tc-card-core':'')+'">'
+    + (num!=null?'<div class="tc-card-num">'+num+'</div>':'')
+    + '<h4>'+title+'</h4><ul>'+items.map(i=>'<li>'+i+'</li>').join('')+'</ul></div>';
+}
+function step(n, who, title, body){
+  return '<div class="pt-step"><div class="pt-step-n">'+n+'</div><div class="pt-step-b">'
+    + '<h5>'+title+'</h5><p>'+body+'</p><span class="pt-step-who">'+who+'</span></div></div>';
+}
+
+/* detalle de capa */
+function renderCapaDetail(n){
+  const c = CAPAS.find(x=>x.n===n);
+  if(!c) return;
+  document.getElementById('capaDetail').innerHTML =
+    '<div class="pt-detail">'
+    + '<div class="pt-detail-head"><span class="pt-detail-num">0'+c.n+'</span><h4>'+c.title+'</h4></div>'
+    + '<p>'+c.desc+'</p>'
+    + '<div class="pt-detail-grid">'
+    + c.mods.map(m=>'<div class="pt-mod"><h5>'+m.t+'</h5><p>'+m.d+'</p></div>').join('')
+    + '</div></div>';
+  document.querySelectorAll('.pt-layer').forEach(g=>g.classList.toggle('is-sel', Number(g.dataset.capa)===n));
+}
+
+/* =========================================================================
+   NAV
+   ========================================================================= */
+const PROTO_MAIN = ['Presentación', 'Mapa de actores'];
+const PROTO_PARTES = ['Parte 1 · Diagnóstico', 'Parte 2 · Modelo', 'Parte 3 · Arquitectura', 'Parte 4 · Prototipo funcional'];
+const PROTO_EXTRA = ['Referente · PID España', 'Lectura de e-Xiua'];
+
+const $list = document.getElementById('protoNavList');
+const $wrap = document.getElementById('tcWrap');
+
+$list.innerHTML =
+  PROTO_MAIN.map((name,i)=>
+    '<div class="side-nav-item" data-name="'+name+'"><span class="sni-num">'+String(i+1).padStart(2,'0')+'</span><span class="sni-name">'+name+'</span></div>'
+  ).join('')
+  + '<div class="side-nav-divider"></div>'
+  + PROTO_PARTES.map((name,i)=>
+    '<div class="side-nav-item side-nav-item-title" data-name="'+name+'"><span class="sni-name">'+name+'</span><span class="sni-short">P'+(i+1)+'</span></div>'
+  ).join('')
+  + '<div class="side-nav-divider"></div>'
+  + PROTO_EXTRA.map((name,i)=>
+    '<div class="side-nav-item" data-name="'+name+'"><span class="sni-num">'+(i===0?'ES':'eX')+'</span><span class="sni-name">'+name+'</span></div>'
+  ).join('');
+
+function renderSection(name){
+  if(!CONTENT[name]) return;
+  $wrap.innerHTML = CONTENT[name]();
+  if(name === 'Parte 3 · Arquitectura') wireArqTabs();
+  wireFigures();
+  $wrap.scrollTop = 0;
+}
+
+function wireArqTabs(){
+  const $tabs = document.getElementById('arqTabs');
+  const $body = document.getElementById('arqBody');
+  function show(tab){
+    $tabs.querySelectorAll('.tc-subtab').forEach(b=> b.classList.toggle('active', b.dataset.tab===tab));
+    $body.innerHTML = ARQ_TABS[tab]();
+    if(tab === 'alto'){
+      $body.querySelectorAll('.pt-layer').forEach(g=>{
+        g.addEventListener('click', ()=> renderCapaDetail(Number(g.dataset.capa)));
+      });
+      renderCapaDetail(3);
+    }
+    wireFigures();
+  }
+  $tabs.querySelectorAll('.tc-subtab').forEach(b=>{
+    b.addEventListener('click', ()=> show(b.dataset.tab));
+  });
+  show('alto');
+}
+
+/* lightbox de figuras */
+const $lb = document.getElementById('ptLightbox');
+function wireFigures(){
+  $wrap.querySelectorAll('[data-lb]').forEach(f=>{
+    if(f.dataset.lbWired) return;
+    f.dataset.lbWired = '1';
+    f.addEventListener('click', ()=>{
+      $lb.querySelector('img').src = f.dataset.lb;
+      $lb.classList.add('open');
+    });
+  });
+}
+$lb.addEventListener('click', ()=> $lb.classList.remove('open'));
+document.addEventListener('keydown', e=>{ if(e.key === 'Escape') $lb.classList.remove('open'); });
+
+$list.querySelectorAll('.side-nav-item').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    $list.querySelectorAll('.side-nav-item').forEach(o=>o.classList.remove('active'));
+    el.classList.add('active');
+    renderSection(el.dataset.name);
+  });
+});
+
+$list.querySelector('.side-nav-item').classList.add('active');
+renderSection('Presentación');
+</script>
+
+</body>
+</html>

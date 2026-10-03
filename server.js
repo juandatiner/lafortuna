@@ -281,7 +281,8 @@ const MIME = {
 const ROUTES = {
   '/': '/index.html',
   '/anteproyecto': '/anteproyecto.html',
-  '/tesis': '/tesis.html'
+  '/tesis': '/tesis.html',
+  '/prototipo': '/prototipo.html'
 };
 
 http.createServer((req, res) => {

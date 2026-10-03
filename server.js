@@ -70,7 +70,35 @@ function readBody(req, cb, maxBytes){
   req.on('error', (err) => { if (!aborted) cb(err); });
 }
 
+const BOOTED_AT = new Date().toISOString();
+
+/* Diagnostico de persistencia: dice donde esta guardando el contenido y desde
+   cuando corre este proceso. Sirve para comprobar, despues de un deploy, que el
+   Volume esta montado (el proceso reinicio pero el contenido sigue ahi).
+   No expone claves ni el contenido en si. */
+function handleHealth(res){
+  readContent((err, data) => {
+    let writable = false;
+    try { fs.accessSync(DATA_DIR, fs.constants.W_OK); writable = true; }
+    catch (e) { writable = false; }
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
+    res.end(JSON.stringify({
+      ok: true,
+      bootedAt: BOOTED_AT,
+      uptimeSeconds: Math.round(process.uptime()),
+      dataDir: DATA_DIR,
+      dataDirWritable: writable,
+      contentKeys: Object.keys(data || {}).length,
+      uploads: (() => { try { return fs.readdirSync(UPLOADS_DIR).length; } catch (e) { return 0; } })()
+    }, null, 2));
+  });
+}
+
 function handleApi(req, res, urlPath){
+  if (urlPath === '/api/health' && req.method === 'GET') {
+    handleHealth(res);
+    return true;
+  }
   if (urlPath === '/api/content' && req.method === 'GET') {
     readContent((err, data) => {
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
